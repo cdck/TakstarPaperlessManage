@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/content_bg"
+    android:orientation="vertical">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_room"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_view_height"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_dialog_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/tv_seat_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                tools:text="席位数量：4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:text="@string/seat_bg_specification"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.xlk.takstarpaperlessmanage.ui.CustomSeatView
+                android:id="@+id/seat_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@color/content_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_display_icon"
+                style="@style/checkbox_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/display_icon"
+                android:textSize="@dimen/text_size_small" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_up"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/top" />
+
+                    <Button
+                        android:id="@+id/btn_bottom"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/bottom" />
+
+                    <Button
+                        android:id="@+id/btn_left"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/left" />
+
+                    <Button
+                        android:id="@+id/btn_right"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/right" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_left_side"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/left_side_alignment" />
+
+                    <Button
+                        android:id="@+id/btn_bottom_side"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/bottom_side_alignment" />
+
+                    <Button
+                        android:id="@+id/btn_preview"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/preview_base_image" />
+
+                    <Button
+                        android:id="@+id/btn_save"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="wrap_content"
+                        android:text="@string/save_base_image" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_restore"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:text="@string/restore" />
+
+            <Button
+                android:id="@+id/btn_define"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:text="@string/define" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

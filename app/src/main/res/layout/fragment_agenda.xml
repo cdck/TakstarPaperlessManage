@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/fragment_margin"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_file"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/agenda_file_" />
+
+        <TextView
+            android:id="@+id/tv_file_name"
+            style="@style/EditText_style"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/text_size_small"
+            tools:text="议程文件" />
+
+        <Button
+            android:id="@+id/btn_choose_file"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/choose_file_" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_agenda_preparation"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="@string/agenda_preparation_" />
+
+        <EditText
+            android:id="@+id/edt_agenda_content"
+            android:background="@drawable/editbox_background_normal"
+            android:layout_width="400dp"
+            android:layout_height="100dp"
+            android:padding="5dp"
+            android:gravity="start|top"
+            android:textSize="@dimen/text_size_small"
+            tools:text="议程文件" />
+
+        <Button
+            android:id="@+id/btn_load_agenda"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="10dp"
+            android:text="@string/load_agenda_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_timeline_agenda"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="@string/timeline_agenda_" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_agenda"
+            style="@style/EditText_style"
+            android:layout_width="400dp"
+            android:layout_height="150dp"
+            android:paddingTop="5dp" />
+
+        <Button
+            android:id="@+id/btn_augment"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="10dp"
+            android:text="@string/augment" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="10dp"
+            android:text="@string/delete" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btn_save"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp"
+            android:text="@string/save" />
+    </RelativeLayout>
+</LinearLayout>

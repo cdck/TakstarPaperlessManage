@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_view_height"
+    android:background="@color/rv_top_view_bg"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_view_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        android:text="@string/number" />
+
+    <TextView
+        android:id="@+id/item_view_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        android:text="@string/circulation_channels_name" />
+
+    <TextView
+        android:id="@+id/item_view_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:visibility="visible"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        android:text="@string/seat_name" />
+
+    <TextView
+        android:id="@+id/item_view_4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        android:text="@string/subchannel_id" />
+
+    <TextView
+        android:id="@+id/item_view_5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        android:text="@string/dysprosium" />
+
+</LinearLayout>

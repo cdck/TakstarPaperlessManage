@@ -9,7 +9,7 @@
         android:id="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/admin_top_view_bg"
+        android:background="@drawable/bg_topbar"
         app:layout_constraintBottom_toTopOf="@+id/bottom_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 tools:text="16:20" />
 
@@ -82,6 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 tools:text="2020/10/22" />
         </LinearLayout>
@@ -90,10 +92,11 @@
             android:id="@+id/tv_online"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginEnd="30dp"
             android:layout_toStartOf="@+id/ll_time"
             android:gravity="center"
-            android:layout_marginEnd="30dp"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             tools:text="在线" />
     </RelativeLayout>
@@ -114,11 +117,74 @@
             android:layout_height="match_parent"
             android:background="@color/admin_navigation_bg" />
 
-        <FrameLayout
-            android:id="@+id/fl_admin"
+        <ImageView
+            android:id="@+id/iv_welcome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@color/admin_child_selected_bg"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/content_bg"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/ll_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:src="@drawable/ic_home_24" />
+
+                <TextView
+                    android:id="@+id/tv_navigation_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_arrow_right_24"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    tools:text="系统设置" />
+
+                <TextView
+                    android:id="@+id/tv_navigation_child"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_arrow_right_24"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    tools:text="设备管理" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_admin"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/dialog_bg" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

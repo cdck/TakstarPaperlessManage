@@ -1,6 +1,9 @@
 package com.xlk.takstarpaperlessmanage.base;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.mogujie.tt.protobuf.InterfaceContext;
+import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.JniHelper;
 
@@ -39,6 +42,29 @@ public abstract class BasePresenter<V extends BaseContract.View> implements Base
     }
 
     /**
+     * 当前会议登陆的管理员ID
+     */
+    public int queryCurrentAdminId() {
+        InterfaceContext.pbui_MeetContextInfo info = jni.queryContextProperty(
+                InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_CURADMINID_VALUE);
+        int propertyval = info.getPropertyval();
+        LogUtils.i(TAG, "queryCurrentAdminId 当前会议登陆的管理员ID=" + propertyval);
+        return propertyval;
+    }
+
+    /**
+     * 获取当前会议的会场id
+     *
+     * @return 会场id
+     */
+    protected int queryCurrentRoomId() {
+        InterfaceContext.pbui_MeetContextInfo info = jni.queryContextProperty(
+                InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_CURROOMID_VALUE);
+        int propertyval = info.getPropertyval();
+        LogUtils.i(TAG, "queryCurrentRoomId 当前会议的会场id=" + propertyval);
+        return propertyval;
+    }
+    /**
      * EventBus发送的消息交给子类去处理
      *
      * @param msg 消息数据
@@ -50,4 +76,5 @@ public abstract class BasePresenter<V extends BaseContract.View> implements Base
     public void onEventMessage(EventMessage msg) throws InvalidProtocolBufferException {
         busEvent(msg);
     }
+
 }

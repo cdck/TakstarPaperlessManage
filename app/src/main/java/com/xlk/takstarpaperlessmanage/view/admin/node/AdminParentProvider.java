@@ -109,7 +109,13 @@ public class AdminParentProvider extends BaseNodeProvider {
     public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
         // 这里使用payload进行增量刷新（避免整个item刷新导致的闪烁，不自然）
         if (getAdapter() != null) {
-            getAdapter().expandOrCollapse(position, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
+            AdminParentNode node = (AdminParentNode) data;
+            if (node.isExpanded()) {
+                getAdapter().collapseAndChild(position, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
+            } else {
+                getAdapter().expandAndCollapseOther(position, true, true, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
+            }
+//            getAdapter().expandOrCollapse(position, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
         } else {
             LogUtils.e("onClick 方法中AdminNodeAdapter为null");
         }

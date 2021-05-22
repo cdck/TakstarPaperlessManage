@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_view_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/number"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/meeting_name"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/meeting_status"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/meeting_room_name"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/confidentiality"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_6"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/start_time"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_7"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/end_time"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_8"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/sign_in_type"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_9"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/appointment"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="2.5"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/operation_view_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:drawableStart="@drawable/ic_pause"
+            android:drawablePadding="2dp"
+            android:text="@string/pause"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/operation_view_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:drawableStart="@drawable/ic_stop"
+            android:drawablePadding="2dp"
+            android:text="@string/stop"
+            android:textColor="@color/blue" />
+    </LinearLayout>
+</LinearLayout>

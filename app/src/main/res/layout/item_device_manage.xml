@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_view_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_view_height"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_view_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/number"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/device_id"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/device_name"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/device_type"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/version_number"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_6"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/device_ip"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_7"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/device_port"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_8"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/guest_mode"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_9"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/device_status"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_10"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/interface_status"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_11"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/lift_id"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_12"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/mic_id"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+</LinearLayout>

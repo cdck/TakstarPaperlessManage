@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 蓝底->绿底->绿底->灰底 radius=5  -->
+    <style name="button_solid_style_rect_blue_white_radius5">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:background">@drawable/btn_status_bg</item>
+        <item name="android:textColor">@drawable/btn_status_text_color</item>
+    </style>
+
+    <!-- 蓝框白底->蓝底 radius=5  -->
+    <style name="button_hollow_style_rect_white_blue_radius5">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:background">@drawable/shape_button_white_blue_pressed</item>
+        <item name="android:textColor">@drawable/btn_text_color_1</item>
+    </style>
+
+    <style name="checkbox_style">
+        <item name="android:button">@drawable/checkbox_style</item>
+        <item name="android:paddingStart">5dp</item>
+    </style>
+
+    <style name="EditText_style">
+        <item name="android:lines">1</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/editbox_background_normal</item>
+    </style>
+
+    <!--PopupWindow展示和隐藏的动画-->
+    <style name="pop_animation_t_b">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <item name="android:windowExitAnimation">@anim/pophide_anim</item>
+    </style>
+    <!--PopupWindow展示和隐藏的动画-->
+    <style name="pop_animation_l_r">
+        <item name="android:windowEnterAnimation">@anim/popshow_start_end</item>
+        <item name="android:windowExitAnimation">@anim/pophide_end_start</item>
+    </style>
+</resources>

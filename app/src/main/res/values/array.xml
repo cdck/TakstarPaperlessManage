@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="coding_mode">
+        <item>高网速编码模式</item>
+        <item>高性能编码模式</item>
+        <item>低网速编码模式</item>
+    </array>
+    <string-array name="screen_size">
+        <item>1080P</item>
+        <item>720P</item>
+        <item>480P</item>
+        <item>320P</item>
+    </string-array>
+    <string-array name="camera_size">
+        <item>1080P</item>
+        <item>720P</item>
+        <item>480P</item>
+        <item>320P</item>
+    </string-array>
+    <string-array name="stream_channel">
+        <item>0</item>
+        <item>1</item>
+        <item>不启用</item>
+    </string-array>
+
+    <string-array name="yes_or_no">
+        <item>否</item>
+        <item>是</item>
+    </string-array>
+    <string-array name="show_hide">
+        <item>隐藏</item>
+        <item>显示</item>
+    </string-array>
+    <string-array name="font">
+        <item>仿宋</item>
+        <item>黑体</item>
+        <item>楷体</item>
+        <item>隶书</item>
+        <item>微软雅黑</item>
+        <item>小楷</item>
+    </string-array>
+    <string-array name="align">
+        <item>居中对齐</item>
+        <item>左对齐</item>
+        <item>右对齐</item>
+    </string-array>
+    <string-array name="sign_in_type">
+        <item>直接签到</item>
+        <item>个人密码签到</item>
+        <item>手写签到</item>
+        <item>会议密码签到</item>
+        <item>会议密码+手写签到</item>
+        <item>个人密码+手写签到</item>
+    </string-array>
+    <string-array name="meeting_type">
+        <item>当前会议</item>
+        <item>历史会议</item>
+        <item>模板会议</item>
+        <item>全部会议</item>
+    </string-array>
+
+    <string-array name="member_role">
+        <item>无</item>
+        <item>普通参会人</item>
+        <item>主持人</item>
+        <item>秘书</item>
+        <item>管理员</item>
+    </string-array>
+
+    <string-array name="type_spinner">
+        <item>多选</item>
+        <item>单选</item>
+        <item>5选4</item>
+        <item>5选3</item>
+        <item>5选2</item>
+        <item>3选2</item>
+    </string-array>
+</resources>

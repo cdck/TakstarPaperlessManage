@@ -19,10 +19,11 @@ import androidx.fragment.app.Fragment;
  * @author Created by xlk on 2021/4/21.
  * @desc
  */
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseContract.View {
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseContract.View, View.OnClickListener {
     protected String TAG = BaseFragment.class.getSimpleName();
     protected JniHelper jni = JniHelper.getInstance();
     protected T presenter;
+    protected final int REQUEST_CODE_IMPORT_VOTE = 1;
 
     @Nullable
     @Override
@@ -78,6 +79,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     @Override

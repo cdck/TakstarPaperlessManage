@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/fragment_margin"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--    <LinearLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="0dp"-->
+        <!--        android:layout_weight="1"-->
+        <!--        android:orientation="vertical">-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/meeting_setting"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/website_"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/edt_website"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                android:id="@+id/btn_website"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/company_name_"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/edt_company_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                android:id="@+id/btn_company_name"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/company_release_file_"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/edt_company_release"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                android:id="@+id/btn_company_release"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/modify" />
+        </LinearLayout>
+        <!--    </LinearLayout>-->
+
+        <!--    <LinearLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="0dp"-->
+        <!--        android:layout_marginTop="5dp"-->
+        <!--        android:layout_weight="1"-->
+        <!--        android:orientation="vertical">-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password_modify"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/old_password_"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/edt_old_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/new_password_"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/edt_new_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/ensure_new_password_"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/edt_ensure_new_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                android:id="@+id/btn_password"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/define" />
+        </LinearLayout>
+        <!--    </LinearLayout>-->
+
+        <!--    <LinearLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="0dp"-->
+        <!--        android:layout_marginTop="5dp"-->
+        <!--        android:layout_weight="1"-->
+        <!--        android:orientation="vertical">-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/interface_settings"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_change_main_interface"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/change_main_interface" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:singleLine="true"
+                android:visibility="invisible" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_change_projection_interface"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/change_projection_interface" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:singleLine="true"
+                android:visibility="invisible" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_change_ad_interface"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/change_ad_interface" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:singleLine="true"
+                android:visibility="invisible" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+        <!--    </LinearLayout>-->
+
+        <!--    <LinearLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="0dp"-->
+        <!--        android:layout_marginTop="5dp"-->
+        <!--        android:layout_weight="1"-->
+        <!--        android:orientation="vertical">-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/meeting_setting"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_equipment_upgrade"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/equipment_upgrade" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:singleLine="true"
+                android:visibility="invisible" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_system_file_management"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/system_file_management" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:singleLine="true"
+                android:visibility="invisible" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/change_ad_interface" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/edt_bg"
+                android:lines="1"
+                android:singleLine="true"
+                android:visibility="invisible" />
+
+            <Button
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/submit"
+                android:visibility="invisible" />
+        </LinearLayout>
+        <!--    </LinearLayout>-->
+
+    </LinearLayout>
+</ScrollView>

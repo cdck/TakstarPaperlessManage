@@ -1,11 +1,10 @@
 package com.xlk.takstarpaperlessmanage.view.admin.node;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.chad.library.adapter.base.BaseNodeAdapter;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -19,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * @desc
  */
 public class AdminChildProvider extends BaseNodeProvider {
-    private int currentId = -1;
+    private int selectedId = -1;
 
     @Override
     public int getItemViewType() {
@@ -36,10 +35,11 @@ public class AdminChildProvider extends BaseNodeProvider {
         AdminChildNode childNode = (AdminChildNode) node;
         TextView item_tv_name = baseViewHolder.getView(R.id.item_tv_name);
         View item_root_child_view = baseViewHolder.getView(R.id.item_root_child_view);
-        LogUtils.i("当前选中id=" + currentId + ",当前id=" + childNode.getId());
-        item_root_child_view.setSelected(currentId == childNode.getId());
+        int currentId = childNode.getId();
+//        LogUtils.i("convert 当前选中id=" + selectedId + ",当前id=" + currentId);
+        item_root_child_view.setSelected(selectedId == currentId);
         String string = "";
-        switch (childNode.getId()) {
+        switch (currentId) {
             //设备管理
             case Constant.device_management: {
                 string = getContext().getString(R.string.device_management);
@@ -219,10 +219,11 @@ public class AdminChildProvider extends BaseNodeProvider {
     @Override
     public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
         AdminChildNode childNode = (AdminChildNode) data;
-        currentId = childNode.getId();
+        selectedId = childNode.getId();
+//        LogUtils.d("onClick selectedId="+ selectedId);
         AdminNodeAdapter adapter = (AdminNodeAdapter) getAdapter();
         if (adapter != null) {
-            adapter.click(currentId);
+            adapter.click(selectedId);
         }
     }
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_view_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_view_height"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_view_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:text="@string/number"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:lines="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        tools:text="内容里看电视"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        tools:text="2021年5月18日18:26:05"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        tools:text="2021年5月18日18:26:14"
+        android:textColor="@color/text_default_color"
+        android:textSize="@dimen/text_size_small" />
+
+</LinearLayout>

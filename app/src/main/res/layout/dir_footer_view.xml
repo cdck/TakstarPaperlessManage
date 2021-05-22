@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/item_view_height"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/footer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:src="@drawable/ic_add" />
+</RelativeLayout>

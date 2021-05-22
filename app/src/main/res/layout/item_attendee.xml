@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_view_height"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_view_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/number"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/name"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/unit"
+        android:textSize="@dimen/text_size_small" />
+
+
+    <TextView
+        android:id="@+id/item_view_4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/job"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/phone"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_6"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/email"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/item_view_7"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/sign_in_password"
+        android:textSize="@dimen/text_size_small" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_modify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableStart="@drawable/ic_modify"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/modify"
+                android:textColor="@color/blue" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableStart="@drawable/ic_delete"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/delete"
+                android:textColor="@color/blue" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_view_8"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/remarks"
+        android:textSize="@dimen/text_size_small" />
+</LinearLayout>

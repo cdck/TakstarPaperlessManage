@@ -6,13 +6,51 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="blue">#3475D3</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
 
+    <color name="table_color">#E7E8EA</color>
+    <color name="gray_color">#E1E2E6</color>
     <color name="admin_top_view_bg">#1A1A26</color>
     <color name="admin_navigation_bg">#262A37</color>
     <color name="admin_parent_bg">#3D4051</color>
     <color name="admin_child_bg">#262A37</color>
+    <color name="admin_child_selected_bg">#3475D3</color>
+    <color name="content_bg">#F2F3F6</color>
+    <color name="text_color">#282828</color>
+
+    <color name="seat_selected_color">#A30000</color>
+    <color name="sign_in_color">#737DF5</color>
+    <color name="un_sign_in_color">#1791FF</color>
+
+    <color name="text_default_color">#1a1a1a</color>
+    <color name="text_color_black">#191919</color>
+    <color name="text_color_gray">#4c4c4c</color>
+
+    <color name="rv_top_view_bg">#E3E4E6</color>
+    <color name="bg_color_content">#F2F2F2</color>
+    <color name="text_color_333333">#333333</color>
+
+    <color name="btn_enabled_bg_color">#545454</color>
+    <color name="btn_selected_bg_color">#388E3C</color>
+    <color name="btn_pressed_bg_color">#388E3C</color>
+    <color name="btn_default_bg_color">#3475D3</color>
+    <color name="dividing_line_color">#E5E5E5</color>
+    <color name="cancel_text_color">#808080</color>
+    <color name="video_pop_bg">#99000000</color>
+    <color name="video_time">#24BF2B</color>
+
+    <drawable name="btn_enabled_text_color">#C1C1C1</drawable>
+    <drawable name="btn_selected_text_color">#FFFFFF</drawable>
+    <drawable name="btn_pressed_text_color">#FFFFFF</drawable>
+    <drawable name="btn_default_text_color">#FFFFFF</drawable>
+    <drawable name="text_default_color">#1a1a1a</drawable>
+    <drawable name="btn_gray_text_color">#808080</drawable>
+    <drawable name="btn_white_text_color">#FFFFFF</drawable>
+    <drawable name="blue">#3475D3</drawable>
 
 
 </resources>

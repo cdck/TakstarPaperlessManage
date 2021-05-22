@@ -17,6 +17,7 @@ public class AdminParentNode extends BaseExpandNode {
 
     public AdminParentNode(int id) {
         this.id = id;
+        setExpanded(false);
     }
 
     public int getId() {

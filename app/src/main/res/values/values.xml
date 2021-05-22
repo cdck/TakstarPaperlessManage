@@ -3,7 +3,18 @@
     <!--  按钮的宽高  -->
     <dimen name="button_width">60dp</dimen>
     <dimen name="button_height">25dp</dimen>
-    <!--  字体大小  -->
+    <!--  item布局的高度  -->
+    <dimen name="item_view_height">30dp</dimen>
+    <!--  悬浮窗顶部栏高度  -->
+    <dimen name="pop_top_view_height">40dp</dimen>
+    <!--  悬浮窗底部栏高度  -->
+    <dimen name="pop_bottom_view_height">50dp</dimen>
+    <!--  fragment 按钮间隔大小  -->
+    <dimen name="top_view_button_marginEnd">5dp</dimen>
+    <!--  fragment 内容root布局margin大小  -->
+    <dimen name="fragment_margin">15dp</dimen>
+
+    <!--  字体大小  30 24 18-->
     <dimen name="text_size_large">24sp</dimen>
     <dimen name="text_size_big">18sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>

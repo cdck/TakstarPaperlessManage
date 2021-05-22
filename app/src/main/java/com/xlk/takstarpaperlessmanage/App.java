@@ -2,14 +2,21 @@ package com.xlk.takstarpaperlessmanage;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.ServiceUtils;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 import com.xlk.takstarpaperlessmanage.util.CrashHandler;
 import com.xlk.takstarpaperlessmanage.util.MyRejectedExecutionHandler;
 import com.xlk.takstarpaperlessmanage.util.NamingThreadFactory;
+import com.xlk.takstarpaperlessmanage.view.main.MainActivity;
+import com.xlk.takstarpaperlessmanage.view.service.BackService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +34,9 @@ import androidx.annotation.Nullable;
 public class App extends Application {
     public static List<Activity> activities = new ArrayList<>();
     public static boolean isDebug = true;
+    public static boolean read2file = false;
+    public static Context appContext;
+
     static {
         System.loadLibrary("avcodec-57");
         System.loadLibrary("avdevice-57");
@@ -48,6 +58,7 @@ public class App extends Application {
         System.loadLibrary("native-lib");
         System.loadLibrary("z");
     }
+
     public static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
             1,
             Runtime.getRuntime().availableProcessors() + 1,
@@ -60,6 +71,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        appContext = this;
         CrashUtils.init(Constant.crash_dir);
 //        CrashHandler.getInstance().init(this);
         LogUtils.Config config = LogUtils.getConfig();
@@ -70,6 +82,9 @@ public class App extends Application {
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
                 activities.add(activity);
+                if (activity.getClass().getName().equals(MainActivity.class.getName())) {
+                    ServiceUtils.startService(BackService.class);
+                }
                 LogUtils.d("activityLife", "onActivityCreated " + activity + ",Activity数量=" + activities.size() + logAxt());
             }
 
@@ -109,6 +124,7 @@ public class App extends Application {
             }
         });
     }
+
 
     private String logAxt() {
         StringBuilder sb = new StringBuilder();

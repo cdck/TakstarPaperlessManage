@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    android:background="@color/bg_color_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_view_height"
+                android:layout_gravity="center"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:text="@string/meeting_function"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_current"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_add_all"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:text="@string/add_all_" />
+
+            <Button
+                android:id="@+id/btn_add"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/add_" />
+
+            <Button
+                android:id="@+id/btn_remove"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/remove_" />
+
+            <Button
+                android:id="@+id/btn_remove_all"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/remove_all_" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_view_height"
+                android:layout_gravity="center"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:text="@string/hide_function"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_hide"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_bottom_view_height"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_move_up"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/move_up" />
+
+            <Button
+                android:id="@+id/btn_move_down"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="@string/move_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_weight="3"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/btn_define"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/define" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

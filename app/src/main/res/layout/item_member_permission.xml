@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_view_height"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/item_view_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:layout_marginStart="5dp"
+        android:clickable="false"
+        style="@style/checkbox_style"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/number" />
+
+    <TextView
+        android:id="@+id/item_view_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/meeting_name" />
+
+    <TextView
+        android:id="@+id/item_view_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/meeting_status" />
+
+    <TextView
+        android:id="@+id/item_view_4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/meeting_room_name" />
+
+    <TextView
+        android:id="@+id/item_view_5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/confidentiality" />
+
+    <TextView
+        android:id="@+id/item_view_6"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/start_time" />
+
+    <TextView
+        android:id="@+id/item_view_7"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/end_time" />
+
+    <TextView
+        android:id="@+id/item_view_8"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size_small"
+        tools:text="@string/sign_in_type" />
+
+</LinearLayout>

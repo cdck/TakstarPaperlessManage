@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class GlobalValue {
 
-    public static int screen_width, screen_height, half_width, half_height;
     public static int camera_width = 1280, camera_height = 720;
     /**
      * 是否初始化完成

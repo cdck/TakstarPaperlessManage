@@ -14,5 +14,6 @@ public interface AdminContract {
     }
 
     interface Presenter extends BaseContract.Presenter {
+
     }
 }

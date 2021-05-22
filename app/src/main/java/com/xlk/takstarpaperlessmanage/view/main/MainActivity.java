@@ -4,12 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ResourceUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.hjq.permissions.OnPermission;
@@ -21,7 +28,10 @@ import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseActivity;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.GlobalValue;
+import com.xlk.takstarpaperlessmanage.util.IniUtil;
+import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.SpHelper;
+import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 import com.xlk.takstarpaperlessmanage.view.admin.AdminActivity;
 
 import java.io.BufferedInputStream;
@@ -75,7 +85,71 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             jni.login(user, pwd, 1, 0);
         });
         findViewById(R.id.btn_config).setOnClickListener(v -> {
+            showConfigPop();
+        });
+    }
 
+    private void showConfigPop() {
+        View inflate = LayoutInflater.from(this).inflate(R.layout.pop_config, null, false);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, edtUser);
+        EditText edt_ip = inflate.findViewById(R.id.edt_ip);
+        EditText edt_port = inflate.findViewById(R.id.edt_port);
+        EditText edt_code_rate = inflate.findViewById(R.id.edt_code_rate);
+        EditText edt_cache_size = inflate.findViewById(R.id.edt_cache_size);
+        CheckBox cb_code_filter = inflate.findViewById(R.id.cb_code_filter);
+        CheckBox cb_mic = inflate.findViewById(R.id.cb_mic);
+        CheckBox cb_disable_multicast = inflate.findViewById(R.id.cb_disable_multicast);
+        CheckBox cb_tcp = inflate.findViewById(R.id.cb_tcp);
+
+        IniUtil ini = IniUtil.getInstance();
+        if (ini.loadFile()) {
+            String ipStr = ini.get("areaaddr", "area0ip");
+            String portStr = ini.get("areaaddr", "area0port");
+            String maxBitRate = ini.get("other", "maxBitRate");
+            String mediadirsize = ini.get("Buffer Dir", "mediadirsize");
+
+            cb_code_filter.setChecked(ini.get("nosdl", "disablebsf").equals("0"));
+            cb_mic.setChecked(ini.get("debug", "videoaudio").equals("1"));
+            cb_disable_multicast.setChecked(ini.get("debug", "disablemulticast").equals("1"));
+            cb_tcp.setChecked(ini.get("selfinfo", "streamprotol").equals("1"));
+
+            edt_ip.setText(ipStr);
+            edt_port.setText(portStr);
+            edt_code_rate.setText(maxBitRate);
+            edt_cache_size.setText(mediadirsize);
+        }
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String ip = edt_ip.getText().toString().trim();
+            String port = edt_port.getText().toString().trim();
+            String code_rate = edt_code_rate.getText().toString().trim();
+            String cache_size = edt_cache_size.getText().toString().trim();
+            if (ip.isEmpty() || port.isEmpty() || code_rate.isEmpty() || cache_size.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_the_full_content);
+                return;
+            }
+            if (!RegexUtils.isIP(ip)) {
+                ToastUtil.showShort(R.string.ip_address_format_error);
+                return;
+            }
+            int i = Integer.parseInt(code_rate);
+            if (i < 500 || i > 10000) {
+                ToastUtils.showShort(R.string.tip_bitrate_scope);
+                return;
+            }
+            ini.put("areaaddr", "area0ip", ip);
+            ini.put("areaaddr", "area0port", port);
+            ini.put("other", "maxBitRate", code_rate);
+            ini.put("Buffer Dir", "mediadirsize", cache_size);
+
+            ini.put("nosdl", "disablebsf", cb_code_filter.isChecked() ? "0" : "1");
+            ini.put("debug", "videoaudio", cb_mic.isChecked() ? "1" : "0");
+            ini.put("debug", "disablemulticast", cb_disable_multicast.isChecked() ? "1" : "0");
+            ini.put("selfinfo", "streamprotol", cb_tcp.isChecked() ? "1" : "0");
+            ini.store();
+            AppUtils.relaunchApp(true);
+            pop.dismiss();
         });
     }
 
@@ -96,6 +170,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     @Override
                     public void hasPermission(List<String> granted, boolean all) {
                         if (all) {
+                            FileUtils.createOrExistsDir(Constant.file_dir);
+                            FileUtils.createOrExistsDir(Constant.config_dir);
                             start();
                         }
                     }
@@ -122,6 +198,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         if (!exists) {
             ResourceUtils.copyFileFromAssets("client.ini", Constant.root_dir + "/client.ini");
         }
+        IniUtil.getInstance().loadFile();
         File file = new File(Constant.root_dir + "client.dev");
         if (file.exists()) {
             file.delete();
