@@ -117,13 +117,21 @@
             android:layout_height="match_parent"
             android:background="@color/admin_navigation_bg" />
 
-        <ImageView
-            android:id="@+id/iv_welcome"
+        <RelativeLayout
+            android:id="@+id/rl_welcome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/admin_child_selected_bg"
-            android:visibility="gone" />
+            android:background="@color/white"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_welcome"
+                android:visibility="visible" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_content"
@@ -132,7 +140,7 @@
             android:layout_weight="1"
             android:background="@color/content_bg"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/ll_navigation"
@@ -140,9 +148,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/act_ll_navigation_marginTop"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/act_ll_navigation_marginBottom"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -178,11 +186,10 @@
                 android:id="@+id/fl_admin"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/dialog_bg" />
+                android:layout_marginStart="@dimen/act_fragment_marginStart"
+                android:layout_marginEnd="@dimen/act_fragment_marginEnd"
+                android:layout_marginBottom="@dimen/act_fragment_marginBottom"
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>

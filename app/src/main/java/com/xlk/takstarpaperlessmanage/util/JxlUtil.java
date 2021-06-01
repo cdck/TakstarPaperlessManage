@@ -5,6 +5,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.protobuf.ByteString;
+import com.mogujie.tt.protobuf.InterfaceFilescorevote;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceMember;
 import com.mogujie.tt.protobuf.InterfacePerson;
@@ -88,66 +89,68 @@ public class JxlUtil {
      * 第三个参数：内容
      */
     public static void exportSubmitMember(ExportSubmitMember info) {
-        FileUtils.createOrExistsDir(Constant.export_dir);
-        String fileName = "参会人投票-选举详情";
-        //1.创建Excel文件
-        File file = createXlsFile(Constant.export_dir + fileName);
-        try {
-            file.createNewFile();
-            //2.创建工作簿
-            WritableWorkbook workbook = Workbook.createWorkbook(file);
-            //3.创建Sheet
-            WritableSheet ws = workbook.createSheet(fileName, 0);
-            //4.创建单元格
-            Label label;
+        App.threadPool.execute(() -> {
+            FileUtils.createOrExistsDir(Constant.export_dir);
+            String fileName = "参会人投票-选举详情";
+            //1.创建Excel文件
+            File file = createXlsFile(Constant.export_dir + fileName);
+            try {
+                file.createNewFile();
+                //2.创建工作簿
+                WritableWorkbook workbook = Workbook.createWorkbook(file);
+                //3.创建Sheet
+                WritableSheet ws = workbook.createSheet(fileName, 0);
+                //4.创建单元格
+                Label label;
 
-            WritableCellFormat wc = new WritableCellFormat();
-            wc.setAlignment(Alignment.CENTRE); // 设置居中
-            wc.setBorder(Border.ALL, BorderLineStyle.THIN); // 设置边框线
-            wc.setBackground(Colour.WHITE); // 设置单元格的背景颜色
-            //5.编辑单元格
-            //合并单元格作为标题
-            ws.mergeCells(0, 0, 2, 1);
-            label = new Label(0, 0, "人员统计详情", wc);
-            ws.addCell(label);
-
-            //创建表格的时间
-            ws.mergeCells(0, 2, 2, 2);
-            label = new Label(0, 2, info.getCreateTime(), wc);
-            ws.addCell(label);
-
-            ws.mergeCells(0, 3, 2, 3);
-            label = new Label(0, 3, "标题：" + info.getTitle(), wc);
-            ws.addCell(label);
-
-            ws.mergeCells(0, 4, 2, 4);
-            label = new Label(0, 4, info.getYd() + info.getSd() + info.getYt() + info.getWt(), wc);
-            ws.addCell(label);
-
-            label = new Label(0, 5, "序号", wc);
-            ws.addCell(label);
-            label = new Label(1, 5, "参会人-提交人-姓名", wc);
-            ws.addCell(label);
-            label = new Label(2, 5, "选择的项", wc);
-            ws.addCell(label);
-            List<SubmitMember> submitMembers = info.getSubmitMembers();
-            for (int i = 0; i < submitMembers.size(); i++) {
-                int number = i + 1;
-                label = new Label(0, 5 + number, String.valueOf(number), wc);
+                WritableCellFormat wc = new WritableCellFormat();
+                wc.setAlignment(Alignment.CENTRE); // 设置居中
+                wc.setBorder(Border.ALL, BorderLineStyle.THIN); // 设置边框线
+                wc.setBackground(Colour.WHITE); // 设置单元格的背景颜色
+                //5.编辑单元格
+                //合并单元格作为标题
+                ws.mergeCells(0, 0, 2, 1);
+                label = new Label(0, 0, "人员统计详情", wc);
                 ws.addCell(label);
-                label = new Label(1, 5 + number, submitMembers.get(i).getMemberInfo().getMembername().toStringUtf8(), wc);
+
+                //创建表格的时间
+                ws.mergeCells(0, 2, 2, 2);
+                label = new Label(0, 2, info.getCreateTime(), wc);
                 ws.addCell(label);
-                label = new Label(2, 5 + number, submitMembers.get(i).getAnswer(), wc);
+
+                ws.mergeCells(0, 3, 2, 3);
+                label = new Label(0, 3, "标题：" + info.getTitle(), wc);
                 ws.addCell(label);
+
+                ws.mergeCells(0, 4, 2, 4);
+                label = new Label(0, 4, info.getYd() + info.getSd() + info.getYt() + info.getWt(), wc);
+                ws.addCell(label);
+
+                label = new Label(0, 5, "序号", wc);
+                ws.addCell(label);
+                label = new Label(1, 5, "参会人-提交人-姓名", wc);
+                ws.addCell(label);
+                label = new Label(2, 5, "选择的项", wc);
+                ws.addCell(label);
+                List<SubmitMember> submitMembers = info.getSubmitMembers();
+                for (int i = 0; i < submitMembers.size(); i++) {
+                    int number = i + 1;
+                    label = new Label(0, 5 + number, String.valueOf(number), wc);
+                    ws.addCell(label);
+                    label = new Label(1, 5 + number, submitMembers.get(i).getMemberInfo().getMembername().toStringUtf8(), wc);
+                    ws.addCell(label);
+                    label = new Label(2, 5 + number, submitMembers.get(i).getAnswer(), wc);
+                    ws.addCell(label);
+                }
+                //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
+                workbook.write();
+                //7.最后一步，关闭工作簿
+                workbook.close();
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
+            } catch (IOException | WriteException e) {
+                e.printStackTrace();
             }
-            //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
-            workbook.write();
-            //7.最后一步，关闭工作簿
-            workbook.close();
-            ToastUtil.showShort(R.string.export_successful);
-        } catch (IOException | WriteException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     /**
@@ -1003,58 +1006,85 @@ public class JxlUtil {
      * @param devSeatInfos 参会人和席位信息
      */
     public static void exportSeatInfo(List<MemberRoleBean> devSeatInfos) {
-        App.threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                FileUtils.createOrExistsDir(Constant.export_dir);
-                //1.创建Excel文件
-                File file = createXlsFile(Constant.export_dir + "坐席表");
-                try {
-                    file.createNewFile();
-                    //2.创建工作簿
-                    WritableWorkbook workbook = Workbook.createWorkbook(file);
-                    //3.创建Sheet
-                    WritableSheet ws = workbook.createSheet("坐席表", 0);
-                    //4.创建单元格
-                    Label label;
-                    //配置单元格样式
-                    WritableCellFormat wc = new WritableCellFormat();
-                    // 设置居中
-                    wc.setAlignment(Alignment.CENTRE);
-                    // 设置边框线
-                    wc.setBorder(Border.ALL, BorderLineStyle.THIN);
-                    // 设置单元格的背景颜色
-                    wc.setBackground(Colour.WHITE);
+        App.threadPool.execute(() -> {
+            FileUtils.createOrExistsDir(Constant.export_dir);
+            //1.创建Excel文件
+            File file = createXlsFile(Constant.export_dir + "坐席表");
+            try {
+                file.createNewFile();
+                //2.创建工作簿
+                WritableWorkbook workbook = Workbook.createWorkbook(file);
+                //3.创建Sheet
+                WritableSheet ws = workbook.createSheet("坐席表", 0);
+                //4.创建单元格
+                Label label;
+                //配置单元格样式
+                WritableCellFormat wc = new WritableCellFormat();
+                // 设置居中
+                wc.setAlignment(Alignment.CENTRE);
+                // 设置边框线
+                wc.setBorder(Border.ALL, BorderLineStyle.THIN);
+                // 设置单元格的背景颜色
+                wc.setBackground(Colour.WHITE);
 
-                    label = new Label(0, 0, "人员姓名", wc);
+                label = new Label(0, 0, "人员姓名", wc);
+                ws.addCell(label);
+                label = new Label(1, 0, "坐席ID", wc);
+                ws.addCell(label);
+                label = new Label(2, 0, "坐席名称", wc);
+                ws.addCell(label);
+                for (int i = 0; i < devSeatInfos.size(); i++) {
+                    MemberRoleBean bean = devSeatInfos.get(i);
+                    InterfaceMember.pbui_Item_MemberDetailInfo member = bean.getMember();
+                    InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo seat = bean.getSeat();
+                    //人员姓名
+                    label = new Label(0, i + 1, member.getName().toStringUtf8(), wc);
                     ws.addCell(label);
-                    label = new Label(1, 0, "坐席ID", wc);
+                    //坐席ID
+                    label = new Label(1, i + 1, ((seat != null && seat.getMemberid() != 0) ? String.valueOf(seat.getDevid()) : ""), wc);
                     ws.addCell(label);
-                    label = new Label(2, 0, "坐席名称", wc);
+                    //坐席名称
+                    label = new Label(2, i + 1, ((seat != null && seat.getMemberid() != 0) ? seat.getDevname().toStringUtf8() : ""), wc);
                     ws.addCell(label);
-                    for (int i = 0; i < devSeatInfos.size(); i++) {
-                        MemberRoleBean bean = devSeatInfos.get(i);
-                        InterfaceMember.pbui_Item_MemberDetailInfo member = bean.getMember();
-                        InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo seat = bean.getSeat();
-                        //人员姓名
-                        label = new Label(0, i + 1, member.getName().toStringUtf8(), wc);
-                        ws.addCell(label);
-                        //坐席ID
-                        label = new Label(1, i + 1, ((seat != null && seat.getMemberid() != 0) ? String.valueOf(seat.getDevid()) : ""), wc);
-                        ws.addCell(label);
-                        //坐席名称
-                        label = new Label(2, i + 1, ((seat != null && seat.getMemberid() != 0) ? seat.getDevname().toStringUtf8() : ""), wc);
-                        ws.addCell(label);
-                    }
-                    //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
-                    workbook.write();
-                    //7.最后一步，关闭工作簿
-                    workbook.close();
-                    EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SEAT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
-                } catch (IOException | WriteException e) {
-                    e.printStackTrace();
                 }
+                //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
+                workbook.write();
+                //7.最后一步，关闭工作簿
+                workbook.close();
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
+            } catch (IOException | WriteException e) {
+                e.printStackTrace();
             }
+        });
+    }
+
+
+    /**
+     * 读取表格生成评分文件
+     *
+     * @param file 一定是.xls后缀的表格文件
+     */
+    public static void readScoreXls(File file) {
+        App.threadPool.execute(() -> {
+            List<InterfaceFilescorevote.pbui_Type_UserDefineFileScore> fileScores = new ArrayList<>();
+            // TODO: 2021/5/25  
+            LogUtils.e("待实现");
+        });
+    }
+
+    public static void exportFileScore(List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> fileScores) {
+        App.threadPool.execute(() -> {
+            // TODO: 2021/5/25  
+            LogUtils.e("待实现");
+        });
+    }
+
+    /**
+     * 导出某个评分的结果
+     */
+    public static void exportSingleScoreResult(InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
+        App.threadPool.execute(() -> {
+            // TODO: 2021/5/25  
         });
     }
 }

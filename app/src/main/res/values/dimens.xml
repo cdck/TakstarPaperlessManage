@@ -1,3 +1,31 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <!--  按钮的宽高  -->
+    <dimen name="button_width">60dp</dimen>
+    <dimen name="button_height">25dp</dimen>
+    <!--  activity_admin布局中fragment的margin值  -->
+    <dimen name="act_fragment_marginStart">10dp</dimen>
+    <dimen name="act_fragment_marginEnd">10dp</dimen>
+    <dimen name="act_fragment_marginBottom">20dp</dimen>
+    <dimen name="act_ll_navigation_marginTop">10dp</dimen>
+    <dimen name="act_ll_navigation_marginBottom">10dp</dimen>
+    <!--  fragment根布局padding大小  -->
+    <dimen name="fragment_root_padding">10dp</dimen>
+    <!--  item布局的高度  -->
+    <dimen name="item_view_height">30dp</dimen>
+    <!--  悬浮窗顶部栏高度  -->
+    <dimen name="pop_top_view_height">40dp</dimen>
+    <!--  悬浮窗底部栏高度  -->
+    <dimen name="pop_bottom_view_height">40dp</dimen>
+    <!--  fragment 按钮间隔大小  -->
+    <dimen name="top_view_button_marginEnd">5dp</dimen>
+    <dimen name="top_view_marginBottom">10dp</dimen>
+    <dimen name="meeting_statistics_chart_width">60dp</dimen>
+    <dimen name="meeting_statistics_chart_height">20dp</dimen>
+
+    <!--  字体大小  30 24 18-->
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="text_size_big">18sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_smallest">10sp</dimen>
 </resources>

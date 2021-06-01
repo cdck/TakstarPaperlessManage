@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/fragment_root_padding"
     android:background="@color/content_bg"
     android:orientation="vertical">
 
@@ -63,7 +64,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
             android:background="@color/content_bg"
             android:gravity="center"
             android:orientation="horizontal">
@@ -73,7 +73,7 @@
                 style="@style/checkbox_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="5dp"
                 android:text="@string/display_icon"
                 android:textSize="@dimen/text_size_small" />
 
@@ -90,14 +90,15 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/btn_up"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
                         android:layout_width="wrap_content"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
                         android:layout_marginEnd="2dp"
                         android:text="@string/top" />
 
@@ -129,6 +130,8 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 

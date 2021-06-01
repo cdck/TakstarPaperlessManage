@@ -32,6 +32,7 @@ import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.IniUtil;
+import com.xlk.takstarpaperlessmanage.util.LogUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
@@ -217,22 +218,7 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
 
     private void showParameterConfigurationPop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_parameter_configuration, null, false);
-        int dp_10 = ConvertUtils.dp2px(10);
-        int dp_20 = ConvertUtils.dp2px(20);
-        View top_view = getActivity().findViewById(R.id.top_view);
-        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
-        View ll_navigation = getActivity().findViewById(R.id.ll_navigation);
-        int top_viewH = top_view.getHeight();
-        int rv_navigationW = rv_navigation.getWidth();
-        int ll_navigationH = ll_navigation.getHeight();
-        int x = rv_navigationW + dp_10 + dp_10 + dp_10 + dp_10;
-        int y = top_viewH + ll_navigationH + dp_10 + dp_10 + dp_20 + dp_10;
-        View fl_admin = getActivity().findViewById(R.id.fl_admin);
-        int width = fl_admin.getWidth();
-        int height = fl_admin.getHeight();
-        LogUtils.i("showParameterConfigurationPop width=" + width + ",height=" + height + ",dp10=" + dp_10);
-        parameterConfigurationPop = PopUtil.createPopupWindowAt(inflate, width - dp_20 - dp_20 - dp_10, height - dp_20 - dp_20,
-                false, root_view, Gravity.TOP | Gravity.START, x, y);
+        parameterConfigurationPop = PopUtil.createCoverPopupWindow(inflate, root_view, popWidth, popHeight, popX, popY);
         ViewHolder holder = new ViewHolder(inflate);
         holderEvent(holder);
     }

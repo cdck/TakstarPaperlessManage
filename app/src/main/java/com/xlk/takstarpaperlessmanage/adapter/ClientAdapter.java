@@ -34,6 +34,7 @@ public class ClientAdapter extends BaseQuickAdapter<InterfaceDevice.pbui_Item_De
         this.hide = hide;
     }
 
+
     public void setSelected(int devId) {
         if (selectedIds.contains(devId)) {
             selectedIds.remove(selectedIds.indexOf(devId));

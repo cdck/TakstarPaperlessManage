@@ -5,11 +5,13 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -220,9 +222,23 @@ public class AdminChildProvider extends BaseNodeProvider {
     public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
         AdminChildNode childNode = (AdminChildNode) data;
         selectedId = childNode.getId();
-//        LogUtils.d("onClick selectedId="+ selectedId);
+        LogUtils.d("onClick selectedId=" + selectedId);
         AdminNodeAdapter adapter = (AdminNodeAdapter) getAdapter();
         if (adapter != null) {
+            if (selectedId > Constant.meeting_management) {
+                if (GlobalValue.currentMeetingId == 0) {
+                    int index = 0;
+                    if(selectedId<Constant.admin_current_meeting){
+                        //说明当前点击的是会前设置中的功能
+
+                    }else {
+                        //说明当前点击的是会后管理或者会后查看中的功能
+
+                    }
+                }
+            } else {
+                adapter.click(selectedId);
+            }
             adapter.click(selectedId);
         }
     }

@@ -195,8 +195,8 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
                 sp_meet_room.setSelection(position);
             }
             edt_name.setText(item.getName().toStringUtf8());
-            edt_start_time.setText(DateUtil.secondsFormat(item.getStartTime(),"yyyy年MM月dd日 HH:mm"));
-            edt_end_time.setText(DateUtil.secondsFormat(item.getEndTime(),"yyyy年MM月dd日 HH:mm"));
+            edt_start_time.setText(DateUtil.secondsFormat(item.getStartTime(), "yyyy年MM月dd日 HH:mm"));
+            edt_end_time.setText(DateUtil.secondsFormat(item.getEndTime(), "yyyy年MM月dd日 HH:mm"));
             sp_confidentiality.setSelection(item.getSecrecy());
             sp_sign_in_type.setSelection(item.getSigninType());
         }
@@ -227,6 +227,14 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
             LogUtils.e("当前选中的会议室ID=" + roomid);
             if (TextUtils.isEmpty(name)) {
                 ToastUtil.showShort(R.string.please_enter_the_content_to_be_modified);
+                return;
+            }
+            if (currentStartTime == 0 || currentEndTime == 0) {
+                ToastUtil.showShort(R.string.please_choose_time);
+                return;
+            }
+            if (currentStartTime >= currentEndTime) {
+                ToastUtil.showShort(R.string.time_error);
                 return;
             }
             InterfaceMeet.pbui_Item_MeetMeetInfo.Builder builder = InterfaceMeet.pbui_Item_MeetMeetInfo.newBuilder();
@@ -271,7 +279,7 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
             public void onTimeSelect(Date date, View v) {
                 currentStartTime = date.getTime() / 1000;
                 if (edt_start_time != null) {
-                    edt_start_time.setText(DateUtil.millisecondsFormat(date.getTime(),"yyyy年MM月dd日 HH:mm"));
+                    edt_start_time.setText(DateUtil.millisecondsFormat(date.getTime(), "yyyy年MM月dd日 HH:mm"));
                 }
             }
         })
@@ -299,7 +307,7 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
             public void onTimeSelect(Date date, View v) {
                 currentEndTime = date.getTime() / 1000;
                 if (edt_end_time != null) {
-                    edt_end_time.setText(DateUtil.millisecondsFormat(date.getTime(),"yyyy年MM月dd日 HH:mm"));
+                    edt_end_time.setText(DateUtil.millisecondsFormat(date.getTime(), "yyyy年MM月dd日 HH:mm"));
                 }
             }
         })

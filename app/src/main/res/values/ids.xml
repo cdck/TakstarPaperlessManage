@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  自定义Spinner时TextView使用的id  -->
+    <item name="tv_spinner" type="id"/>
+</resources>

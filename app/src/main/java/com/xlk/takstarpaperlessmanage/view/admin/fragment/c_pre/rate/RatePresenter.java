@@ -2,26 +2,24 @@ package com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.rate;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.mogujie.tt.protobuf.InterfaceBase;
-import com.mogujie.tt.protobuf.InterfaceDevice;
 import com.mogujie.tt.protobuf.InterfaceFilescorevote;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceMember;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
+import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.ScoreMember;
 import com.xlk.takstarpaperlessmanage.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mogujie.tt.protobuf.InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_NOTIFY_VALUE;
-
 /**
- * @author Created by xlk on 2021/5/21.
+ * @author Created by xlk on 2021/5/24.
  * @desc
  */
 class RatePresenter extends BasePresenter<RateContract.View> implements RateContract.Presenter {
-
     public List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> fileScores = new ArrayList<>();
     public List<InterfaceMember.pbui_Item_MeetMemberDetailInfo> members = new ArrayList<>();
     public List<ScoreMember> scoreMembers = new ArrayList<>();
@@ -34,6 +32,12 @@ class RatePresenter extends BasePresenter<RateContract.View> implements RateCont
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            case EventType.BUS_UPLOAD_SCORE_FILE_FINISH: {
+                String filePath = (String) msg.getObjects()[0];
+                int mediaId = (int) msg.getObjects()[1];
+                mView.addFile2List(filePath, mediaId);
+                break;
+            }
             //投票变更通知
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE: {
                 LogUtil.d(TAG, "BusEvent -->" + "投票变更通知");
@@ -65,7 +69,6 @@ class RatePresenter extends BasePresenter<RateContract.View> implements RateCont
         }
     }
 
-    @Override
     public void queryMemberDetailed() {
         InterfaceMember.pbui_Type_MeetMemberDetailInfo info = jni.queryMemberDetailed();
         members.clear();
@@ -76,7 +79,6 @@ class RatePresenter extends BasePresenter<RateContract.View> implements RateCont
         mView.updateMemberDetailedList();
     }
 
-    @Override
     public void queryFileScore() {
         InterfaceFilescorevote.pbui_Type_UserDefineFileScore info = jni.queryFileScore();
         fileScores.clear();
@@ -86,7 +88,6 @@ class RatePresenter extends BasePresenter<RateContract.View> implements RateCont
         mView.updateFileScoreList();
     }
 
-    @Override
     public void queryScoreSubmittedScore(int voteid) {
         currentVoteId = voteid;
         InterfaceFilescorevote.pbui_Type_UserDefineFileScoreMemberStatistic info = jni.queryScoreSubmittedScore(voteid);

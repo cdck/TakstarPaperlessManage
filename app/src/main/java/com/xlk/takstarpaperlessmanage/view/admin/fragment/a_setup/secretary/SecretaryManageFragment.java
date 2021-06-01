@@ -9,6 +9,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -18,6 +19,7 @@ import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.adapter.AdminAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.SecretaryVenueAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
+import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
@@ -32,7 +34,7 @@ import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
  * @author Created by xlk on 2021/5/13.
- * @desc
+ * @desc 秘书管理
  */
 public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresenter> implements SecretaryManageContract.View {
 
@@ -131,22 +133,7 @@ public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresent
 
     private void showRoomManagePop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_secretary_room_manage, null, false);
-        int dp_10 = ConvertUtils.dp2px(10);
-        int dp_20 = ConvertUtils.dp2px(20);
-        View top_view = getActivity().findViewById(R.id.top_view);
-        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
-        View ll_navigation = getActivity().findViewById(R.id.ll_navigation);
-        int top_viewH = top_view.getHeight();
-        int rv_navigationW = rv_navigation.getWidth();
-        int ll_navigationH = ll_navigation.getHeight();
-        int x = rv_navigationW + dp_10 + dp_10 + dp_10 + dp_10;
-        int y = top_viewH + ll_navigationH + dp_10 + dp_10 + dp_20 + dp_10;
-        View fl_admin = getActivity().findViewById(R.id.fl_admin);
-        int width = fl_admin.getWidth();
-        int height = fl_admin.getHeight();
-        LogUtils.i("showParameterConfigurationPop width=" + width + ",height=" + height + ",dp10=" + dp_10);
-        roomManagePop = PopUtil.createPopupWindowAt(inflate, width - dp_20 - dp_20 - dp_10, height - dp_20 - dp_20,
-                false, rv_user, Gravity.TOP | Gravity.START, x, y);
+        roomManagePop = PopUtil.createCoverPopupWindow(inflate, rv_user, popWidth, popHeight, popX, popY);
         //可控会场
         RecyclerView rv_controlled = inflate.findViewById(R.id.rv_controlled);
         rv_controlled.setAdapter(controlledAdapter);
@@ -234,10 +221,13 @@ public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresent
             String phone = edt_phone.getText().toString().trim();
             String email = edt_email.getText().toString().trim();
             String remark = edt_remark.getText().toString().trim();
-            if (TextUtils.isEmpty(name)) {
-                ToastUtil.showShort(R.string.user_name_can_not_empty);
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(password)) {
+                ToastUtil.showShort(R.string.user_name_and_pwd_can_not_empty);
                 return;
             }
+//            password = EncryptUtils.encryptMD5ToString(password);
+//            password = Constant.parseAscii(Constant.s2md5(password));
+            password = Constant.s2md5(password);
             InterfaceAdmin.pbui_Item_AdminDetailInfo.Builder builder = InterfaceAdmin.pbui_Item_AdminDetailInfo.newBuilder();
             builder.setAdminname(s2b(name));
             builder.setPw(s2b(password));
@@ -245,9 +235,9 @@ public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresent
             builder.setEmail(s2b(email));
             builder.setComment(s2b(remark));
             if (isAdd) {
-                builder.setAdminid(item.getAdminid());
                 jni.addAdmin(builder.build());
             } else {
+                builder.setAdminid(item.getAdminid());
                 jni.modifyAdmin(builder.build());
             }
             modifyPop.dismiss();

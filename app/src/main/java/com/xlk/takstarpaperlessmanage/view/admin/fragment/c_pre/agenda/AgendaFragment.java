@@ -19,7 +19,6 @@ import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
@@ -115,6 +114,14 @@ public class AgendaFragment extends BaseFragment<AgendaPresenter> implements Age
 
     @Override
     protected void initial() {
+        cbFile.setChecked(false);
+        cbAgendaPreparation.setChecked(false);
+        cbTimelineAgenda.setChecked(false);
+        currentMediaId = 0;
+        edtAgendaContent.setText("");
+        presenter.agendas.clear();
+        if (agendaAdapter != null) agendaAdapter.notifyDataSetChanged();
+
         presenter.queryAgenda();
         presenter.queryShareFile();
         presenter.queryMeetDir();
@@ -209,7 +216,7 @@ public class AgendaFragment extends BaseFragment<AgendaPresenter> implements Age
         for (int i = 0; i < presenter.dirInfos.size(); i++) {
             temps.add(presenter.dirInfos.get(i).getName().toStringUtf8());
         }
-        spBindDirAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_text, temps);
+        spBindDirAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text, temps);
     }
 
     @Override

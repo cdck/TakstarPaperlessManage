@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -75,8 +75,8 @@
                 <LinearLayout
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -100,8 +100,8 @@
                 <LinearLayout
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -116,21 +116,21 @@
                         android:id="@+id/edt_start_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        tools:text="2021年5月18日11:10:44"
+                        android:layout_weight="2.5"
                         android:background="@drawable/editbox_background_normal"
+                        android:gravity="center"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"
+                        tools:text="2021年5月18日11:10:44" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -145,21 +145,21 @@
                         android:id="@+id/edt_end_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        tools:text="第三方类可视对讲法律框架"
+                        android:layout_weight="2.5"
                         android:background="@drawable/editbox_background_normal"
+                        android:gravity="center"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"
+                        tools:text="第三方类可视对讲法律框架" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -175,8 +175,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2.5"
-                        android:spinnerMode="dialog"
                         android:entries="@array/sign_in_type"
+                        android:spinnerMode="dialog"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
 
@@ -184,8 +184,8 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
@@ -216,6 +216,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/pop_bottom_view_height"
             android:layout_gravity="center"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal">
 

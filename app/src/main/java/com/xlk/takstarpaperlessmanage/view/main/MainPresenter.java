@@ -114,10 +114,10 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     int method = info.getMethod();
                     int status = info.getStatus();
                     LogUtils.e(TAG, "数据后台回复的错误信息 type=" + type + ",method=" + method + ",status=" + status);
-//                    if (type == 8 && method == 10) {
-//                        //管理员登录
+                    if (type == 8 && method == 10) {
+                        //管理员登录
 //                        mView.updateLoginStatus(status);
-//                    }
+                    }
                 }
                 break;
             }

@@ -99,7 +99,7 @@ public class VideoChatView extends ViewGroup {
         int measuredWidth = view1.getMeasuredWidth();
         int measuredHeight = view1.getMeasuredHeight();
         LogUtils.d(TAG, "layout2 0:   --> " + measuredWidth + "," + measuredHeight);
-        int pading = 5;
+        int pading = 2;
         view1.layout(pading, pading, measuredWidth - pading, measuredHeight - pading);
 
         View view2 = getChildAt(1);

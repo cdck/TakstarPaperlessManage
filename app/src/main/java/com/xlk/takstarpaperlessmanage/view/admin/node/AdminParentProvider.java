@@ -5,12 +5,16 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseNodeAdapter;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -70,7 +74,6 @@ public class AdminParentProvider extends BaseNodeProvider {
         setArrowSpin(baseViewHolder, node, false);
     }
 
-
     @Override
     public void convert(@NotNull BaseViewHolder helper, @NotNull BaseNode data, @NotNull List<?> payloads) {
         for (Object payload : payloads) {
@@ -107,15 +110,16 @@ public class AdminParentProvider extends BaseNodeProvider {
 
     @Override
     public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+        LogUtils.i("点击的父类索引 position=" + position);
         // 这里使用payload进行增量刷新（避免整个item刷新导致的闪烁，不自然）
-        if (getAdapter() != null) {
+        AdminNodeAdapter adapter = (AdminNodeAdapter) getAdapter();
+        if (adapter != null) {
             AdminParentNode node = (AdminParentNode) data;
             if (node.isExpanded()) {
-                getAdapter().collapseAndChild(position, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
+                adapter.collapseAndChild(position, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
             } else {
-                getAdapter().expandAndCollapseOther(position, true, true, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
+                adapter.expandAndCollapseOther(position, true, true, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
             }
-//            getAdapter().expandOrCollapse(position, true, true, AdminNodeAdapter.EXPAND_COLLAPSE_PAYLOAD);
         } else {
             LogUtils.e("onClick 方法中AdminNodeAdapter为null");
         }

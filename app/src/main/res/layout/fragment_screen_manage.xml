@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_root_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/bg_color_content"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:text="@string/screen_source"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_source"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:text="@string/target_screen"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/white">
+
+                        <CheckBox
+                            android:id="@+id/cb_pro"
+                            style="@style/checkbox_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_centerInParent="true"
+                            android:text="@string/projection_device" />
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_pro_dev"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/white">
+
+                        <CheckBox
+                            android:id="@+id/cb_member"
+                            style="@style/checkbox_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:text="@string/projection_device" />
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_member"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_bottom_view_height"
+        android:background="@drawable/bg_dialog_gray"
+        android:orientation="horizontal"
+        android:paddingStart="1dp"
+        android:paddingEnd="1dp"
+        android:paddingBottom="1dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_preview"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/preview" />
+
+            <Button
+                android:id="@+id/btn_stop_preview"
+                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/stop_preview" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/cb_mandatory"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/mandatory_same_screen" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_refresh"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:gravity="center"
+                android:text="@string/refresh" />
+
+            <Button
+                android:id="@+id/btn_stop_task"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:gravity="center"
+                android:text="@string/stop_task" />
+
+            <Button
+                android:id="@+id/btn_launch_screen"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:gravity="center"
+                android:text="@string/launch_screen" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

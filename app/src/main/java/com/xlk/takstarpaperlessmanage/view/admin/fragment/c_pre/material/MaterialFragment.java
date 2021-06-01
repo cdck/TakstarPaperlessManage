@@ -175,22 +175,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
             LogUtils.i(bean.toString());
         }
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_dir_permission, null, false);
-        int dp_10 = ConvertUtils.dp2px(10);
-        int dp_20 = ConvertUtils.dp2px(20);
-        View top_view = getActivity().findViewById(R.id.top_view);
-        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
-        View ll_navigation = getActivity().findViewById(R.id.ll_navigation);
-        int top_viewH = top_view.getHeight();
-        int rv_navigationW = rv_navigation.getWidth();
-        int ll_navigationH = ll_navigation.getHeight();
-        int x = rv_navigationW + dp_10 + dp_10 + dp_10 + dp_10;
-        int y = top_viewH + ll_navigationH + dp_10 + dp_10 + dp_20 + dp_10;
-        View fl_admin = getActivity().findViewById(R.id.fl_admin);
-        int width = fl_admin.getWidth();
-        int height = fl_admin.getHeight();
-        PopupWindow pop = PopUtil.createPopupWindowAt(inflate, width - dp_20 - dp_20 - dp_10, height - dp_20 - dp_20,
-                false, btnAdd, Gravity.TOP | Gravity.START, x, y);
-
+        PopupWindow pop = PopUtil.createCoverPopupWindow(inflate, btnAdd, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         CheckBox cb_check_all = inflate.findViewById(R.id.cb_check_all);
         DirPermissionAdapter dirPermissionAdapter = new DirPermissionAdapter(datas);
@@ -220,23 +205,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
 
     private void showSortPop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_sort_file, null, false);
-        int dp_10 = ConvertUtils.dp2px(10);
-        int dp_20 = ConvertUtils.dp2px(20);
-        View top_view = getActivity().findViewById(R.id.top_view);
-        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
-        View ll_navigation = getActivity().findViewById(R.id.ll_navigation);
-        int top_viewH = top_view.getHeight();
-        int rv_navigationW = rv_navigation.getWidth();
-        int ll_navigationH = ll_navigation.getHeight();
-        int x = rv_navigationW + dp_10 + dp_10 + dp_10 + dp_10;
-        int y = top_viewH + ll_navigationH + dp_10 + dp_10 + dp_20 + dp_10;
-        View fl_admin = getActivity().findViewById(R.id.fl_admin);
-        int width = fl_admin.getWidth();
-        int height = fl_admin.getHeight();
-        LogUtils.i("showParameterConfigurationPop width=" + width + ",height=" + height + ",dp10=" + dp_10);
-        PopupWindow sortFilePop = PopUtil.createPopupWindowAt(inflate, width - dp_20 - dp_20 - dp_10, height - dp_20 - dp_20,
-                false, btnAdd, Gravity.TOP | Gravity.START, x, y);
-
+        PopupWindow sortFilePop = PopUtil.createCoverPopupWindow(inflate, btnAdd, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         sortFileAdapter = new DirFileAdapter(presenter.sortFiles, true);
         rv_content.setLayoutManager(new LinearLayoutManager(getContext()));

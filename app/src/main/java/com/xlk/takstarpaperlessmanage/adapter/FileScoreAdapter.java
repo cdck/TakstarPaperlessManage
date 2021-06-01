@@ -1,5 +1,7 @@
 package com.xlk.takstarpaperlessmanage.adapter;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.material.math.MathUtils;
@@ -20,8 +22,14 @@ import java.util.List;
  * @desc
  */
 public class FileScoreAdapter extends BaseQuickAdapter<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore, BaseViewHolder> {
-    public FileScoreAdapter(@Nullable List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> data) {
+    /**
+     * =false评分查看，=true评分管理
+     */
+    private final boolean isManage;
+
+    public FileScoreAdapter(@Nullable List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> data, boolean isManage) {
         super(R.layout.item_file_score, data);
+        this.isManage = isManage;
     }
 
     @Override
@@ -33,6 +41,10 @@ public class FileScoreAdapter extends BaseQuickAdapter<InterfaceFilescorevote.pb
                 .setText(R.id.item_view_5, item.getMode() == 1 ? getContext().getString(R.string.yes) : getContext().getString(R.string.no))
                 .setText(R.id.item_view_6, getScore(item))
                 .setText(R.id.item_view_7, Constant.getVoteState(getContext(), item.getVotestate()));
+        View operation_view_1 = holder.getView(R.id.operation_view_1);
+        View operation_view_2 = holder.getView(R.id.operation_view_2);
+        operation_view_1.setVisibility(isManage ? View.VISIBLE : View.GONE);
+        operation_view_2.setVisibility(isManage ? View.VISIBLE : View.GONE);
     }
 
     public String getScore(InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {

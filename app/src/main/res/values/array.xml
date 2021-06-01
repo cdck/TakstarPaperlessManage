@@ -23,6 +23,10 @@
         <item>不启用</item>
     </string-array>
 
+    <string-array name="lift_or_mic">
+        <item>升降机</item>
+        <item>话筒</item>
+    </string-array>
     <string-array name="yes_or_no">
         <item>否</item>
         <item>是</item>
@@ -67,7 +71,7 @@
         <item>管理员</item>
     </string-array>
 
-    <string-array name="type_spinner">
+    <string-array name="vote_type_spinner">
         <item>多选</item>
         <item>单选</item>
         <item>5选4</item>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_view_height"
+    android:layout_margin="2dp"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/item_single_btn"
+        style="@style/button_hollow_style_rect_white_blue_radius5"
+        android:textSize="@dimen/text_size_smallest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:lines="2"
+        tools:text="张三" />
+</LinearLayout>

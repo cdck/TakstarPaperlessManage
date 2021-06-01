@@ -16,6 +16,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -38,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -101,6 +103,15 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
                 return;
             }
             jni.delMeeting(info);
+        });
+        //切换到该会议编辑
+        inflate.findViewById(R.id.btn_switch_meeting).setOnClickListener(v -> {
+            int meetId = meetingManageAdapter.getSelectedMeetingId();
+            if (meetId != -1) {
+                jni.modifyContextProperties(InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_CURMEETINGID_VALUE, meetId);
+            } else {
+                ToastUtils.showShort(R.string.please_choose_meeting_first);
+            }
         });
     }
 
@@ -221,6 +232,10 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
         initTimePicker();
     }
 
+    @Override
+    protected void onShow() {
+        initial();
+    }
 
     private void initTimePicker() {
         mStartTimePickerView = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
@@ -281,8 +296,8 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
     }
 
     private void initSpinnerAdapter() {
-        spConfidentialAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_text, getResources().getStringArray(R.array.yes_or_no));
-        spSignInTypeAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_text, getResources().getStringArray(R.array.sign_in_type));
+        spConfidentialAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text, getResources().getStringArray(R.array.yes_or_no));
+        spSignInTypeAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text, getResources().getStringArray(R.array.sign_in_type));
     }
 
     @Override
@@ -294,9 +309,7 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
                 rooms.add(room.getName().toStringUtf8());
             }
         }
-        spRoomadApter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_text, rooms);
-//        spRoomadApter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, rooms);
-//        spRoomadApter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRoomadApter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text, rooms);
     }
 
     @Override

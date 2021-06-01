@@ -78,6 +78,11 @@ public class AttendeeFragment extends BaseFragment<AttendeePresenter> implements
     }
 
     @Override
+    protected void onShow() {
+        initial();
+    }
+
+    @Override
     public void updateAttendeeList() {
         if (attendeeAdapter == null) {
             attendeeAdapter = new AttendeeAdapter(presenter.attendees);

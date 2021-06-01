@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.model.JniHelper;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     protected JniHelper jni = JniHelper.getInstance();
     protected T presenter;
     protected final int REQUEST_CODE_IMPORT_VOTE = 1;
+    protected final int REQUEST_CODE_IMPORT_SCORE_FILE = 2;
+    protected final int REQUEST_CODE_IMPORT_SCORE_XLS = 3;
+    protected int popX, popY, popWidth, popHeight;
 
     @Nullable
     @Override
@@ -33,7 +37,30 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         initView(inflate);
         presenter = initPresenter();
         initial();
+        initialPopupWindowXY();
         return inflate;
+    }
+
+    private void initialPopupWindowXY() {
+        if (popX != 0) return;
+        /* **** **  getDimensionPixelSize 得到的值为px值且会进行四舍五入  ** **** */
+        int act_fragment_marginStart = getContext().getResources().getDimensionPixelSize(R.dimen.act_fragment_marginStart);
+        int act_ll_navigation_marginTop = getContext().getResources().getDimensionPixelSize(R.dimen.act_ll_navigation_marginTop);
+        int act_ll_navigation_marginBottom = getContext().getResources().getDimensionPixelSize(R.dimen.act_ll_navigation_marginBottom);
+        int fragment_root_padding = getContext().getResources().getDimensionPixelSize(R.dimen.fragment_root_padding);
+        View top_view = getActivity().findViewById(R.id.top_view);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        View ll_navigation = getActivity().findViewById(R.id.ll_navigation);
+        int top_viewH = top_view.getHeight();
+        int rv_navigationW = rv_navigation.getWidth();
+        int ll_navigationH = ll_navigation.getHeight();
+        //计算出PopupWindow的左上角坐标
+        popX = rv_navigationW + act_fragment_marginStart + fragment_root_padding;
+        popY = top_viewH + ll_navigationH + act_ll_navigation_marginTop + act_ll_navigation_marginBottom + fragment_root_padding;
+        View fl_admin = getActivity().findViewById(R.id.fl_admin);
+        //计算出PopupWindow的宽高
+        popWidth = fl_admin.getWidth() - fragment_root_padding * 2;
+        popHeight = fl_admin.getHeight() - fragment_root_padding * 2;
     }
 
     protected abstract int getLayoutId();
@@ -60,7 +87,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     }
 
     protected void onShow() {
-
+        initial();
     }
 
     protected void dismissPop(PopupWindow pop) {

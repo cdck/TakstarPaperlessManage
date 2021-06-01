@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="blue">#3475D3</color>
+    <color name="gray">#4c4c4c</color>
     <color name="red">#FF0000</color>
     <color name="green">#00FF00</color>
     <color name="white">#FFFFFFFF</color>
@@ -29,12 +30,14 @@
     <color name="text_default_color">#1a1a1a</color>
     <color name="text_color_black">#191919</color>
     <color name="text_color_gray">#4c4c4c</color>
+    <color name="text_color_light_black">#404040</color>
 
     <color name="rv_top_view_bg">#E3E4E6</color>
     <color name="bg_color_content">#F2F2F2</color>
     <color name="text_color_333333">#333333</color>
 
     <color name="btn_enabled_bg_color">#545454</color>
+    <color name="table_card_line">#D9D9D9</color>
     <color name="btn_selected_bg_color">#388E3C</color>
     <color name="btn_pressed_bg_color">#388E3C</color>
     <color name="btn_default_bg_color">#3475D3</color>
@@ -52,5 +55,10 @@
     <drawable name="btn_white_text_color">#FFFFFF</drawable>
     <drawable name="blue">#3475D3</drawable>
 
+    <color name="option_a">#3475D3</color>
+    <color name="option_b">#FF0000</color>
+    <color name="option_c">#333333</color>
+    <color name="option_d">#00FFFF</color>
+    <color name="option_e">#FF00FF</color>
 
 </resources>

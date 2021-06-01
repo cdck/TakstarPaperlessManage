@@ -25,8 +25,26 @@ public class Constant {
     public static final String crash_dir = file_dir + "crash/";
     public static final String config_dir = file_dir + "config/";
     public static final String export_dir = file_dir + "export/";
+    public static final String record_video_dir = file_dir + "RecordVideo/";
 
     public static final String DIR_ARCHIVE_TEMP = file_dir + "Conference archive cache directory/";
+    public static final String DIR_ARCHIVE_ZIP = file_dir + "Conference archive/";
+
+
+    /**
+     * 发送广播时的action和extra
+     */
+    public static final String ACTION_START_SCREEN_RECORD = "action_start_screen_record";
+    public static final String ACTION_STOP_SCREEN_RECORD = "action_stop_screen_record";
+    /**
+     * 退出应用时发送广播通知停止掉屏幕录制
+     */
+    public static final String ACTION_STOP_SCREEN_RECORD_WHEN_EXIT_APP = "action_stop_screen_record_when_exit_app";
+    /**
+     * 要采集的类型，值为2或3，屏幕或摄像头
+     */
+    public static final String EXTRA_CAPTURE_TYPE = "extra_capture_type";
+
 
     /**
      * 主界面背景图
@@ -64,11 +82,38 @@ public class Constant {
      * 下载桌牌背景图片
      */
     public static final String DOWNLOAD_TABLE_CARD_BG = "download_table_card_bg";
+
     /**
      * 下载标识：下载无进度通知
      */
     public static final String DOWNLOAD_NO_INFORM = "download_no_inform";
     public static final String DOWNLOAD_OPEN_FILE = "download_open_file";
+    public static final String DOWNLOAD_NORMAL = "download_normal";
+    /**
+     * 下载录制视频
+     */
+    public static final String DOWNLOAD_RECORD_VIDEO = "download_record_video";
+
+    /**
+     * 归档文件时的下载标识
+     */
+    public static final String ARCHIVE_DOWNLOAD_FILE = "archive_download_file";
+    /**
+     * 归档议程文件下载标识
+     */
+    public static final String ARCHIVE_AGENDA_FILE = "archive_agenda_file";
+    /**
+     * 归档共享文件下载标识
+     */
+    public static final String ARCHIVE_SHARE_FILE = "archive_share_file";
+    /**
+     * 归档批注文件下载标识
+     */
+    public static final String ARCHIVE_ANNOTATION_FILE = "archive_annotation_file";
+    /**
+     * 归档会议资料下载标识
+     */
+    public static final String ARCHIVE_MEET_DATA_FILE = "archive_meet_data_file";
 
     //上传文件时的标识
     public static final String UPLOAD_CHOOSE_FILE = "upload_choose_file";
@@ -97,6 +142,10 @@ public class Constant {
      * 上传议程文件
      */
     public static final String UPLOAD_AGENDA_FILE = "upload_agenda_file";
+    /**
+     * 上传评分文件
+     */
+    public static final String UPLOAD_SCORE_FILE = "upload_score_file";
 
 
     /**
@@ -223,7 +272,6 @@ public class Constant {
         return ByteString.copyFrom(str, Charset.forName("UTF-8"));
     }
 
-
     /**
      * 判断权限码是否有某一权限
      *
@@ -233,7 +281,6 @@ public class Constant {
     public static boolean isHasPermission(int permission, int code) {
         return (permission & code) == code;
     }
-
 
     /**
      * 获取会议功能名称
@@ -438,6 +485,53 @@ public class Constant {
         return "";
     }
 
+    public static String parseAscii(String str) {
+        StringBuilder sb = new StringBuilder();
+        byte[] bs = str.getBytes();
+        for (int i = 0; i < bs.length; i++)
+            sb.append(toHex(bs[i]));
+        return sb.toString();
+    }
+
+    public static String toHex(int n) {
+        StringBuilder sb = new StringBuilder();
+        if (n / 16 == 0) {
+            return toHexUtil(n);
+        } else {
+            String t = toHex(n / 16);
+            int nn = n % 16;
+            sb.append(t).append(toHexUtil(nn));
+        }
+        return sb.toString();
+    }
+
+    private static String toHexUtil(int n) {
+        String rt = "";
+        switch (n) {
+            case 10:
+                rt += "A";
+                break;
+            case 11:
+                rt += "B";
+                break;
+            case 12:
+                rt += "C";
+                break;
+            case 13:
+                rt += "D";
+                break;
+            case 14:
+                rt += "E";
+                break;
+            case 15:
+                rt += "F";
+                break;
+            default:
+                rt += n;
+        }
+        return rt;
+    }
+
     /**
      * 获取投票的状态
      */
@@ -449,6 +543,37 @@ public class Constant {
         } else {
             return context.getString(R.string.vote_state_has_ended);
         }
+    }
+
+    /**
+     * 获取投票信息
+     *
+     * @param context
+     * @param type
+     * @return
+     */
+    public static String getVoteType(Context context, int type) {
+        String[] stringArray = context.getResources().getStringArray(R.array.vote_type_spinner);
+        return stringArray[type];
+//        switch (type) {
+//            case InterfaceMacro.Pb_MeetVote_SelType.Pb_VOTE_TYPE_SINGLE_VALUE: {
+//                return context.getString(R.string.vote_type_1);
+//            }
+//            case InterfaceMacro.Pb_MeetVote_SelType.Pb_VOTE_TYPE_4_5_VALUE: {
+//                return context.getString(R.string.vote_type_2);
+//            }
+//            case InterfaceMacro.Pb_MeetVote_SelType.Pb_VOTE_TYPE_3_5_VALUE: {
+//                return context.getString(R.string.vote_type_3);
+//            }
+//            case InterfaceMacro.Pb_MeetVote_SelType.Pb_VOTE_TYPE_2_5_VALUE: {
+//                return context.getString(R.string.vote_type_4);
+//            }
+//            case InterfaceMacro.Pb_MeetVote_SelType.Pb_VOTE_TYPE_2_3_VALUE: {
+//                return context.getString(R.string.vote_type_5);
+//            }
+//            default:
+//                return context.getString(R.string.vote_type_0);
+//        }
     }
 
     public static double div(double v1, double v2, int scale) {
@@ -515,6 +640,14 @@ public class Constant {
 
     //文件类别
 
+    public static boolean isPicture(int mediaId) {
+        return (mediaId & MAIN_TYPE_BITMASK) == MEDIA_FILE_TYPE_PICTURE;
+    }
+
+    public static boolean isRecord(int mediaId) {
+        return (mediaId & MAIN_TYPE_BITMASK) == MEDIA_FILE_TYPE_RECORD;
+    }
+
     //  大类
     /**
      * 音频
@@ -545,7 +678,6 @@ public class Constant {
      */
     public static final int MEDIA_FILE_TYPE_OTHER = 0xa0000000;
     public static final int MAIN_TYPE_BITMASK = 0xe0000000;
-
     //  小类
     /**
      * PCM文件
@@ -601,4 +733,5 @@ public class Constant {
     public static final int MEDIA_FILE_TYPE_OTHER_SUB = 0x10000000;
 
     public static final int SUB_TYPE_BITMASK = 0x1f000000;
+
 }

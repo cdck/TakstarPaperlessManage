@@ -59,10 +59,6 @@ public class TableFragment extends BaseFragment<TablePresenter> implements Table
         spHide = (Spinner) inflate.findViewById(R.id.sp_hide);
         ivColor = (ImageView) inflate.findViewById(R.id.iv_color);
         edtHeight = (EditText) inflate.findViewById(R.id.edt_height);
-        spFont.setOnItemSelectedListener(this);
-        spBold.setOnItemSelectedListener(this);
-        spAlign.setOnItemSelectedListener(this);
-        spHide.setOnItemSelectedListener(this);
         edtSize.addTextChangedListener(new AfterTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -130,7 +126,12 @@ public class TableFragment extends BaseFragment<TablePresenter> implements Table
             int width = tableCardView.getWidth();
             int height = tableCardView.getHeight();
             LogUtils.i("桌牌区域大小 width=" + width + ",height=" + height);
+            spFont.setOnItemSelectedListener(this);
+            spBold.setOnItemSelectedListener(this);
+            spAlign.setOnItemSelectedListener(this);
+            spHide.setOnItemSelectedListener(this);
             presenter.queryTableCard();
+
         });
         tableCardView.setViewClickListener((index, item) -> {
             touchIndex = index;

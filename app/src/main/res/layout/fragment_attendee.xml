@@ -3,7 +3,8 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/fragment_margin"
+    android:background="@drawable/dialog_bg"
+    android:padding="@dimen/fragment_root_padding"
     android:orientation="vertical">
 
     <!--    <LinearLayout-->
@@ -16,28 +17,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/top_view_marginBottom"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_add"
             style="@style/button_solid_style_rect_blue_white_radius5"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="@dimen/pop_bottom_view_height"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
             android:text="@string/add" />
 
         <Button
             android:id="@+id/btn_import"
             style="@style/button_solid_style_rect_blue_white_radius5"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="@dimen/pop_bottom_view_height"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
             android:text="@string/import_from_excel" />
 
         <Button
             android:id="@+id/btn_export"
             style="@style/button_solid_style_rect_blue_white_radius5"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="@dimen/pop_bottom_view_height"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
             android:text="@string/export_to_excel" />
 
     </LinearLayout>

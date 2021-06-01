@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/fragment_margin"
+    android:background="@drawable/dialog_bg"
+    android:padding="@dimen/fragment_root_padding"
     android:orientation="vertical">
 
     <LinearLayout

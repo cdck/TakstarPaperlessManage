@@ -6,31 +6,48 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseActivity;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.attendee.AttendeeFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.devicemanage.DeviceManageFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.other.OtherFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.roommanage.RoomManageFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.seatsort.SeatSortFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.secretary.SecretaryManageFragment;
-import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.vote.VoteFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.b_reservation.ReserveFragment;
-import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.agenda.AgendaFragment;
-import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.bind.SeatBindFragment;
-import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.camera.CameraFragment;
-import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.function.FunctionFragment;
-import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.material.MaterialFragment;
+
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.meet.MeetingManageFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.agenda.AgendaFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.member.MemberFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.material.MaterialFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.camera.CameraFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.rate.RateFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.vote.VoteFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.bind.SeatBindFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.table.TableFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.function.FunctionFragment;
+
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.camera.CameraControlFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.chat.ChatFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.device.DeviceControlFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.rate.RateManageFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.screen.ScreenManageFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.vote.VoteManageFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.annotate.AnnotateFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.archive.ArchiveFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.sign.SignFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.statistical.StatisticsFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.video.VideoManageFragment;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.vote.VoteResultFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.node.AdminChildNode;
 import com.xlk.takstarpaperlessmanage.view.admin.node.AdminNodeAdapter;
 import com.xlk.takstarpaperlessmanage.view.admin.node.AdminParentNode;
@@ -53,7 +70,7 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
      * 当前选中的功能码
      */
     private int currentFunctionCode = -1;
-    private ImageView iv_welcome;
+    private RelativeLayout rl_welcome;
     private LinearLayout ll_content;
     private DeviceManageFragment deviceManageFragment;
     private RoomManageFragment roomManageFragment;
@@ -72,6 +89,18 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
     private SeatBindFragment seatBindFragment;
     private TableFragment tableFragment;
     private FunctionFragment functionFragment;
+    private DeviceControlFragment deviceControlFragment;
+    private VoteManageFragment voteManageFragment;
+    private RateManageFragment rateManageFragment;
+    private ChatFragment chatFragment;
+    private CameraControlFragment cameraControlFragment;
+    private ScreenManageFragment screenManageFragment;
+    private SignFragment signFragment;
+    private AnnotateFragment annotateFragment;
+    private VoteResultFragment voteResultFragment;
+    private ArchiveFragment archiveFragment;
+    private VideoManageFragment videoManageFragment;
+    private StatisticsFragment statisticsFragment;
 
     @Override
     protected int getLayoutId() {
@@ -90,7 +119,7 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
         tv_time = findViewById(R.id.tv_time);
         tv_date = findViewById(R.id.tv_date);
         tv_online = findViewById(R.id.tv_online);
-        iv_welcome = findViewById(R.id.iv_welcome);
+        rl_welcome = findViewById(R.id.rl_welcome);
         ll_content = findViewById(R.id.ll_content);
         tv_navigation_parent = findViewById(R.id.tv_navigation_parent);
         tv_navigation_child = findViewById(R.id.tv_navigation_child);
@@ -120,6 +149,8 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
         jni.modifyContextProperties(InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_ROLE_VALUE,
                 InterfaceMacro.Pb_MeetFaceStatus.Pb_MemState_AdminFace_VALUE);
         initNodeAdapter();
+        GlobalValue.currentMeetingId = presenter.getCurrentMeetingId();
+        LogUtils.e("当前的会议id=" + GlobalValue.currentMeetingId);
         updateNavigationAndFragment();
     }
 
@@ -201,11 +232,11 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
 
     private void updateNavigationAndFragment() {
         if (currentFunctionCode == -1) {
-            iv_welcome.setVisibility(View.VISIBLE);
+            rl_welcome.setVisibility(View.VISIBLE);
             ll_content.setVisibility(View.GONE);
             return;
         }
-        iv_welcome.setVisibility(View.GONE);
+        rl_welcome.setVisibility(View.GONE);
         ll_content.setVisibility(View.VISIBLE);
         String navigation_parent = "";
         String navigation_child = "";
@@ -469,6 +500,7 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
                 ft.show(voteFragment);
                 break;
             }
+            //评分录入
             case Constant.score_entry: {
                 if (rateFragment == null) {
                     rateFragment = new RateFragment();
@@ -501,6 +533,151 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
                 ft.show(functionFragment);
                 break;
             }
+            case Constant.device_control: {
+                if (deviceControlFragment == null) {
+                    deviceControlFragment = new DeviceControlFragment();
+                    ft.add(R.id.fl_admin, deviceControlFragment);
+                }
+                ft.show(deviceControlFragment);
+                break;
+            }
+            case Constant.vote_management: {
+                Bundle bundle = new Bundle();
+                bundle.putInt("vote_type", InterfaceMacro.Pb_MeetVoteType.Pb_VOTE_MAINTYPE_vote_VALUE);
+                if (voteManageFragment == null) {
+                    voteManageFragment = new VoteManageFragment();
+                    ft.add(R.id.fl_admin, voteManageFragment);
+                }
+                voteManageFragment.setArguments(bundle);
+                ft.show(voteManageFragment);
+                break;
+            }
+            case Constant.election_management: {
+                Bundle bundle = new Bundle();
+                bundle.putInt("vote_type", InterfaceMacro.Pb_MeetVoteType.Pb_VOTE_MAINTYPE_election_VALUE);
+                if (voteManageFragment == null) {
+                    voteManageFragment = new VoteManageFragment();
+                    ft.add(R.id.fl_admin, voteManageFragment);
+                }
+                voteManageFragment.setArguments(bundle);
+                ft.show(voteManageFragment);
+                break;
+            }
+            //评分管理
+            case Constant.score_management: {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isManage", true);
+                if (rateManageFragment == null) {
+                    rateManageFragment = new RateManageFragment();
+                    ft.add(R.id.fl_admin, rateManageFragment);
+                }
+                rateManageFragment.setArguments(bundle);
+                ft.show(rateManageFragment);
+                break;
+            }
+            case Constant.meeting_chat: {
+                if (chatFragment == null) {
+                    chatFragment = new ChatFragment();
+                    ft.add(R.id.fl_admin, chatFragment);
+                }
+                ft.show(chatFragment);
+                break;
+            }
+            case Constant.camera_control: {
+                if (cameraControlFragment == null) {
+                    cameraControlFragment = new CameraControlFragment();
+                    ft.add(R.id.fl_admin, cameraControlFragment);
+                }
+                ft.show(cameraControlFragment);
+                break;
+            }
+            case Constant.screen_management: {
+                if (screenManageFragment == null) {
+                    screenManageFragment = new ScreenManageFragment();
+                    ft.add(R.id.fl_admin, screenManageFragment);
+                }
+                ft.show(screenManageFragment);
+                break;
+            }
+//            case Constant.meeting_minutes: {
+//                break;
+//            }
+            case Constant.sign_in_info: {
+                if (signFragment == null) {
+                    signFragment = new SignFragment();
+                    ft.add(R.id.fl_admin, signFragment);
+                }
+                ft.show(signFragment);
+                break;
+            }
+            case Constant.annotation_view: {
+                if (annotateFragment == null) {
+                    annotateFragment = new AnnotateFragment();
+                    ft.add(R.id.fl_admin, annotateFragment);
+                }
+                ft.show(annotateFragment);
+                break;
+            }
+            case Constant.vote_result: {
+                Bundle bundle = new Bundle();
+                bundle.putInt("vote_type", InterfaceMacro.Pb_MeetVoteType.Pb_VOTE_MAINTYPE_vote_VALUE);
+                if (voteResultFragment == null) {
+                    voteResultFragment = new VoteResultFragment();
+                    ft.add(R.id.fl_admin, voteResultFragment);
+                }
+                voteResultFragment.setArguments(bundle);
+                ft.show(voteResultFragment);
+                break;
+            }
+            case Constant.election_result: {
+                Bundle bundle = new Bundle();
+                bundle.putInt("vote_type", InterfaceMacro.Pb_MeetVoteType.Pb_VOTE_MAINTYPE_election_VALUE);
+                if (voteResultFragment == null) {
+                    voteResultFragment = new VoteResultFragment();
+                    ft.add(R.id.fl_admin, voteResultFragment);
+                }
+                voteResultFragment.setArguments(bundle);
+                ft.show(voteResultFragment);
+                break;
+            }
+            case Constant.meeting_archive: {
+                if (archiveFragment == null) {
+                    archiveFragment = new ArchiveFragment();
+                    ft.add(R.id.fl_admin, archiveFragment);
+                }
+                ft.show(archiveFragment);
+                break;
+            }
+            //会议统计
+            case Constant.meeting_statistics: {
+                if (statisticsFragment == null) {
+                    statisticsFragment = new StatisticsFragment();
+                    ft.add(R.id.fl_admin, statisticsFragment);
+                }
+                ft.show(statisticsFragment);
+                break;
+            }
+            //评分查看
+            case Constant.score_view: {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isManage", false);
+                if (rateManageFragment == null) {
+                    rateManageFragment = new RateManageFragment();
+                    ft.add(R.id.fl_admin, rateManageFragment);
+                }
+                rateManageFragment.setArguments(bundle);
+                ft.show(rateManageFragment);
+                break;
+            }
+            //录像管理
+            case Constant.video_management: {
+                if (videoManageFragment == null) {
+                    videoManageFragment = new VideoManageFragment();
+                    ft.add(R.id.fl_admin, videoManageFragment);
+                }
+                ft.show(videoManageFragment);
+                break;
+            }
         }
         ft.commitAllowingStateLoss();//允许状态丢失，其他完全一样
     }
@@ -523,6 +700,18 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
         if (seatBindFragment != null) ft.hide(seatBindFragment);
         if (tableFragment != null) ft.hide(tableFragment);
         if (functionFragment != null) ft.hide(functionFragment);
+        if (deviceControlFragment != null) ft.hide(deviceControlFragment);
+        if (voteManageFragment != null) ft.hide(voteManageFragment);
+        if (rateManageFragment != null) ft.hide(rateManageFragment);
+        if (chatFragment != null) ft.hide(chatFragment);
+        if (cameraControlFragment != null) ft.hide(cameraControlFragment);
+        if (screenManageFragment != null) ft.hide(screenManageFragment);
+        if (signFragment != null) ft.hide(signFragment);
+        if (annotateFragment != null) ft.hide(annotateFragment);
+        if (voteResultFragment != null) ft.hide(voteResultFragment);
+        if (archiveFragment != null) ft.hide(archiveFragment);
+        if (videoManageFragment != null) ft.hide(videoManageFragment);
+        if (statisticsFragment != null) ft.hide(statisticsFragment);
     }
 
     @Override

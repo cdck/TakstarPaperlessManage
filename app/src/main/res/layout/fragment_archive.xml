@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_root_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/cb_archive_all"
+            style="@style/checkbox_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/archive_choose"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/cb_meeting_basic_information"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/meeting_basic_information"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_smallest" />
+
+                <CheckBox
+                    android:id="@+id/cb_member_information"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/member_information"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_smallest" />
+
+                <CheckBox
+                    android:id="@+id/cb_sign_information"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/sign_information"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_smallest" />
+
+                <CheckBox
+                    android:id="@+id/cb_vote_result"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/meeting_vote_result"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_smallest" />
+
+                <CheckBox
+                    android:id="@+id/cb_shared_file"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/meeting_shared_file"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_smallest" />
+
+                <CheckBox
+                    android:id="@+id/cb_annotate_file"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/meeting_annotate_file"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_smallest" />
+
+                <CheckBox
+                    android:id="@+id/cb_meeting_material"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/meeting_material"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_smallest" />
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/output_location_"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_small" />
+
+            <EditText
+                android:id="@+id/edt_output"
+                style="@style/EditText_style"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small" />
+
+            <Button
+                android:id="@+id/btn_modify"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/modify_" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/export_status"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_small" />
+
+            <ScrollView
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp">
+
+                <LinearLayout
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/rv_top_view_bg"
+                    android:orientation="vertical"
+                    android:padding="0.5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_informationn"
+                            android:textColor="@color/text_color_light_black"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_light_black"
+                            android:textSize="@dimen/text_size_small" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/meeting_basic_information"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+
+                        <TextView
+                            android:id="@+id/tv_status_0"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/member_information"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+
+                        <TextView
+                            android:id="@+id/tv_status_1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/sign_information"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+
+                        <TextView
+                            android:id="@+id/tv_status_2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/meeting_vote_result"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+
+                        <TextView
+                            android:id="@+id/tv_status_3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/meeting_shared_file"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+
+                        <TextView
+                            android:id="@+id/tv_status_4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/meeting_annotate_file"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+
+                        <TextView
+                            android:id="@+id/tv_status_5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginEnd="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/meeting_material"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+
+                        <TextView
+                            android:id="@+id/tv_status_6"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="@string/operation_status"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/text_size_smallest" />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_bottom_view_height"
+        android:layout_margin="5dp"
+        android:background="@color/content_bg"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_encryption"
+            style="@style/checkbox_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:text="@string/encryption" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_weight="3"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/btn_archive"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/start_archive" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

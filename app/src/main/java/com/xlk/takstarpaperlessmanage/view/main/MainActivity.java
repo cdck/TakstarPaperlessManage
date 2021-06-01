@@ -1,8 +1,10 @@
 package com.xlk.takstarpaperlessmanage.view.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.mogujie.tt.protobuf.InterfaceAdmin;
 import com.mogujie.tt.protobuf.InterfaceMacro;
+import com.xlk.takstarpaperlessmanage.App;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseActivity;
 import com.xlk.takstarpaperlessmanage.model.Constant;
@@ -41,11 +44,15 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
     private com.google.android.material.textfield.TextInputEditText edtUser;
     private com.google.android.material.textfield.TextInputEditText edtPwd;
     private android.widget.CheckBox cbRemember;
+    private final int REQUEST_CODE_READ_FRAME_BUFFER = 1;
+    private MediaProjectionManager mMediaProjectionManager;
 
     @Override
     protected int getLayoutId() {
@@ -172,6 +179,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         if (all) {
                             FileUtils.createOrExistsDir(Constant.file_dir);
                             FileUtils.createOrExistsDir(Constant.config_dir);
+                            FileUtils.createOrExistsDir(Constant.record_video_dir);
                             start();
                         }
                     }
@@ -184,9 +192,27 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void start() {
-        if (!GlobalValue.initializationIsOver) {
-            initConfigFile();
-            jni.javaInitSys(DeviceUtils.getUniqueDeviceId());
+        if (App.mMediaProjection == null) {
+            mMediaProjectionManager = (MediaProjectionManager) getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+            startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_CODE_READ_FRAME_BUFFER);
+        } else {
+            if (!GlobalValue.initializationIsOver) {
+                initConfigFile();
+                jni.javaInitSys(DeviceUtils.getUniqueDeviceId());
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_READ_FRAME_BUFFER) {
+            if (resultCode == Activity.RESULT_OK) {
+                App.mMediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, data);
+                start();
+            } else {
+                start();
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.vote;
+package com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.vote;
 
 import com.xlk.takstarpaperlessmanage.base.BaseContract;
 
@@ -6,7 +6,7 @@ import com.xlk.takstarpaperlessmanage.base.BaseContract;
  * @author Created by xlk on 2021/5/21.
  * @desc
  */
-interface VoteContract {
+public interface VoteContract {
     interface View extends BaseContract.View{
         void updateVoteList();
     }

@@ -24,6 +24,7 @@ import com.mogujie.tt.protobuf.InterfacePerson;
 import com.mogujie.tt.protobuf.InterfacePlaymedia;
 import com.mogujie.tt.protobuf.InterfaceRoom;
 import com.mogujie.tt.protobuf.InterfaceSignin;
+import com.mogujie.tt.protobuf.InterfaceStatistic;
 import com.mogujie.tt.protobuf.InterfaceStop;
 import com.mogujie.tt.protobuf.InterfaceStream;
 import com.mogujie.tt.protobuf.InterfaceTablecard;
@@ -310,6 +311,58 @@ public class JniHelper {
             }
         }
         LogUtil.e(TAG, "queryContextProperty 按属性ID查询指定上下文属性 失败 --->>> propertyid+" + propertyid);
+        return null;
+    }
+
+    /**
+     * 129.查询指定ID的会议
+     *
+     * @return
+     */
+    public InterfaceMeet.pbui_Item_MeetMeetInfo queryMeetingById(int value) {
+        InterfaceBase.pbui_QueryInfoByID.Builder builder = InterfaceBase.pbui_QueryInfoByID.newBuilder();
+        builder.setId(value);
+        InterfaceBase.pbui_QueryInfoByID build = builder.build();
+        byte[] array = jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETINFO_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_SINGLEQUERYBYID_VALUE, build.toByteArray());
+        if (array != null) {
+            try {
+                InterfaceMeet.pbui_Type_MeetMeetInfo info = InterfaceMeet.pbui_Type_MeetMeetInfo.parseFrom(array);
+                if (!info.getItemList().isEmpty()) {
+                    LogUtils.e(TAG, "queryMeetFromId :  查询指定ID的会议成功 --> id=" + value);
+                    InterfaceMeet.pbui_Item_MeetMeetInfo pbui_item_meetMeetInfo = info.getItemList().get(0);
+                    return pbui_item_meetMeetInfo;
+                }
+            } catch (InvalidProtocolBufferException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtils.e(TAG, "queryMeetFromId :  查询指定ID的会议失败 --> id=" + value);
+        return null;
+    }
+
+    /**
+     * 查询指定id的会场
+     *
+     * @param roomId 会场id
+     */
+    public InterfaceRoom.pbui_Item_MeetRoomDetailInfo queryRoomById(int roomId) {
+        InterfaceBase.pbui_QueryInfoByID build = InterfaceBase.pbui_QueryInfoByID.newBuilder().setId(roomId).build();
+        byte[] bytes = jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ROOM_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_SINGLEQUERYBYID_VALUE, build.toByteArray());
+        if (bytes != null) {
+            try {
+                InterfaceRoom.pbui_Type_MeetRoomDetailInfo info = InterfaceRoom.pbui_Type_MeetRoomDetailInfo.parseFrom(bytes);
+                if (info.getItemCount() > 0) {
+                    InterfaceRoom.pbui_Item_MeetRoomDetailInfo item = info.getItem(0);
+                    LogUtils.i(TAG, "queryRoomById 查询指定id的会场成功");
+                    return item;
+                }
+            } catch (InvalidProtocolBufferException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtils.e(TAG, "queryRoomById 查询指定id的会场失败");
         return null;
     }
 
@@ -1206,14 +1259,34 @@ public class JniHelper {
     /**
      * 查询签到
      */
-    public InterfaceSignin.pbui_Type_MeetSignInDetailInfo querySignin() throws InvalidProtocolBufferException {
-        byte[] array = jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETSIGN.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_QUERY.getNumber(), null);
-        if (array == null) {
-            LogUtil.e(TAG, "querySignin :  查询签到失败 --> ");
-            return null;
+    public InterfaceSignin.pbui_Type_MeetSignInDetailInfo querySignin() {
+        byte[] array = jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETSIGN_VALUE, InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_QUERY_VALUE, null);
+        if (array != null) {
+            try {
+                InterfaceSignin.pbui_Type_MeetSignInDetailInfo info = InterfaceSignin.pbui_Type_MeetSignInDetailInfo.parseFrom(array);
+                LogUtil.e(TAG, "querySignin :  查询签到成功 --> ");
+                return info;
+            } catch (InvalidProtocolBufferException e) {
+                e.printStackTrace();
+            }
         }
-        LogUtil.e(TAG, "querySignin :  查询签到成功 --> ");
-        return InterfaceSignin.pbui_Type_MeetSignInDetailInfo.parseFrom(array);
+        LogUtil.e(TAG, "querySignin :  查询签到失败 --> ");
+        return null;
+    }
+
+    /**
+     * 删除签到
+     *
+     * @param meetingId 会议id
+     * @param memberIds 参会人id
+     */
+    public void deleteSignIn(int meetingId, List<Integer> memberIds) {
+        InterfaceSignin.pbui_Type_DoDeleteMeetSignIno build = InterfaceSignin.pbui_Type_DoDeleteMeetSignIno.newBuilder()
+                .setMeetingid(meetingId)
+                .addAllMemberids(memberIds)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETSIGN_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_DEL_VALUE, build.toByteArray());
     }
 
     /**
@@ -1314,6 +1387,21 @@ public class JniHelper {
         builder.setMsgtype(msgType);
         builder.addAllUserids(ids);
         InterfaceIM.pbui_Type_SendMeetIM build = builder.build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETIM.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_SEND.getNumber(), build.toByteArray());
+        LogUtil.e(TAG, "sendMeetInfo:  发送会议交流信息 --->>> ");
+    }
+
+    /**
+     * 185.发送会议交流信息
+     *
+     * @return
+     */
+    public void sendChatMessage(String msg, int msgType, int memberId) {
+        InterfaceIM.pbui_Type_SendMeetIM build = InterfaceIM.pbui_Type_SendMeetIM.newBuilder()
+                .setMsg(s2b(msg))
+                .setMsgtype(msgType)
+                .addUserids(memberId)
+                .build();
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETIM.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_SEND.getNumber(), build.toByteArray());
         LogUtil.e(TAG, "sendMeetInfo:  发送会议交流信息 --->>> ");
     }
@@ -1482,6 +1570,33 @@ public class JniHelper {
     }
 
     /**
+     * 204.查询投票提交人属性
+     *
+     * @return
+     * @throws InvalidProtocolBufferException
+     */
+    public InterfaceBase.pbui_CommonInt32uProperty queryVoteSubmitterProperty(int voteid, int memberid, int propertyid) {
+        InterfaceVote.pbui_Type_MeetVoteQueryProperty.Builder builder = InterfaceVote.pbui_Type_MeetVoteQueryProperty.newBuilder();
+        builder.setVoteid(voteid);
+        builder.setMemberid(memberid);
+        builder.setPropertyid(propertyid);
+        InterfaceVote.pbui_Type_MeetVoteQueryProperty build = builder.build();
+        byte[] array = jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETVOTESIGNED.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_QUERYPROPERTY.getNumber(), build.toByteArray());
+        if (array == null) {
+            LogUtil.e(TAG, "queryVoteSubmitterProperty :  查询投票提交人属性失败 --> ");
+            return null;
+        }
+        LogUtil.e(TAG, "queryVoteSubmitterProperty :  查询投票提交人属性成功 --> ");
+        try {
+            return InterfaceBase.pbui_CommonInt32uProperty.parseFrom(array);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+            LogUtil.e(TAG, "queryVoteSubmitterProperty -->" + "类型转换失败");
+            return null;
+        }
+    }
+
+    /**
      * 流播放(多个资源)
      *
      * @param sourceDevId    要抓取屏幕的设备ID
@@ -1549,6 +1664,18 @@ public class JniHelper {
         InterfaceStop.pbui_Type_MeetDoStopResWork build = InterfaceStop.pbui_Type_MeetDoStopResWork.newBuilder()
                 .addRes(res)
                 .addAllDeviceid(devIds)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_STOPPLAY.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_CLOSE.getNumber(), build.toByteArray());
+        LogUtil.i(TAG, "stopResourceOperate:  停止资源操作  ---> ");
+    }
+
+    /**
+     * 停止资源操作
+     */
+    public void stopResourceOperate(List<Integer> resIds, int devid) {
+        InterfaceStop.pbui_Type_MeetDoStopResWork build = InterfaceStop.pbui_Type_MeetDoStopResWork.newBuilder()
+                .addAllRes(resIds)
+                .addDeviceid(devid)
                 .build();
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_STOPPLAY.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_CLOSE.getNumber(), build.toByteArray());
         LogUtil.i(TAG, "stopResourceOperate:  停止资源操作  ---> ");
@@ -1696,7 +1823,6 @@ public class JniHelper {
         LogUtil.e(TAG, "deleteBullet:  删除公告 --->>> ");
     }
 
-
     /**
      * 查询可加入的同屏会话
      */
@@ -1713,7 +1839,6 @@ public class JniHelper {
         LogUtil.e(TAG, "queryCanJoin  查询可加入的同屏会话失败 --->>> ");
         return null;
     }
-
 
     /**
      * 189.查询发起的投票
@@ -1753,7 +1878,6 @@ public class JniHelper {
         LogUtil.e(TAG, "queryVoteById:  查询指定id的投票失败");
         return null;
     }
-
 
     /**
      * 停止设备对讲
@@ -1866,6 +1990,7 @@ public class JniHelper {
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETONVOTING.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD.getNumber(), build.toByteArray());
         LogUtil.e(TAG, "createVote:  新建一个投票 --->>> ");
     }
+
     /**
      * 191.新建一个投票
      *
@@ -2127,6 +2252,42 @@ public class JniHelper {
         }
         LogUtil.e(TAG, "queryScoreSubmittedScore -->" + "查询指定评分提交人失败");
         return null;
+    }
+
+    /**
+     * 添加文件评分
+     *
+     * @param fileId
+     * @param score
+     */
+    public void addScore(int fileId, InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore score) {
+        InterfaceFilescorevote.pbui_Type_UserDefineFileScore build = InterfaceFilescorevote.pbui_Type_UserDefineFileScore.newBuilder()
+                .setFileid(fileId)
+                .addItem(score)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE, InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE, build.toByteArray());
+    }
+
+    public void addScore(int fileId, List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> scores) {
+        InterfaceFilescorevote.pbui_Type_UserDefineFileScore build = InterfaceFilescorevote.pbui_Type_UserDefineFileScore.newBuilder()
+                .setFileid(fileId)
+                .addAllItem(scores)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE, InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE, build.toByteArray());
+    }
+
+    /**
+     * 修改一个评分
+     * @param fileId
+     * @param score
+     */
+    public void modifyScore(int fileId, InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore score) {
+        InterfaceFilescorevote.pbui_Type_UserDefineFileScore build = InterfaceFilescorevote.pbui_Type_UserDefineFileScore.newBuilder()
+                .setFileid(fileId)
+                .addItem(score)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_MODIFY_VALUE, build.toByteArray());
     }
 
     /**
@@ -2757,6 +2918,7 @@ public class JniHelper {
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETVIDEO.getNumber(),
                 InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD.getNumber(), build.toByteArray());
     }
+
     /**
      * 添加会议视频
      */
@@ -2783,6 +2945,7 @@ public class JniHelper {
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETVIDEO_VALUE,
                 InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_DEL_VALUE, build.toByteArray());
     }
+
     /**
      * 删除会议视频
      */
@@ -2810,6 +2973,7 @@ public class JniHelper {
         LogUtils.e(TAG, "queryTableCard 查询会议双屏显示" + "失败");
         return null;
     }
+
     /**
      * 修改双屏显示
      *
@@ -2828,4 +2992,45 @@ public class JniHelper {
                 build.toByteArray());
     }
 
+    /**
+     * 查询公告
+     */
+    public InterfaceBullet.pbui_BulletDetailInfo queryBulletin() {
+        byte[] array = jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETBULLET.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_QUERY.getNumber(), null);
+        if (array != null) {
+            try {
+                InterfaceBullet.pbui_BulletDetailInfo pbui_bulletDetailInfo = InterfaceBullet.pbui_BulletDetailInfo.parseFrom(array);
+                LogUtils.e(TAG, "queryBulletin:  查询公告成功 --->>> ");
+                return pbui_bulletDetailInfo;
+            } catch (InvalidProtocolBufferException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtils.e(TAG, "queryBulletin:  查询公告失败 --->>> ");
+        return null;
+    }
+
+    /**
+     * 查询会议统计信息
+     * @param meetingId 会议id，=0则查询当前会议
+     */
+    public void queryMeetingStatistics(int meetingId) {
+        InterfaceStatistic.pbui_Type_MeetDoReqStatistic build = InterfaceStatistic.pbui_Type_MeetDoReqStatistic.newBuilder()
+                .setMeetingid(meetingId)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETSTATISTIC_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_QUERY_VALUE, build.toByteArray());
+    }
+
+    /**
+     *
+     * @param quartertype @see{InterfaceMacro.Pb_MeetStatisticFlag}
+     */
+    public void queryMeetingStatisticsByTime(int quartertype) {
+        InterfaceStatistic.pbui_Type_QueryQuarterStatistic build = InterfaceStatistic.pbui_Type_QueryQuarterStatistic.newBuilder()
+                .setQuartertype(quartertype)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETSTATISTIC_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_QUERY_VALUE, build.toByteArray());
+    }
 }

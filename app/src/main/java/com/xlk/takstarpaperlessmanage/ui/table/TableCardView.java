@@ -369,15 +369,17 @@ public class TableCardView extends AbsoluteLayout {
      * @param fontName 字体名称
      */
     public void updateViewFont(int index, String fontName) {
-        View view = views.get(index);
-        TextView table_card_tv = view.findViewById(R.id.table_card_tv);
-        Typeface oldTypeFace = table_card_tv.getTypeface();
-        boolean bold = oldTypeFace.isBold();
-        Typeface typeface = getTypeface(fontName, bold);
-        table_card_tv.setTypeface(typeface);
-        TableCardBean tableCardBean = mData.get(index);
-        tableCardBean.setFontName(fontName);
-        invalidate();
+        if (views.size() > index) {
+            View view = views.get(index);
+            TextView table_card_tv = view.findViewById(R.id.table_card_tv);
+            Typeface oldTypeFace = table_card_tv.getTypeface();
+            boolean bold = oldTypeFace.isBold();
+            Typeface typeface = getTypeface(fontName, bold);
+            table_card_tv.setTypeface(typeface);
+            TableCardBean tableCardBean = mData.get(index);
+            tableCardBean.setFontName(fontName);
+            invalidate();
+        }
     }
 
     /**

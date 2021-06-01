@@ -4,18 +4,23 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.mogujie.tt.protobuf.InterfaceAdmin;
 import com.mogujie.tt.protobuf.InterfaceBase;
+import com.mogujie.tt.protobuf.InterfaceIM;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
+import com.xlk.takstarpaperlessmanage.model.GlobalValue;
+import com.xlk.takstarpaperlessmanage.model.bean.ChatMessage;
 import com.xlk.takstarpaperlessmanage.util.DateUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cc.shinichi.library.ImagePreview;
+
+import static com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.chat.ChatFragment.isOnChatPage;
 
 /**
  * @author Created by xlk on 2021/4/21.
@@ -25,6 +30,7 @@ public class AdminPresenter extends BasePresenter<AdminContract.View> implements
 
     private final Context context;
     List<String> picPath = new ArrayList<>();
+    public static HashMap<Integer, List<ChatMessage>> AllChatMessages = new HashMap<>();
 
     public AdminPresenter(AdminContract.View view, Context context) {
         super(view);
@@ -72,6 +78,16 @@ public class AdminPresenter extends BasePresenter<AdminContract.View> implements
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            //会议信息变更通知
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETINFO_VALUE:
+                //会议排位变更通知
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETSEAT_VALUE:
+                //会场信息变更通知
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ROOM_VALUE: {
+                GlobalValue.currentMeetingId = getCurrentMeetingId();
+                LogUtils.i(TAG, "BusEvent 当前的会议ID=" + GlobalValue.currentMeetingId);
+                break;
+            }
             //时间回调
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_TIME_VALUE: {
                 Object[] objs = msg.getObjects();
@@ -86,6 +102,30 @@ public class AdminPresenter extends BasePresenter<AdminContract.View> implements
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEVICEINFO_VALUE: {
                 LogUtils.i(TAG, "BusEvent 设备寄存器变更通知");
                 mView.updateOnlineStatus();
+                break;
+            }
+            //会议交流信息
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETIM_VALUE: {
+                if (!isOnChatPage) {
+                    byte[] o = (byte[]) msg.getObjects()[0];
+                    InterfaceIM.pbui_Type_MeetIM meetIM = InterfaceIM.pbui_Type_MeetIM.parseFrom(o);
+                    LogUtils.i(TAG, "busEvent 收到会议交流信息 参会人id=" + meetIM.getMemberid() + ",名称=" + meetIM.getMembername().toStringUtf8() + ",内容=" + meetIM.getMsg().toStringUtf8());
+                    //文本类消息
+                    if (meetIM.getMsgtype() == InterfaceMacro.Pb_MeetIMMSG_TYPE.Pb_MEETIM_CHAT_Message_VALUE) {
+                        int memberid = meetIM.getMemberid();
+                        ChatMessage newImMsg = new ChatMessage(0, meetIM.getMembername().toStringUtf8(), memberid, meetIM.getUtcsecond(), meetIM.getMsg().toStringUtf8());
+                        List<ChatMessage> myChatMessages;
+                        if (AllChatMessages.containsKey(memberid)) {
+                            myChatMessages = AllChatMessages.get(memberid);
+                            LogUtils.i(TAG, "busEvent 获取消息数据 " + myChatMessages.size());
+                        } else {
+                            myChatMessages = new ArrayList<>();
+                            LogUtils.i(TAG, "busEvent 新建消息数据");
+                        }
+                        myChatMessages.add(newImMsg);
+                        AllChatMessages.put(memberid, myChatMessages);
+                    }
+                }
                 break;
             }
             //打开下载完成的图片

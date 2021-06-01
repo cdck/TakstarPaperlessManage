@@ -7,6 +7,7 @@ import com.mogujie.tt.protobuf.InterfaceFile;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceMember;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
+import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.bean.MemberDirPermissionBean;
 
@@ -103,6 +104,14 @@ public class MaterialPresenter extends BasePresenter<MaterialContract.View> impl
         dirFiles.clear();
         if (info != null) {
             dirFiles.addAll(info.getItemList());
+            for (int i = 0; i < dirFiles.size(); i++) {
+                InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = dirFiles.get(i);
+                String fileName = item.getName().toStringUtf8();
+                int mediaid = item.getMediaid();
+                int attrib = item.getAttrib();
+                int mstime = item.getMstime();
+                LogUtils.i("文件===" + fileName + ",mediaid=" + mediaid + ",attrib=" + attrib + ",mstime=" + mstime + ",isPicture=" + (Constant.isPicture(mediaid)));
+            }
         }
         if (currentDirId == dirId) {
             mView.updateFileList();

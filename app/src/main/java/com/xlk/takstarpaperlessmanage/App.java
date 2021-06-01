@@ -2,21 +2,24 @@ package com.xlk.takstarpaperlessmanage;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.projection.MediaProjection;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ServiceUtils;
 import com.xlk.takstarpaperlessmanage.model.Constant;
-import com.xlk.takstarpaperlessmanage.model.GlobalValue;
-import com.xlk.takstarpaperlessmanage.util.CrashHandler;
 import com.xlk.takstarpaperlessmanage.util.MyRejectedExecutionHandler;
 import com.xlk.takstarpaperlessmanage.util.NamingThreadFactory;
 import com.xlk.takstarpaperlessmanage.view.main.MainActivity;
 import com.xlk.takstarpaperlessmanage.view.service.BackService;
+import com.xlk.takstarpaperlessmanage.view.service.ScreenRecorder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * @author Created by xlk on 2021/4/21.
@@ -33,7 +37,7 @@ import androidx.annotation.Nullable;
  */
 public class App extends Application {
     public static List<Activity> activities = new ArrayList<>();
-    public static boolean isDebug = true;
+    public static boolean isDebug = false;
     public static boolean read2file = false;
     public static Context appContext;
 
@@ -67,6 +71,12 @@ public class App extends Application {
             new NamingThreadFactory("paperless-manage-t"),
             new MyRejectedExecutionHandler()
     );
+    public static MediaProjection mMediaProjection;
+    private ScreenRecorder recorder;
+    public static int screen_width, screen_height, dpi;
+    public static int maxBitRate = 1000 * 1000;
+    public static LocalBroadcastManager lbm;
+    public static int camera_width = 1280, camera_height = 720;
 
     @Override
     public void onCreate() {
@@ -78,12 +88,21 @@ public class App extends Application {
         config.setLog2FileSwitch(true);
         config.setDir(Constant.logcat_dir);
         config.setSaveDays(7);
+        initScreenParam();
+        lbm = LocalBroadcastManager.getInstance(getApplicationContext());
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.ACTION_START_SCREEN_RECORD);
+        filter.addAction(Constant.ACTION_STOP_SCREEN_RECORD);
+        filter.addAction(Constant.ACTION_STOP_SCREEN_RECORD_WHEN_EXIT_APP);
+        lbm.registerReceiver(receiver, filter);
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
                 activities.add(activity);
                 if (activity.getClass().getName().equals(MainActivity.class.getName())) {
-                    ServiceUtils.startService(BackService.class);
+//                    ServiceUtils.startService(BackService.class);
+                    Intent backService = new Intent(activity, BackService.class);
+                    startService(backService);
                 }
                 LogUtils.d("activityLife", "onActivityCreated " + activity + ",Activity数量=" + activities.size() + logAxt());
             }
@@ -125,7 +144,6 @@ public class App extends Application {
         });
     }
 
-
     private String logAxt() {
         StringBuilder sb = new StringBuilder();
         sb.append("打印所有的Activity:\n");
@@ -133,5 +151,69 @@ public class App extends Application {
             sb.append(activity.getCallingPackage()).append("  #  ").append(activity).append("\n");
         }
         return sb.toString();
+    }
+
+    private void initScreenParam() {
+        DisplayMetrics metric = new DisplayMetrics();
+        WindowManager window = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        window.getDefaultDisplay().getMetrics(metric);
+        screen_width = metric.widthPixels;
+        screen_height = metric.heightPixels;
+        dpi = metric.densityDpi;
+        if (dpi > 320) {
+            dpi = 320;
+        }
+        LogUtils.i("initScreenParam : 屏幕大小 width=" + screen_width + ",height=" + screen_height);
+    }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            int type = intent.getIntExtra(Constant.EXTRA_CAPTURE_TYPE, 0);
+            LogUtils.e("onReceive :   --> type= " + type + " , action = " + action);
+            if (action.equals(Constant.ACTION_START_SCREEN_RECORD)) {
+                LogUtils.e("screen_shot --> ");
+                startScreenRecord();
+            } else if (action.equals(Constant.ACTION_STOP_SCREEN_RECORD)) {
+                LogUtils.e("stop_screen_shot --> ");
+                if (stopScreenRecord()) {
+                    LogUtils.i("stopStreamInform: 屏幕录制已停止..");
+                } else {
+                    LogUtils.e("stopStreamInform: 屏幕录制停止失败 ");
+                }
+            } else if (action.equals(Constant.ACTION_STOP_SCREEN_RECORD_WHEN_EXIT_APP)) {
+                LogUtils.i("onReceive 退出APP时停止屏幕录制----");
+                stopScreenRecord();
+            }
+        }
+    };
+
+    private boolean stopScreenRecord() {
+        if (recorder != null) {
+            recorder.quit();
+            recorder = null;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void startScreenRecord() {
+        if (stopScreenRecord()) {
+            LogUtils.i("startScreenRecord: 屏幕录制已停止");
+        } else {
+            if (mMediaProjection == null) {
+                return;
+            }
+            if (recorder != null) {
+                recorder.quit();
+            }
+            if (recorder == null) {
+                recorder = new ScreenRecorder(screen_width, screen_height, maxBitRate, dpi, mMediaProjection, "");
+            }
+            recorder.start();//启动录屏线程
+            LogUtils.i("startScreenRecord: 开启屏幕录制");
+        }
     }
 }

@@ -119,8 +119,10 @@ public class SeatSortPresenter extends BasePresenter<SeatSortContract.View> impl
                     timer = null;
                 }
             };
-            LogUtils.i("500毫秒之后查询");
-            timer.schedule(task, 500);
+            LogUtils.i("800毫秒之后查询");
+            timer.schedule(task, 800);
+        }else {
+            LogUtils.i("正在执行。。。");
         }
     }
 

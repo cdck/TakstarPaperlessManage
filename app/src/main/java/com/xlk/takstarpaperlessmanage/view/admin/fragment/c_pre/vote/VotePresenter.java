@@ -1,4 +1,4 @@
-package com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.vote;
+package com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.vote;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Created by xlk on 2021/5/21.
  * @desc
  */
-class VotePresenter extends BasePresenter<VoteContract.View> implements VoteContract.Presenter {
+public class VotePresenter extends BasePresenter<VoteContract.View> implements VoteContract.Presenter {
     private int vote_type;
     public List<InterfaceVote.pbui_Item_MeetVoteDetailInfo> voteInfos =new ArrayList<>();
 

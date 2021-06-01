@@ -95,7 +95,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="4"
                         android:spinnerMode="dialog"
-                        android:entries="@array/type_spinner"
+                        android:entries="@array/vote_type_spinner"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>

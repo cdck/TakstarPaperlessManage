@@ -131,22 +131,7 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
 
     private void showDeviceManagePop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_room_device_manage, null, false);
-        int dp_10 = ConvertUtils.dp2px(10);
-        int dp_20 = ConvertUtils.dp2px(20);
-        View top_view = getActivity().findViewById(R.id.top_view);
-        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
-        View ll_navigation = getActivity().findViewById(R.id.ll_navigation);
-        int top_viewH = top_view.getHeight();
-        int rv_navigationW = rv_navigation.getWidth();
-        int ll_navigationH = ll_navigation.getHeight();
-        int x = rv_navigationW + dp_10 + dp_10 + dp_10 + dp_10;
-        int y = top_viewH + ll_navigationH + dp_10 + dp_10 + dp_20 + dp_10;
-        View fl_admin = getActivity().findViewById(R.id.fl_admin);
-        int width = fl_admin.getWidth();
-        int height = fl_admin.getHeight();
-        LogUtils.i("showParameterConfigurationPop width=" + width + ",height=" + height + ",dp10=" + dp_10);
-        deviceManagePop = PopUtil.createPopupWindowAt(inflate, width - dp_20 - dp_20 - dp_10, height - dp_20 - dp_20,
-                false, rv_room, Gravity.TOP | Gravity.START, x, y);
+        deviceManagePop = PopUtil.createCoverPopupWindow(inflate, rv_room, popWidth, popHeight, popX, popY);
         RecyclerView rv_room_device = inflate.findViewById(R.id.rv_room_device);
         rv_room_device.setAdapter(roomDevAdapter);
         rv_room_device.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -155,6 +140,14 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
         rv_other_device.setAdapter(otherDevAdapter);
         rv_other_device.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_other_device.addItemDecoration(new RvItemDecoration(getContext()));
+        inflate.findViewById(R.id.btn_add).setOnLongClickListener(v -> {
+            otherDevAdapter.checkAll(true);
+            return true;
+        });
+        inflate.findViewById(R.id.btn_remove).setOnLongClickListener(v -> {
+            roomDevAdapter.checkAll(true);
+            return true;
+        });
         //添加
         inflate.findViewById(R.id.btn_add).setOnClickListener(v -> {
             List<Integer> deviceIds = otherDevAdapter.getSelectedIds();

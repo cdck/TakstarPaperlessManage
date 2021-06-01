@@ -3,14 +3,15 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/fragment_margin"
+    android:padding="@dimen/fragment_root_padding"
+    android:background="@drawable/dialog_bg"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/top_view_marginBottom"
         android:orientation="horizontal">
 
         <Button
@@ -66,7 +67,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/notation"
+            android:text="@string/is_notation"
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_small" />
 

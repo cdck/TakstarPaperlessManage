@@ -1,5 +1,6 @@
 package com.xlk.takstarpaperlessmanage.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -99,6 +100,7 @@ public class DateUtil {
 
     /**
      * 装换成播放时间  10:30:33
+     *
      * @param milliseconds 毫秒
      * @return 10:30:33
      */
@@ -123,5 +125,42 @@ public class DateUtil {
     public static String millisecondsFormat(long milliseconds, String pattern) {
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         return format.format(new Date(milliseconds));
+    }
+
+    /**
+     * 计算时间
+     *
+     * @param seconds 秒数
+     * @return 1小时1分钟1秒
+     */
+    public static String calculateTime(int seconds) {
+        if (seconds <= 0) {
+            return "";
+        }
+        String ret = "";
+        if (seconds < 60) {
+            return seconds + "秒";
+        } else if (seconds < 3600) {
+            if (seconds % 60 != 0) {//不是整分钟数
+                ret += (seconds / 60) + "分" + (seconds % 60) + "秒";
+            } else {
+                ret += (seconds / 60) + "分钟";
+            }
+        } else {
+            ret += (seconds / 3600) + "小时";
+            int balance = seconds % 3600;
+            if (balance != 0) {
+                if (balance < 60) {
+                    ret += balance + "秒";
+                } else {
+                    if (balance % 60 != 0) {
+                        ret += (balance / 60) + "分" + (balance % 60) + "秒";
+                    } else {
+                        ret += (balance / 60) + "分";
+                    }
+                }
+            }
+        }
+        return ret;
     }
 }

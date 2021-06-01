@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_root_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/rv_top_view_bg"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="@string/number"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/name"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/check_in_time"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/check_in_status"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/check_in_type"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_bottom_view_height"
+        android:layout_gravity="center"
+        android:background="@color/content_bg"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_due"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                tools:text="应到：4人" />
+
+            <TextView
+                android:id="@+id/tv_already"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                tools:text="已签到：4人" />
+
+            <TextView
+                android:id="@+id/tv_unchecked"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                tools:text="未签到：4人" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_delete"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/delete_check_in_records" />
+
+        <Button
+            android:id="@+id/btn_export"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/export_pdf" />
+    </LinearLayout>
+
+</LinearLayout>

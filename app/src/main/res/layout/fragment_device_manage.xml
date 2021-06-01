@@ -3,191 +3,183 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/fragment_margin"
-    android:orientation="vertical">
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_root_padding">
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/ll_content"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_margin="10dp"-->
-<!--        android:orientation="vertical">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/top_view_marginBottom"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_modify"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
+            android:text="@string/modify" />
 
-            <Button
-                android:id="@+id/btn_modify"
-                style="@style/button_solid_style_rect_blue_white_radius5"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/top_view_button_marginEnd"
-                android:text="@string/modify" />
+        <Button
+            android:id="@+id/btn_delete"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
+            android:text="@string/delete" />
 
-            <Button
-                android:id="@+id/btn_delete"
-                style="@style/button_solid_style_rect_blue_white_radius5"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/top_view_button_marginEnd"
-                android:text="@string/delete" />
+        <Button
+            android:id="@+id/btn_set_guest_mode"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
+            android:text="@string/set_guest_mode" />
 
-            <Button
-                android:id="@+id/btn_set_guest_mode"
-                style="@style/button_solid_style_rect_blue_white_radius5"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/top_view_button_marginEnd"
-                android:text="@string/set_guest_mode" />
+        <Button
+            android:id="@+id/btn_parameter_configuration"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
+            android:text="@string/parameter_configuration" />
 
-            <Button
-                android:id="@+id/btn_parameter_configuration"
-                style="@style/button_solid_style_rect_blue_white_radius5"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/top_view_button_marginEnd"
-                android:text="@string/parameter_configuration" />
+        <Button
+            android:id="@+id/btn_platform_testing"
+            style="@style/button_solid_style_rect_blue_white_radius5"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/top_view_button_marginEnd"
+            android:text="@string/platform_testing" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_platform_testing"
-                style="@style/button_solid_style_rect_blue_white_radius5"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/top_view_button_marginEnd"
-                android:text="@string/platform_testing" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_view_height"
+        android:background="@color/rv_top_view_bg"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_view_height"
-            android:background="@color/rv_top_view_bg"
-            android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/number"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/number"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/device_id"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/device_id"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/device_name"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:text="@string/device_name"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/device_type"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:text="@string/device_type"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/version_number"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/version_number"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/device_ip"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:text="@string/device_ip"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/device_port"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/device_port"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/guest_mode"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/guest_mode"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/device_status"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/device_status"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/interface_status"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/interface_status"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lift_id"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/lift_id"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/mic_id"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/mic_id"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_device"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-<!--    </LinearLayout>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_device"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

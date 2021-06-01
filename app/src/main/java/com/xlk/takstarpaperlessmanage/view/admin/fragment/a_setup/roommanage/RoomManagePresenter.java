@@ -8,6 +8,7 @@ import com.mogujie.tt.protobuf.InterfaceBase;
 import com.mogujie.tt.protobuf.InterfaceDevice;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceRoom;
+import com.xlk.takstarpaperlessmanage.App;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
 import com.xlk.takstarpaperlessmanage.model.Constant;
@@ -157,10 +158,15 @@ public class RoomManagePresenter extends BasePresenter<RoomManageContract.View> 
                                 //过滤掉会议数据库设备
                                 && !Constant.isThisDevType(InterfaceMacro.Pb_DeviceIDType.Pb_DeviceIDType_MeetDBServer_VALUE, devcieid)
                                 //过滤掉茶水设备
-                                && !Constant.isThisDevType(InterfaceMacro.Pb_DeviceIDType.Pb_DeviceIDType_MeetService_VALUE, devcieid)) {
+                                && !Constant.isThisDevType(InterfaceMacro.Pb_DeviceIDType.Pb_DeviceIDType_MeetService_VALUE, devcieid)
+                                //过滤会议流采集设备
+                                && !Constant.isThisDevType(InterfaceMacro.Pb_DeviceIDType.Pb_DeviceIDType_MeetCapture_VALUE, devcieid)
+                        ) {
                             otherDevices.add(item);
                         } else {
-                            LogUtils.e(TAG, "queryAllDevice 过滤掉的设备：" + item.getDevcieid() + ",name=" + item.getDevname().toStringUtf8());
+                            LogUtils.e("queryAllDevice 过滤掉的设备：" + item.getDevcieid()
+                                    + "，设备类型：" + Constant.getDeviceTypeName(App.appContext, item.getDevcieid())
+                                    + ",name=" + item.getDevname().toStringUtf8());
                         }
                     }
                 }

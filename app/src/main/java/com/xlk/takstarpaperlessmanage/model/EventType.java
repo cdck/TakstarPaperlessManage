@@ -35,9 +35,28 @@ public class EventType {
     /**
      * 座位信息导出成功通知
      */
-    public static final int BUS_EXPORT_SEAT_SUCCESSFUL = BUS_BASE + 16;
+    public static final int BUS_EXPORT_SUCCESSFUL = BUS_BASE + 16;
     /**
      * 桌牌背景图片下载完成
      */
     public static final int BUS_TABLE_CARD_BG = BUS_BASE + 17;
+    /**
+     * 上传评分文件完成通知
+     */
+    public static final int BUS_UPLOAD_SCORE_FILE_FINISH = BUS_BASE + 18;
+    /**
+     * 采集摄像头
+     */
+    public static final int BUS_COLLECT_CAMERA_START = BUS_BASE + 19;
+    /**
+     * 停止采集摄像头
+     */
+    public static final int BUS_COLLECT_CAMERA_STOP = BUS_BASE + 20;
+    /**
+     *
+     */
+    public static final int BUS_ARCHIVE_SHARE_FILE = BUS_BASE + 21;
+    public static final int BUS_ARCHIVE_ANNOTATION_FILE = BUS_BASE + 22;
+    public static final int BUS_ARCHIVE_MEET_DATA_FILE = BUS_BASE + 23;
+    public static final int BUS_ARCHIVE_AGENDA_FILE = BUS_BASE + 24;
 }

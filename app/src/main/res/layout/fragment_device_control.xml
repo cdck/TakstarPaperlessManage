@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/fragment_root_padding"
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/top_view_marginBottom"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_rise"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/rise" />
+
+            <Button
+                android:id="@+id/btn_stop"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/end" />
+
+            <Button
+                android:id="@+id/btn_down"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+
+                android:text="@string/down" />
+
+            <Button
+                android:id="@+id/btn_software_reboot"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/software_reboot" />
+
+            <Button
+                android:id="@+id/btn_reboot"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/reboot" />
+
+            <Button
+                android:id="@+id/btn_shutdown"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/shutdown" />
+
+            <Button
+                android:id="@+id/btn_sign_in"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/assisted_check_in" />
+
+            <Button
+                android:id="@+id/btn_administrator_settings"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/administrator_settings" />
+
+            <Button
+                android:id="@+id/btn_wake_up"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/network_wake_up" />
+
+            <Button
+                android:id="@+id/btn_externally"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/open_the_document_externally" />
+
+            <Button
+                android:id="@+id/btn_broadband_testing"
+                style="@style/small_button_solid_style_rect_blue_white_radius5"
+                android:layout_marginEnd="2dp"
+                android:text="@string/broadband_testing" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:visibility="visible">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="30px"
+                android:background="@drawable/icon_button_blue_bg"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/rv_top_view_bg"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_all"
+            style="@style/checkbox_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/number"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/device_id"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/device_name"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/device_type"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/whether_to_open_the_document_externally"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/device_ip"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/device_status"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/member"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/interface_status"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_small" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.vote;
+package com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.vote;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -184,8 +184,10 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
                     .setSelectcount(answers.size())
                     .addAllText(answers);
             if (isAdd) {
+                builder.setTimeouts(300);
                 jni.createVote(builder.build());
             } else {
+                builder.setTimeouts(item.getTimeouts());
                 builder.setVoteid(item.getVoteid());
                 jni.modifyVote(builder.build());
             }
@@ -275,8 +277,10 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
                     .setSelectcount(answers.size())
                     .addAllText(answers);
             if (isAdd) {
+                builder.setTimeouts(300);
                 jni.createVote(builder.build());
             } else {
+                builder.setTimeouts(item.getTimeouts());
                 builder.setVoteid(item.getVoteid());
                 jni.modifyVote(builder.build());
             }

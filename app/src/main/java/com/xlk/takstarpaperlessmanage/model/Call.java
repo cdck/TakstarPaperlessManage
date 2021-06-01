@@ -1,10 +1,16 @@
 package com.xlk.takstarpaperlessmanage.model;
 
+import android.content.Intent;
 import android.util.Log;
+
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.mogujie.tt.protobuf.InterfaceMacro;
+import com.xlk.takstarpaperlessmanage.App;
+
 import org.greenrobot.eventbus.EventBus;
+
+import static com.xlk.takstarpaperlessmanage.App.lbm;
 
 /**
  * @author Created by xlk on 2021/4/21.
@@ -82,9 +88,9 @@ public class Call {
             {
                 switch (type) {
                     case 2:
-                        return ScreenUtils.getScreenWidth();
+                        return App.screen_width;
                     case 3:
-                        return 0;
+                        return App.camera_width;
                 }
 
             }
@@ -92,9 +98,9 @@ public class Call {
             {
                 switch (type) {
                     case 2:
-                        return ScreenUtils.getScreenHeight();
+                        return App.screen_height;
                     case 3:
-                        return 0;
+                        return App.camera_height;
                 }
 
             }
@@ -102,9 +108,12 @@ public class Call {
             {
                 LogUtils.i("Call", "callback -->" + "通知采集流 type= " + type);
                 if (type == 2) {
-
+                    Intent intent = new Intent();
+                    intent.setAction(Constant.ACTION_START_SCREEN_RECORD);
+                    intent.putExtra(Constant.EXTRA_CAPTURE_TYPE, type);
+                    lbm.sendBroadcast(intent);
                 } else if (type == 3) {
-
+                    EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_COLLECT_CAMERA_START).objects(type).build());
                 }
                 return 0;
             }
@@ -112,8 +121,12 @@ public class Call {
             {
                 LogUtils.i("Call", "callback -->" + "通知停止采集流 type= " + type);
                 if (type == 2) {
+                    Intent intent = new Intent();
+                    intent.setAction(Constant.ACTION_STOP_SCREEN_RECORD);
+                    intent.putExtra(Constant.EXTRA_CAPTURE_TYPE, type);
+                    lbm.sendBroadcast(intent);
                 } else if (type == 3) {
-
+                    EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_COLLECT_CAMERA_STOP).build());
                 }
                 return 0;
             }

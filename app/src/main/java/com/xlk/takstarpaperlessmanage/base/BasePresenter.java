@@ -52,6 +52,23 @@ public abstract class BasePresenter<V extends BaseContract.View> implements Base
         return propertyval;
     }
 
+    public int getCurrentMeetingId() {
+        InterfaceContext.pbui_MeetContextInfo info = jni.queryContextProperty(
+                InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_CURMEETINGID_VALUE);
+        return info != null ? info.getPropertyval() : 0;
+    }
+
+    /**
+     * 查询当前登录的管理员名称
+     */
+    protected String queryCurrentAdminName() {
+        InterfaceContext.pbui_MeetContextInfo info = jni.queryContextProperty(
+                InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_CURADMINNAME_VALUE);
+        String name = info.getPropertytext().toStringUtf8();
+        LogUtils.i(TAG, "queryCurrentAdminName 当前登录的管理员名称=" + name);
+        return name;
+    }
+
     /**
      * 获取当前会议的会场id
      *
@@ -64,6 +81,7 @@ public abstract class BasePresenter<V extends BaseContract.View> implements Base
         LogUtils.i(TAG, "queryCurrentRoomId 当前会议的会场id=" + propertyval);
         return propertyval;
     }
+
     /**
      * EventBus发送的消息交给子类去处理
      *

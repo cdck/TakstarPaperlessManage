@@ -55,6 +55,15 @@ public class PopUtil {
         return createPopupWindowAt(contentView, width, height, true, parent, gravity, x, y);
     }
 
+    /**
+     * 创建一个覆盖fragment内容区域的PopupWindow
+     *
+     * @return PopupWindow
+     */
+    public static PopupWindow createCoverPopupWindow(View contentView, View parent,int width, int height,  int x, int y) {
+        return createPopupWindowAt(contentView, width, height, true, parent, Gravity.START | Gravity.TOP, x, y);
+    }
+
     public static PopupWindow createPopupWindowAt(View contentView, int width, int height, boolean outside, View parent, int gravity, int x, int y) {
         PopupWindow popupWindow = new PopupWindow(contentView, width, height);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());

@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.xlk.takstarpaperlessmanage"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -76,6 +76,8 @@ dependencies {
     implementation files('libs/jxl.jar')
     implementation files('libs/iTextpdf.jar')
 
+    //在androidx中 1.1.0-alpha01版本 localbroadcastmanager已经被弃用了
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     //https://github.com/greenrobot/EventBus
     implementation 'org.greenrobot:eventbus:3.2.0'
     //权限申请框架：https://github.com/getActivity/XXPermissions
