@@ -13,7 +13,7 @@
     <!--  item布局的高度  -->
     <dimen name="item_view_height">30dp</dimen>
     <!--  悬浮窗顶部栏高度  -->
-    <dimen name="pop_top_view_height">40dp</dimen>
+    <dimen name="pop_top_view_height">30dp</dimen>
     <!--  悬浮窗底部栏高度  -->
     <dimen name="pop_bottom_view_height">40dp</dimen>
     <!--  fragment 按钮间隔大小  -->

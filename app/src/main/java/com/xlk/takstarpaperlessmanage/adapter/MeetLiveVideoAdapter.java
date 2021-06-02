@@ -25,7 +25,7 @@ public class MeetLiveVideoAdapter extends BaseQuickAdapter<VideoDevice, BaseView
     private int selectId;
     private VideoDevice selectedItem;
 
-    public MeetLiveVideoAdapter( @Nullable List<VideoDevice> data) {
+    public MeetLiveVideoAdapter(@Nullable List<VideoDevice> data) {
         super(R.layout.item_meet_video, data);
     }
 
@@ -65,7 +65,9 @@ public class MeetLiveVideoAdapter extends BaseQuickAdapter<VideoDevice, BaseView
         for (int i = 0; i < getData().size(); i++) {
             InterfaceVideo.pbui_Item_MeetVideoDetailInfo videoDetailInfo = getData().get(i).getVideoDetailInfo();
             if (videoDetailInfo.getDeviceid() == selectDevId && videoDetailInfo.getId() == selectId) {
-                has = true;
+                if (getData().get(i).getDeviceDetailInfo().getNetstate() == 1) {
+                    has = true;
+                }
             }
         }
         if (!has) {

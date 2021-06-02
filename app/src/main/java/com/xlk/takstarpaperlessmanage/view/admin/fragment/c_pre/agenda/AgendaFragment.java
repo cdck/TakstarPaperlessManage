@@ -47,6 +47,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -246,22 +247,28 @@ public class AgendaFragment extends BaseFragment<AgendaPresenter> implements Age
             case R.id.cb_file: {
                 boolean checked = cbFile.isChecked();
                 cbFile.setChecked(checked);
-                cbAgendaPreparation.setChecked(!checked);
-                cbTimelineAgenda.setChecked(!checked);
+                if (checked) {
+                    cbAgendaPreparation.setChecked(!checked);
+                    cbTimelineAgenda.setChecked(!checked);
+                }
                 break;
             }
             case R.id.cb_agenda_preparation: {
                 boolean checked = cbAgendaPreparation.isChecked();
                 cbAgendaPreparation.setChecked(checked);
-                cbFile.setChecked(!checked);
-                cbTimelineAgenda.setChecked(!checked);
+                if (checked) {
+                    cbFile.setChecked(!checked);
+                    cbTimelineAgenda.setChecked(!checked);
+                }
                 break;
             }
             case R.id.cb_timeline_agenda: {
                 boolean checked = cbTimelineAgenda.isChecked();
                 cbTimelineAgenda.setChecked(checked);
-                cbFile.setChecked(!checked);
-                cbAgendaPreparation.setChecked(!checked);
+                if (checked) {
+                    cbFile.setChecked(!checked);
+                    cbAgendaPreparation.setChecked(!checked);
+                }
                 break;
             }
             case R.id.btn_choose_file: {
@@ -301,13 +308,15 @@ public class AgendaFragment extends BaseFragment<AgendaPresenter> implements Age
                         return;
                     }
                     jni.modifyTextAgenda(content);
-                } else {
+                } else if (cbTimelineAgenda.isChecked()) {
                     //时间轴式议程
                     if (presenter.agendas.isEmpty()) {
                         ToastUtils.showShort(R.string.please_add_agenda_first);
                         return;
                     }
                     jni.modifyTimelineAgenda(presenter.agendas);
+                } else {
+                    ToastUtils.showShort(R.string.please_choose_agenda_first);
                 }
                 break;
             }

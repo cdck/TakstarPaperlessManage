@@ -632,4 +632,7 @@
     <string name="user_name_and_pwd_can_not_empty">用户名和密码必须填写</string>
     <string name="switch_meeting">切换到该会议编辑</string>
     <string name="please_choose_meeting_first">请先选择会议</string>
+    <string name="enable_recording">启用录制</string>
+    <string name="operating_tips">操作提示</string>
+    <string name="enable_recording_tip">该功能需要流服务器开启录制功能！</string>
 </resources>

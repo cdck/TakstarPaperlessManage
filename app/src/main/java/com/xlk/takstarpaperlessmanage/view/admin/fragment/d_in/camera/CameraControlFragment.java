@@ -1,5 +1,6 @@
 package com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.camera;
 
+import android.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.mogujie.tt.protobuf.InterfaceDevice;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceVideo;
 import com.xlk.takstarpaperlessmanage.R;
@@ -36,7 +38,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
  * @author Created by xlk on 2021/5/25.
- * @desc
+ * @desc 会中管理-摄像头控制
  */
 public class CameraControlFragment extends BaseFragment<CameraControlPresenter> implements CameraControlContract.View, ViewClickListener {
 
@@ -48,6 +50,7 @@ public class CameraControlFragment extends BaseFragment<CameraControlPresenter> 
     private int width, height;
     private List<Integer> screenDeviceIds;
     private List<Integer> proDeviceIds;
+    private CheckBox cb_enable_recording;
 
     @Override
     protected int getLayoutId() {
@@ -57,6 +60,26 @@ public class CameraControlFragment extends BaseFragment<CameraControlPresenter> 
     @Override
     protected void initView(View inflate) {
         rv_video_list = inflate.findViewById(R.id.rv_video_list);
+        cb_enable_recording = inflate.findViewById(R.id.cb_enable_recording);
+        cb_enable_recording.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.operating_tips)
+                        .setMessage(R.string.enable_recording_tip)
+                        .setPositiveButton(R.string.define, (dialog, which) -> {
+                            jni.modifyContextProperties(InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_STREAMSAVE_VALUE, 1);
+                            cb_enable_recording.setChecked(true);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                            cb_enable_recording.setChecked(false);
+                            dialog.dismiss();
+                        })
+                        .create().show();
+            } else {
+                jni.modifyContextProperties(InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_STREAMSAVE_VALUE, 0);
+            }
+        });
         customVideoView = (CustomVideoView) inflate.findViewById(R.id.custom_video_view);
         customVideoView.setViewClickListener(this);
         inflate.findViewById(R.id.btn_play).setOnClickListener(v -> {
@@ -280,6 +303,11 @@ public class CameraControlFragment extends BaseFragment<CameraControlPresenter> 
     }
 
     @Override
+    protected void onShow() {
+
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) stop();
@@ -308,12 +336,13 @@ public class CameraControlFragment extends BaseFragment<CameraControlPresenter> 
         if (meetLiveVideoAdapter == null) {
             meetLiveVideoAdapter = new MeetLiveVideoAdapter(videoDevs);
             rv_video_list.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv_video_list.addItemDecoration(new RvItemDecoration(getContext()));
             rv_video_list.setAdapter(meetLiveVideoAdapter);
-            meetLiveVideoAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    VideoDevice videoDevice = videoDevs.get(position);
-                    InterfaceVideo.pbui_Item_MeetVideoDetailInfo videoDetailInfo = videoDevice.getVideoDetailInfo();
+            meetLiveVideoAdapter.setOnItemClickListener((adapter, view, position) -> {
+                VideoDevice videoDevice = videoDevs.get(position);
+                InterfaceVideo.pbui_Item_MeetVideoDetailInfo videoDetailInfo = videoDevice.getVideoDetailInfo();
+                InterfaceDevice.pbui_Item_DeviceDetailInfo deviceDetailInfo = videoDevice.getDeviceDetailInfo();
+                if (deviceDetailInfo.getNetstate() == 1) {
                     meetLiveVideoAdapter.setSelected(videoDetailInfo.getDeviceid(), videoDetailInfo.getId());
                 }
             });
