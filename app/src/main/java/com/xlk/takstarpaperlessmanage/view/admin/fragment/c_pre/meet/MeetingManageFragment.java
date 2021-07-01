@@ -199,6 +199,7 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
                     return;
                 }
             }
+            int signInTypeIndex = sp_sign_in_type.getSelectedItemPosition();
             InterfaceMeet.pbui_Item_MeetMeetInfo.Builder builder = InterfaceMeet.pbui_Item_MeetMeetInfo.newBuilder();
             builder.setId(info.getId());
             builder.setName(s2b(meetingName));
@@ -207,10 +208,15 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
             builder.setSecrecy(sp_confidentiality.getSelectedItemPosition());
             builder.setStartTime(currentStartTime);
             builder.setEndTime(currentEndTime);
-            builder.setSigninType(sp_sign_in_type.getSelectedItemPosition());
+            builder.setSigninType(signInTypeIndex);
             builder.setManagerid(info.getManagerid());
-            if (!pwd.isEmpty()) {
-                builder.setOnepswSignin(s2b(pwd));
+            if (signInTypeIndex == 3 || signInTypeIndex == 4) {
+                if (!pwd.isEmpty()) {
+                    builder.setOnepswSignin(s2b(pwd));
+                } else {
+                    ToastUtil.showShort(R.string.please_enter_meeting_password_first);
+                    return;
+                }
             }
             builder.setStatus(info.getStatus());
             builder.setOrdername(s2b(orderName));

@@ -15,6 +15,8 @@ interface RateContract {
         void updateScoreSubmitMemberList();
 
         void addFile2List(String filePath, int mediaId);
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
 

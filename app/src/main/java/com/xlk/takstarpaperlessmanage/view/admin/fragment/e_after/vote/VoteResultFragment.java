@@ -101,7 +101,6 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
                             if (votestate != InterfaceMacro.Pb_MeetVoteStatus.Pb_vote_notvote_VALUE) {
                                 presenter.querySubmittedVoters(item, 2);
                                 exportVoteSubmitMember(item);
-
                             } else {
                                 ToastUtils.showShort(R.string.cannot_view_notvote);
                             }

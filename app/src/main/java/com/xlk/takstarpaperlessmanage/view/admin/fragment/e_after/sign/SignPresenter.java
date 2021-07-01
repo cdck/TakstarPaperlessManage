@@ -8,7 +8,9 @@ import com.mogujie.tt.protobuf.InterfaceMember;
 import com.mogujie.tt.protobuf.InterfaceRoom;
 import com.mogujie.tt.protobuf.InterfaceSignin;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
+import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.PdfSignBean;
 import com.xlk.takstarpaperlessmanage.model.bean.SignInBean;
 
@@ -32,6 +34,14 @@ class SignPresenter extends BasePresenter<SignContract.View> implements SignCont
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            case EventType.RESULT_DIR_PATH:{
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if(dirType== Constant.CHOOSE_DIR_TYPE_EXPORT_SIGN_IN_PDF){
+                    mView.updateExportDirPath(dirPath);
+                }
+                break;
+            }
             //参会人员变更通知
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEMBER_VALUE:
                 LogUtils.i(TAG, "busEvent 参会人员变更通知");

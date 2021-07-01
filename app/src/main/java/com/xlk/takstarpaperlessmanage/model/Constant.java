@@ -32,6 +32,36 @@ public class Constant {
 
 
     /**
+     * 导出常用参会人时选取目录
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_OFTEN_MEMBER = 1;
+    /**
+     * 导出投票信息文件目录
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_VOTE = 2;
+    /**
+     * 导出所有的文件评分
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_SCORE = 3;
+    /**
+     * 导出绑定座位
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_BIND_SEAT = 4;
+    /**
+     * 导出参会人员
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_MEMBER = 5;
+    /**
+     * 导出签到信息PDF
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_SIGN_IN_PDF = 6;
+    /**
+     * 导出评分详情
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_SOCRE_RESULT = 7;
+
+
+    /**
      * 发送广播时的action和extra
      */
     public static final String ACTION_START_SCREEN_RECORD = "action_start_screen_record";

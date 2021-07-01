@@ -104,25 +104,22 @@ public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresent
             rv_user.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_user.addItemDecoration(new RvItemDecoration(getContext()));
             rv_user.setAdapter(adminAdapter);
-            adminAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                    InterfaceAdmin.pbui_Item_AdminDetailInfo item = presenter.adminInfos.get(position);
-                    switch (view.getId()) {
-                        case R.id.tv_permission_management: {
-                            presenter.setCurrentAdminId(item.getAdminid());
-                            presenter.queryRoomsByAdminId(item.getAdminid());
-                            showRoomManagePop();
-                            break;
-                        }
-                        case R.id.tv_modify: {
-                            showAddorModifyPop(item);
-                            break;
-                        }
-                        case R.id.tv_delete: {
-                            showDeletePop(item);
-                            break;
-                        }
+            adminAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+                InterfaceAdmin.pbui_Item_AdminDetailInfo item = presenter.adminInfos.get(position);
+                switch (view.getId()) {
+                    case R.id.tv_permission_management: {
+                        presenter.setCurrentAdminId(item.getAdminid());
+                        presenter.queryRoomsByAdminId(item.getAdminid());
+                        showRoomManagePop();
+                        break;
+                    }
+                    case R.id.tv_modify: {
+                        showAddorModifyPop(item);
+                        break;
+                    }
+                    case R.id.tv_delete: {
+                        showDeletePop(item);
+                        break;
                     }
                 }
             });

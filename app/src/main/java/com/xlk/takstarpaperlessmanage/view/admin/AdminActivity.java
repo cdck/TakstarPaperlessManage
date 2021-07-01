@@ -1,5 +1,7 @@
 package com.xlk.takstarpaperlessmanage.view.admin;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseActivity;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.GlobalValue;
+import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.attendee.AttendeeFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.devicemanage.DeviceManageFragment;
 import com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.other.OtherFragment;
@@ -61,6 +64,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AdminActivity extends BaseActivity<AdminPresenter> implements AdminContract.View {
+    private TextView tv_temp_use;
     private TextView tv_time, tv_date, tv_online, tv_navigation_parent, tv_navigation_child;
     private RecyclerView rv_navigation;
     private FrameLayout fl_admin;
@@ -115,6 +119,8 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
     @Override
     public void initView() {
         rv_navigation = findViewById(R.id.rv_navigation);
+        tv_temp_use = findViewById(R.id.tv_temp_use);
+        tv_temp_use.setText(String.valueOf(GlobalValue.localDeviceId));
         fl_admin = findViewById(R.id.fl_admin);
         tv_time = findViewById(R.id.tv_time);
         tv_date = findViewById(R.id.tv_date);
@@ -139,8 +145,15 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
     }
 
     private void exitAdmin() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.exit_application_tip)
+                .setPositiveButton(R.string.define, (dialog, which) -> {
+                    dialog.dismiss();
+                    finish();
+                    System.exit(0);
+                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .create().show();
     }
 
     @Override

@@ -33,7 +33,7 @@ public class EventType {
      */
     public static final int BUS_PREVIEW_IMAGE = BUS_BASE + 15;
     /**
-     * 座位信息导出成功通知
+     * 导出xls文件成功通知
      */
     public static final int BUS_EXPORT_SUCCESSFUL = BUS_BASE + 16;
     /**
@@ -59,4 +59,17 @@ public class EventType {
     public static final int BUS_ARCHIVE_ANNOTATION_FILE = BUS_BASE + 22;
     public static final int BUS_ARCHIVE_MEET_DATA_FILE = BUS_BASE + 23;
     public static final int BUS_ARCHIVE_AGENDA_FILE = BUS_BASE + 24;
+    /**
+     * 归档参会人信息成功通知
+     */
+    public static final int BUS_ARCHIVE_MEMBER = BUS_BASE + 25;
+
+    /**
+     * 通知打开选择目录PopupWindow
+     */
+    public static final int CHOOSE_DIR_PATH = BUS_BASE + 28;
+    /**
+     * 返回选择的目录
+     */
+    public static final int RESULT_DIR_PATH = BUS_BASE + 29;
 }

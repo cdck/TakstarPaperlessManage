@@ -15,6 +15,7 @@ import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 import com.xlk.takstarpaperlessmanage.util.CodecUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,9 @@ import java.util.Objects;
  * @desc
  */
 public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
+
+    private List<InterfaceAdmin.pbui_Item_AdminDetailInfo> admins=new ArrayList<>();
+
     public MainPresenter(MainContract.View view) {
         super(view);
     }
@@ -104,7 +108,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     }
                 }
                 break;
-            }
+            }/*
             //数据后台回复的错误信息
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DBSERVERERROR_VALUE: {
                 byte[] bytes = (byte[]) msg.getObjects()[0];
@@ -116,11 +120,11 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     LogUtils.e(TAG, "数据后台回复的错误信息 type=" + type + ",method=" + method + ",status=" + status);
                     if (type == 8 && method == 10) {
                         //管理员登录
-//                        mView.updateLoginStatus(status);
+                        mView.updateLoginStatus(status);
                     }
                 }
                 break;
-            }
+            }*/
             //管理员登录返回
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ADMIN_VALUE: {
                 if (msg.getMethod() == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_LOGON_VALUE) {
@@ -130,6 +134,9 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     if (info != null) {
                         mView.loginBack(info);
                     }
+                }else if(msg.getMethod()==InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_NOTIFY_VALUE){
+                    LogUtils.i("管理员变更通知");
+                    queryAdmin();
                 }
                 break;
             }
@@ -152,6 +159,30 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
         }
         jni.InitAndCapture(0, 2);
         jni.InitAndCapture(0, 3);
+        queryAdmin();
+    }
+
+    private void queryAdmin() {
+        InterfaceAdmin.pbui_TypeAdminDetailInfo info = jni.queryAdmin();
+        admins.clear();
+        if (info != null) {
+            admins.addAll(info.getItemList());
+        }
+    }
+
+    /**
+     * 判断登陆的用户名是否存在
+     * @param name 用户名
+     * @return
+     */
+    public boolean isHasAdminName(String name){
+        for (int i = 0; i < admins.size(); i++) {
+            InterfaceAdmin.pbui_Item_AdminDetailInfo admin = admins.get(i);
+            if(admin.getAdminname().toStringUtf8().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void initializationResult(int code) {

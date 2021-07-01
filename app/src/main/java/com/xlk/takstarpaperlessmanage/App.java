@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ServiceUtils;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.util.CrashHandler;
 import com.xlk.takstarpaperlessmanage.util.MyRejectedExecutionHandler;
 import com.xlk.takstarpaperlessmanage.util.NamingThreadFactory;
 import com.xlk.takstarpaperlessmanage.view.main.MainActivity;
@@ -83,7 +84,7 @@ public class App extends Application {
         super.onCreate();
         appContext = this;
         CrashUtils.init(Constant.crash_dir);
-//        CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
         LogUtils.Config config = LogUtils.getConfig();
         config.setLog2FileSwitch(true);
         config.setDir(Constant.logcat_dir);
@@ -139,6 +140,9 @@ public class App extends Application {
             @Override
             public void onActivityDestroyed(@NonNull Activity activity) {
                 activities.remove(activity);
+                if(activities.isEmpty()){
+                    System.exit(0);
+                }
                 LogUtils.e("activityLife", "onActivityDestroyed " + activity + ",Activity数量=" + activities.size() + logAxt());
             }
         });

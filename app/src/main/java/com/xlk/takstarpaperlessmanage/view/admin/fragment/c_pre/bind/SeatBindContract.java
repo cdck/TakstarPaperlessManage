@@ -13,6 +13,8 @@ interface SeatBindContract {
         void updateSeatDataList();
 
         void updateRoomBg(String filePath, int mediaId);
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void queryMember();

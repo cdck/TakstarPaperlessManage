@@ -9,10 +9,11 @@ import com.xlk.takstarpaperlessmanage.base.BaseContract;
 public interface AttendeeContract {
     interface View extends BaseContract.View{
         void updateAttendeeList();
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void queryAttendee();
 
-        void exportAttendee();
     }
 }

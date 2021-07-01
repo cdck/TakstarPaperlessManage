@@ -1,8 +1,11 @@
 package com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.sign;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.FileUtils;
@@ -39,6 +42,8 @@ import com.xlk.takstarpaperlessmanage.model.bean.PdfSignBean;
 import com.xlk.takstarpaperlessmanage.model.bean.SignInBean;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.DateUtil;
+import com.xlk.takstarpaperlessmanage.util.JxlUtil;
+import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,6 +68,7 @@ public class SignFragment extends BaseFragment<SignPresenter> implements SignCon
     private TextView tvAlready;
     private TextView tvUnchecked;
     private SignInAdapter signInAdapter;
+    private EditText edt_save_address;
 
     @Override
     protected int getLayoutId() {
@@ -85,11 +91,47 @@ public class SignFragment extends BaseFragment<SignPresenter> implements SignCon
             presenter.deleteSignIn(checkIds);
         });
         inflate.findViewById(R.id.btn_export).setOnClickListener(v -> {
-            exportPdf(presenter.getPdfData());
+            showExportFilePop();
         });
     }
 
-    private void exportPdf(PdfSignBean pdfSignBean) {
+    private void showExportFilePop() {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, rvContent);
+        EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        edt_save_address = inflate.findViewById(R.id.edt_save_address);
+        edt_save_address.setKeyListener(null);
+        TextView tv_suffix = inflate.findViewById(R.id.tv_suffix);
+        tv_suffix.setText(".pdf");
+        inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
+            String currentDirPath = edt_save_address.getText().toString().trim();
+            if (currentDirPath.isEmpty()) {
+                currentDirPath = Constant.root_dir;
+            }
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_EXPORT_SIGN_IN_PDF, currentDirPath).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String fileName = edt_file_name.getText().toString().trim();
+            String addr = edt_save_address.getText().toString().trim();
+            if (fileName.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
+                return;
+            }
+            exportPdf(fileName, addr, presenter.getPdfData());
+            pop.dismiss();
+        });
+    }
+
+    @Override
+    public void updateExportDirPath(String dirPath) {
+        if (edt_save_address != null) {
+            edt_save_address.setText(dirPath);
+        }
+    }
+
+    private void exportPdf(String fileName, String dirPath, PdfSignBean pdfSignBean) {
         App.threadPool.execute(() -> {
             try {
                 long l = System.currentTimeMillis();
@@ -110,7 +152,7 @@ public class SignFragment extends BaseFragment<SignPresenter> implements SignCon
 //                }
 
                 Document document = new Document(PageSize.A4);
-                PdfWriter.getInstance(document, new FileOutputStream(Constant.export_dir + "签到信息.pdf"));
+                PdfWriter.getInstance(document, new FileOutputStream(dirPath + "/" + fileName + ".pdf"));
                 document.open();
                 BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
                 Font boldFont14 = new Font(bfChinese, 14, Font.NORMAL);
@@ -195,10 +237,7 @@ public class SignFragment extends BaseFragment<SignPresenter> implements SignCon
                 document.add(pdfPTable);
                 document.close();
                 LogUtils.i(TAG, "exportPdf 用时=" + (System.currentTimeMillis() - l));
-                EventBus.getDefault().post(new EventMessage.Builder()
-                        .type(EventType.BUS_EXPORT_SUCCESSFUL)
-                        .objects("Constant.export_dir" + "签到信息.pdf")
-                        .build());
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(dirPath + "/" + fileName + ".pdf").build());
             } catch (DocumentException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {

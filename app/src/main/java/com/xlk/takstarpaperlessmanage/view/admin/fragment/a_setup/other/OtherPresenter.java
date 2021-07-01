@@ -287,7 +287,7 @@ public class OtherPresenter extends BasePresenter<OtherContract.View> implements
 
     @Override
     public void queryWebUrl() {
-        InterfaceBase.pbui_meetUrl info = jni.queryWebUrl();
+        InterfaceBase.pbui_meetUrl info = jni.queryUrl();
         allUrls.clear();
         if (info != null) {
             int isetdefault = info.getIsetdefault();

@@ -38,8 +38,10 @@
 
         <ScrollView
             android:layout_width="match_parent"
+            android:padding="10dp"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,16 +50,16 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
+                        
                         android:gravity="end"
                         android:text="@string/meeting_name_" />
 
@@ -74,16 +76,15 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:gravity="end"
                         android:text="@string/meeting_room_" />
 
@@ -96,16 +97,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
+                        
                         android:gravity="end"
                         android:text="@string/confidentiality_" />
 
@@ -119,16 +120,15 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:gravity="end"
                         android:text="@string/start_time_" />
 
@@ -145,16 +145,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
+                        
                         android:gravity="end"
                         android:text="@string/end_time_" />
 
@@ -171,16 +171,15 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:gravity="end"
                         android:text="@string/sign_in_type_" />
 
@@ -232,16 +231,15 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:gravity="end"
                         android:text="@string/reservation_" />
 

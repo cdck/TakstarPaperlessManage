@@ -19,6 +19,8 @@ interface MemberContract {
         void updateMemberPermissionList();
 
         void updateMemberRoleList();
+
+        void updateExportDirPath(String dirPath);
     }
 
     interface Presenter extends BaseContract.Presenter {

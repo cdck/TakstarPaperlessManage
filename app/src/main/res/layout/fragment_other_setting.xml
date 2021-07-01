@@ -59,7 +59,7 @@
                 style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/submit" />
+                android:text="@string/modify" />
         </LinearLayout>
 
         <LinearLayout

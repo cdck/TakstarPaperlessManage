@@ -289,6 +289,13 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            case EventType.BUS_ARCHIVE_MEMBER:{
+                archiveInforms.add(new ArchiveInform("参会人员信息导出完成", "100%"));
+                mView.updateArchiveInform(archiveInforms);
+                removeTask("归档参会人信息");
+                mView.updateAttendeeInformation("完成");
+                break;
+            }
             case EventType.BUS_ARCHIVE_AGENDA_FILE: {
                 String filePath = (String) msg.getObjects()[0];
                 int mediaId = (int) msg.getObjects()[1];
@@ -604,13 +611,7 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
         mView.updateAttendeeInformation("正在导出");
         long l = System.currentTimeMillis();
         addTask("归档参会人信息");
-        if (JxlUtil.exportMemberInfo(devSeatInfos)) {
-            LogUtils.i(TAG, "归档参会人信息 用时=" + (System.currentTimeMillis() - l));
-            archiveInforms.add(new ArchiveInform("参会人员信息导出完成", "100%"));
-            mView.updateArchiveInform(archiveInforms);
-            removeTask("归档参会人信息");
-        }
-        mView.updateAttendeeInformation("完成");
+        JxlUtil.exportMemberInfo("归档参会人信息", Constant.DIR_ARCHIVE_TEMP, devSeatInfos);
     }
 
     /**

@@ -140,7 +140,6 @@
                         android:layout_gravity="center"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:inputType="phone"
                         android:textSize="@dimen/text_size_small"
                         tools:text="多少考虑就风口浪尖" />
 
@@ -173,7 +172,6 @@
                         android:layout_gravity="center"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:inputType="phone"
                         android:textSize="@dimen/text_size_small"
                         tools:text="多少考虑就风口浪尖" />
 
@@ -207,7 +205,6 @@
                         android:layout_gravity="center"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:inputType="phone"
                         android:textSize="@dimen/text_size_small"
                         tools:text="多少考虑就风口浪尖" />
 
@@ -241,7 +238,6 @@
                         android:layout_gravity="center"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:inputType="phone"
                         android:textSize="@dimen/text_size_small"
                         tools:text="多少考虑就风口浪尖" />
 

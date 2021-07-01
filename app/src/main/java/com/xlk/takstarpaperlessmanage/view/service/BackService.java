@@ -72,7 +72,21 @@ public class BackService extends Service {
         switch (msg.getType()) {
             case EventType.BUS_EXPORT_SUCCESSFUL: {
                 String filePath = (String) msg.getObjects()[0];
-                ToastUtil.showLong(getString(R.string.export_successful_, filePath));
+                File file = new File(filePath);
+                if ("归档参会人信息.xls".equals(file.getName())) {
+                    EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEMBER).build());
+                }else {
+                    ToastUtil.showLong(getString(R.string.export_successful_, filePath));
+                }
+                break;
+            }
+            //数据后台回复的错误信息
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DBSERVERERROR_VALUE: {
+                byte[] bytes = (byte[]) msg.getObjects()[0];
+                InterfaceBase.pbui_Type_MeetDBServerOperError info = InterfaceBase.pbui_Type_MeetDBServerOperError.parseFrom(bytes);
+                if (info != null) {
+                    resultStatus(info);
+                }
                 break;
             }
             //平台下载
@@ -105,6 +119,54 @@ public class BackService extends Service {
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_STREAMPLAY_VALUE: {
                 LogUtils.i("onBusEvent 流播放通知");
                 streamPlayInform(msg);
+                break;
+            }
+        }
+    }
+
+    private void resultStatus(InterfaceBase.pbui_Type_MeetDBServerOperError info) {
+
+        int type = info.getType();
+        int method = info.getMethod();
+        int status = info.getStatus();
+        LogUtils.e("数据后台回复的错误信息 type=" + type + ",method=" + method + ",status=" + status);
+        if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_DONE_VALUE){
+            ToastUtil.showShort(R.string.successful_operation);
+            return;
+        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_EXCPT_DB_VALUE){
+            ToastUtil.showShort(R.string.db_error_5);
+            return;
+        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_EXCPT_SV_VALUE){
+            ToastUtil.showShort(R.string.db_error_6);
+            return;
+        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_ACCESSDENIED_VALUE){
+            ToastUtil.showShort(R.string.db_error_7);
+            return;
+        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_PSWFAILED_VALUE){
+            ToastUtil.showShort(R.string.db_error_8);
+            return;
+        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_PROTOLDISMATCH_VALUE){
+            ToastUtil.showShort(R.string.db_error_12);
+            return;
+        }
+        switch (type){
+            //管理员相关
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ADMIN_VALUE:{
+                if(method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_LOGON_VALUE){
+                    switch (status){
+                        case InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_FAIL_VALUE:{
+                            ToastUtils.showShort(R.string.wrong_password);
+                            break;
+                        }
+                    }
+                }else if(method==InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE){
+                    switch (status){
+                        case InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_ACCESSDENIED_VALUE:{
+                            ToastUtils.showShort(R.string.no_permission);
+                            break;
+                        }
+                    }
+                }
                 break;
             }
         }
@@ -224,7 +286,7 @@ public class BackService extends Service {
                 //上传会议发布文件完毕
 //                EventBus.getDefault().post(new EventMessage.Builder().type(Constant.BUS_UPLOAD_RELEASE_FILE_FINISH).build());
             } else if (userStr.equals(Constant.UPLOAD_SCORE_FILE)) {
-                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_UPLOAD_SCORE_FILE_FINISH).objects(filePath,mediaId).build());
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_UPLOAD_SCORE_FILE_FINISH).objects(filePath, mediaId).build());
             }
             ToastUtils.showShort(getString(R.string.upload_completed, fileName));
             LogUtils.i("uploadInform -->" + fileName + " 上传完毕");
@@ -233,7 +295,7 @@ public class BackService extends Service {
         } else if (status == InterfaceMacro.Pb_Upload_State.Pb_UPLOADMEDIA_FLAG_ISBEING_VALUE) {
             LogUtils.i("uploadInform -->" + filePath + " 已经存在");
             if (userStr.equals(Constant.UPLOAD_SCORE_FILE)) {
-                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_UPLOAD_SCORE_FILE_FINISH).objects(filePath,mediaId).build());
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_UPLOAD_SCORE_FILE_FINISH).objects(filePath, mediaId).build());
             }
         }
     }
@@ -321,17 +383,17 @@ public class BackService extends Service {
 //                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_MATERIAL_FILE).objects(filepath, mediaid).build());
 //                        break;
                     //归档共享文件下载完成
-                    case Constant.ARCHIVE_SHARE_FILE:{
+                    case Constant.ARCHIVE_SHARE_FILE: {
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_SHARE_FILE).objects(filepath, mediaid).build());
                         break;
                     }
                     //归档批注文件下载完成
-                    case Constant.ARCHIVE_ANNOTATION_FILE:{
+                    case Constant.ARCHIVE_ANNOTATION_FILE: {
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_ANNOTATION_FILE).objects(filepath, mediaid).build());
                         break;
                     }
                     //归档会议资料文件下载完成
-                    case Constant.ARCHIVE_MEET_DATA_FILE:{
+                    case Constant.ARCHIVE_MEET_DATA_FILE: {
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEET_DATA_FILE).objects(filepath, mediaid).build());
                         break;
                     }

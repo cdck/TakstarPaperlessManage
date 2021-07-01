@@ -977,6 +977,18 @@ public class JniHelper {
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETDIRECTORY_VALUE,
                 InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_MODIFY_VALUE, build.toByteArray());
     }
+    /**
+     * 新建会议目录
+     *
+     * @param item
+     */
+    public void addMeetDir(InterfaceFile.pbui_Item_MeetDirDetailInfo item) {
+        InterfaceFile.pbui_Type_MeetDirDetailInfo build = InterfaceFile.pbui_Type_MeetDirDetailInfo.newBuilder()
+                .addItem(item)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETDIRECTORY_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE, build.toByteArray());
+    }
 
     /**
      * 删除会议目录
@@ -1219,7 +1231,7 @@ public class JniHelper {
     /**
      * 网页查询
      */
-    public InterfaceBase.pbui_meetUrl queryWebUrl() {
+    public InterfaceBase.pbui_meetUrl queryUrl() {
         byte[] array = jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEFAULTURL.getNumber(), InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_QUERY.getNumber(), null);
         if (array != null) {
             try {
@@ -1231,6 +1243,51 @@ public class JniHelper {
         }
         LogUtil.e(TAG, "queryWebUrl  网页查询 --->>> 失败");
         return null;
+    }
+
+    /**
+     * isetdefault=1表示修改系统全局的 =0表示修改当前会议的
+     *
+     * @param item
+     */
+    public void addUrl(InterfaceBase.pbui_Item_UrlDetailInfo item) {
+        addUrl(0,item);
+    }
+    public void addUrl(int type,InterfaceBase.pbui_Item_UrlDetailInfo item) {
+        LogUtil.i(TAG, "addUrl id=" + item.getId() + ",名称=" + item.getName().toStringUtf8() + ",地址=" + item.getAddr().toStringUtf8());
+        InterfaceBase.pbui_meetUrl build = InterfaceBase.pbui_meetUrl.newBuilder()
+                .setIsetdefault(type)
+                .addItem(item)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEFAULTURL_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE, build.toByteArray());
+    }
+
+    public void modifyUrl(int type,InterfaceBase.pbui_Item_UrlDetailInfo item) {
+        LogUtil.i(TAG, "modifyUrl id=" + item.getId() + ",名称=" + item.getName().toStringUtf8() + ",地址=" + item.getAddr().toStringUtf8());
+        InterfaceBase.pbui_meetUrl build = InterfaceBase.pbui_meetUrl.newBuilder()
+                .setIsetdefault(type)
+                .addItem(item)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEFAULTURL_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_MODIFY_VALUE, build.toByteArray());
+    }
+
+    public void modifyUrl(InterfaceBase.pbui_Item_UrlDetailInfo item) {
+        modifyUrl(0,item);
+    }
+
+    public void delUrl(InterfaceBase.pbui_Item_UrlDetailInfo item) {
+        delUrl(0,item);
+    }
+    public void delUrl(int type,InterfaceBase.pbui_Item_UrlDetailInfo item) {
+        LogUtil.i(TAG, "delUrl id=" + item.getId() + ",名称=" + item.getName().toStringUtf8() + ",地址=" + item.getAddr().toStringUtf8());
+        InterfaceBase.pbui_meetUrl build = InterfaceBase.pbui_meetUrl.newBuilder()
+                .setIsetdefault(type)
+                .addItem(item)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEFAULTURL_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_DEL_VALUE, build.toByteArray());
     }
 
     /**
@@ -2262,7 +2319,7 @@ public class JniHelper {
      */
     public void addScore(int fileId, InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore score) {
         InterfaceFilescorevote.pbui_Type_UserDefineFileScore build = InterfaceFilescorevote.pbui_Type_UserDefineFileScore.newBuilder()
-                .setFileid(fileId)
+//                .setFileid(fileId)
                 .addItem(score)
                 .build();
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE, InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE, build.toByteArray());
@@ -2270,7 +2327,7 @@ public class JniHelper {
 
     public void addScore(int fileId, List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> scores) {
         InterfaceFilescorevote.pbui_Type_UserDefineFileScore build = InterfaceFilescorevote.pbui_Type_UserDefineFileScore.newBuilder()
-                .setFileid(fileId)
+//                .setFileid(fileId)
                 .addAllItem(scores)
                 .build();
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE, InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE, build.toByteArray());
@@ -2283,11 +2340,24 @@ public class JniHelper {
      */
     public void modifyScore(int fileId, InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore score) {
         InterfaceFilescorevote.pbui_Type_UserDefineFileScore build = InterfaceFilescorevote.pbui_Type_UserDefineFileScore.newBuilder()
-                .setFileid(fileId)
+//                .setFileid(fileId)
                 .addItem(score)
                 .build();
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE,
                 InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_MODIFY_VALUE, build.toByteArray());
+    }
+
+    /**
+     * 删除评分文件
+     * @param voteId
+     */
+    public void delScore(int voteId){
+        InterfaceFilescorevote.pbui_Type_DeleteUserDefineFileScore build = InterfaceFilescorevote.pbui_Type_DeleteUserDefineFileScore.newBuilder()
+                .addVoteid(voteId)
+                .build();
+        jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE,
+                InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_DEL_VALUE, build.toByteArray());
+
     }
 
     /**

@@ -9,6 +9,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +28,6 @@ import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.mogujie.tt.protobuf.InterfaceMeet;
-import com.mogujie.tt.protobuf.InterfacePerson;
 import com.mogujie.tt.protobuf.InterfaceRoom;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
@@ -69,8 +69,10 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
      * 单位：秒
      */
     private long currentStartTime, currentEndTime;
-    private TextView edt_start_time, edt_end_time;
+    private TextView tv_start_time, tv_end_time;
     private ArrayAdapter<String> spRoomadApter;
+    private ArrayAdapter<String> spConfidentialAdapter;
+    private ArrayAdapter<String> spSignInTypeAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -168,24 +170,52 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
         tv_current_month.setText(calendar_view.getCurYear() + "年" + calendar_view.getCurMonth() + "月");
     }
 
+    private void initSpinnerAdapter() {
+        spConfidentialAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text, getResources().getStringArray(R.array.yes_or_no));
+        spSignInTypeAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text, getResources().getStringArray(R.array.sign_in_type));
+    }
+
     private void showModifyCreateMeetingPop(InterfaceMeet.pbui_Item_MeetMeetInfo item) {
-        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_meeting, null, false);
+        currentStartTime = 0;
+        currentEndTime = 0;
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_modify_meeting, null, false);
         View ll_content = getActivity().findViewById(R.id.ll_content);
         View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
         int width = ll_content.getWidth();
         int height = ll_content.getHeight();
         int width1 = rv_navigation.getWidth();
-        pop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, calendar_layout, Gravity.CENTER, width1 / 2, 0);
+        pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 2 / 3, calendar_layout, Gravity.CENTER, width1 / 2, 0);
         TextView tv_title = inflate.findViewById(R.id.tv_title);
         boolean isAdd = item == null;
         tv_title.setText(isAdd ? getString(R.string.add) : getString(R.string.preview_or_modify));
-        EditText edt_name = inflate.findViewById(R.id.edt_name);
+        EditText edt_name = inflate.findViewById(R.id.edt_meeting_name);
+        tv_start_time = inflate.findViewById(R.id.tv_start_time);
+        tv_end_time = inflate.findViewById(R.id.tv_end_time);
+        LinearLayout ll_pwd = inflate.findViewById(R.id.ll_pwd);
+        EditText edt_meeting_pwd = inflate.findViewById(R.id.edt_meeting_pwd);
+        EditText edt_reservation = inflate.findViewById(R.id.edt_reservation);
         Spinner sp_confidentiality = inflate.findViewById(R.id.sp_confidentiality);
-        edt_start_time = inflate.findViewById(R.id.edt_start_time);
-        edt_end_time = inflate.findViewById(R.id.edt_end_time);
+        sp_confidentiality.setAdapter(spConfidentialAdapter);
         Spinner sp_sign_in_type = inflate.findViewById(R.id.sp_sign_in_type);
-        Spinner sp_meet_room = inflate.findViewById(R.id.sp_meet_room);
+        sp_sign_in_type.setAdapter(spSignInTypeAdapter);
+        Spinner sp_meet_room = inflate.findViewById(R.id.sp_room);
         sp_meet_room.setAdapter(spRoomadApter);
+        sp_sign_in_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 3 || position == 4) {
+                    //有会议密码签到
+                    ll_pwd.setVisibility(View.VISIBLE);
+                } else {
+                    ll_pwd.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         if (!isAdd) {
             currentStartTime = item.getStartTime();
             currentEndTime = item.getEndTime();
@@ -195,35 +225,40 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
                 sp_meet_room.setSelection(position);
             }
             edt_name.setText(item.getName().toStringUtf8());
-            edt_start_time.setText(DateUtil.secondsFormat(item.getStartTime(), "yyyy年MM月dd日 HH:mm"));
-            edt_end_time.setText(DateUtil.secondsFormat(item.getEndTime(), "yyyy年MM月dd日 HH:mm"));
+            tv_start_time.setText(DateUtil.secondsFormat(item.getStartTime(), "yyyy年MM月dd日 HH:mm"));
+            tv_end_time.setText(DateUtil.secondsFormat(item.getEndTime(), "yyyy年MM月dd日 HH:mm"));
             sp_confidentiality.setSelection(item.getSecrecy());
             sp_sign_in_type.setSelection(item.getSigninType());
+            edt_reservation.setText(item.getOrdername().toStringUtf8());
+            ll_pwd.setVisibility((item.getSigninType() == 3 || item.getSigninType() == 4) ? View.VISIBLE : View.GONE);
+            edt_meeting_pwd.setText(item.getOnepswSignin().toStringUtf8());
         }
-        edt_start_time.setOnClickListener(v -> {
+        tv_start_time.setOnClickListener(v -> {
             if (currentStartTime != 0) {
                 java.util.Calendar instance = java.util.Calendar.getInstance();
                 instance.setTimeInMillis(currentStartTime * 1000);
                 mStartTimePickerView.setDate(instance);
             }
-            mStartTimePickerView.show(edt_start_time);
+            mStartTimePickerView.show(tv_start_time);
         });
-        edt_end_time.setOnClickListener(v -> {
+        tv_end_time.setOnClickListener(v -> {
             if (currentEndTime != 0) {
                 java.util.Calendar instance = java.util.Calendar.getInstance();
                 instance.setTimeInMillis(currentEndTime * 1000);
                 mEndTimePickerView.setDate(instance);
             }
-            mEndTimePickerView.show(edt_end_time);
+            mEndTimePickerView.show(tv_end_time);
         });
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
             String name = edt_name.getText().toString().trim();
+            String pwd = edt_meeting_pwd.getText().toString().trim();
             int confidentiality = sp_confidentiality.getSelectedItemPosition();
             int sign_in_type = sp_sign_in_type.getSelectedItemPosition();
             int roomid = presenter.allRooms.get(sp_meet_room.getSelectedItemPosition()).getRoomid();
             String roomName = presenter.allRooms.get(sp_meet_room.getSelectedItemPosition()).getName().toStringUtf8();
+            String orderName = edt_reservation.getText().toString();
             LogUtils.e("当前选中的会议室ID=" + roomid);
             if (TextUtils.isEmpty(name)) {
                 ToastUtil.showShort(R.string.please_enter_the_content_to_be_modified);
@@ -238,6 +273,15 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
                 return;
             }
             InterfaceMeet.pbui_Item_MeetMeetInfo.Builder builder = InterfaceMeet.pbui_Item_MeetMeetInfo.newBuilder();
+            if (sign_in_type == 3 || sign_in_type == 4) {
+                //签到类型包含密码签到的则需要进行判断
+                if (pwd.isEmpty()) {
+                    ToastUtil.showShort(R.string.please_enter_meeting_password_first);
+                    return;
+                } else {
+                    builder.setOnepswSignin(s2b(pwd));
+                }
+            }
             builder
                     .setName(s2b(name))
                     .setRoomId(roomid)
@@ -246,15 +290,16 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
                     .setStartTime(currentStartTime)
                     .setEndTime(currentEndTime)
                     .setSigninType(sign_in_type)
+                    .setOrdername(s2b(orderName))
                     .build();
+
             if (isAdd) {
                 jni.addMeeting(builder.build());
             } else {
                 builder.setId(item.getId());
                 builder.setManagerid(item.getManagerid());
-                builder.setOnepswSignin(item.getOnepswSignin());
+//                builder.setOnepswSignin(item.getOnepswSignin());
                 builder.setStatus(item.getStatus());
-                builder.setOrdername(item.getOrdername());
                 jni.modifyMeeting(builder.build());
             }
             pop.dismiss();
@@ -270,6 +315,7 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
     protected void initial() {
         presenter.queryMeeting();
         presenter.queryMeetingRoom();
+        initSpinnerAdapter();
         initTimePicker();
     }
 
@@ -278,8 +324,8 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
             @Override
             public void onTimeSelect(Date date, View v) {
                 currentStartTime = date.getTime() / 1000;
-                if (edt_start_time != null) {
-                    edt_start_time.setText(DateUtil.millisecondsFormat(date.getTime(), "yyyy年MM月dd日 HH:mm"));
+                if (tv_start_time != null) {
+                    tv_start_time.setText(DateUtil.millisecondsFormat(date.getTime(), "yyyy年MM月dd日 HH:mm"));
                 }
             }
         })
@@ -306,8 +352,8 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
             @Override
             public void onTimeSelect(Date date, View v) {
                 currentEndTime = date.getTime() / 1000;
-                if (edt_end_time != null) {
-                    edt_end_time.setText(DateUtil.millisecondsFormat(date.getTime(), "yyyy年MM月dd日 HH:mm"));
+                if (tv_end_time != null) {
+                    tv_end_time.setText(DateUtil.millisecondsFormat(date.getTime(), "yyyy年MM月dd日 HH:mm"));
                 }
             }
         })
@@ -476,8 +522,7 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
                 rooms.add(room.getName().toStringUtf8());
             }
         }
-        spRoomadApter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, rooms);
-        spRoomadApter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRoomadApter = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text, rooms);
     }
 
     @Override

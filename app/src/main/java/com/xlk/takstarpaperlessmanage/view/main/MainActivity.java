@@ -80,10 +80,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             edtPwd.setSelection(pwdSp.length());
         }
         findViewById(R.id.btn_login).setOnClickListener(v -> {
+            if(!GlobalValue.initializationIsOver){
+                ToastUtils.showShort(R.string.not_yet_initialized);
+                return;
+            }
             String user = edtUser.getText().toString().trim();
             String pwd = edtPwd.getText().toString().trim();
             if (user.isEmpty() || pwd.isEmpty()) {
                 ToastUtils.showShort(R.string.please_enter_name_and_password);
+                return;
+            }
+            if(!presenter.isHasAdminName(user)){
+                ToastUtils.showShort(R.string.username_does_not_exist);
                 return;
             }
             SpHelper.setData(this, SpHelper.key_user, user);

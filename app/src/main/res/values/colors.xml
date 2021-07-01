@@ -46,6 +46,8 @@
     <color name="video_pop_bg">#99000000</color>
     <color name="video_time">#24BF2B</color>
 
+    <color name="admin_table_title_bg">#738494</color>
+
     <drawable name="btn_enabled_text_color">#C1C1C1</drawable>
     <drawable name="btn_selected_text_color">#FFFFFF</drawable>
     <drawable name="btn_pressed_text_color">#FFFFFF</drawable>

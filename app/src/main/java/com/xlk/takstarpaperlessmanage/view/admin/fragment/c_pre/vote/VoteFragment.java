@@ -22,6 +22,9 @@ import com.mogujie.tt.protobuf.InterfaceVote;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.adapter.VoteAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
+import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
@@ -36,6 +39,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -47,6 +52,7 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
     private RecyclerView rv_vote;
     private VoteAdapter voteAdapter;
     private int vote_type;
+    private EditText edt_save_address;
 
     @Override
     protected int getLayoutId() {
@@ -72,11 +78,41 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
                 ToastUtil.showShort(R.string.no_data_to_export);
                 return;
             }
-            JxlUtil.exportVoteInfo(presenter.voteInfos,
-                    isVote ? getString(R.string.vote_information) : getString(R.string.election_information),
-                    isVote ? getString(R.string.vote_content) : getString(R.string.election_content)
-            );
+            showExportFilePop(isVote);
         });
+    }
+    private void showExportFilePop(boolean isVote) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, rv_vote);
+        EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        edt_save_address = inflate.findViewById(R.id.edt_save_address);
+        edt_save_address.setKeyListener(null);
+        inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
+            String currentDirPath = edt_save_address.getText().toString().trim();
+            if (currentDirPath.isEmpty()) {
+                currentDirPath = Constant.root_dir;
+            }
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_EXPORT_VOTE, currentDirPath).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String fileName = edt_file_name.getText().toString().trim();
+            String addr = edt_save_address.getText().toString().trim();
+            if (fileName.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
+                return;
+            }
+            JxlUtil.exportVoteInfo(fileName, addr, presenter.voteInfos,isVote ? getString(R.string.vote_content) : getString(R.string.election_content));
+            pop.dismiss();
+        });
+    }
+
+    @Override
+    public void updateExportDirPath(String dirPath) {
+        if(edt_save_address!=null){
+            edt_save_address.setText(dirPath);
+        }
     }
 
     @Override

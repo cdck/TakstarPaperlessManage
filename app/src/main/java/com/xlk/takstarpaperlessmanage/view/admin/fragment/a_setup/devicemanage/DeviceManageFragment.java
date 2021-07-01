@@ -541,7 +541,7 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         edt_current_dir.setText(currentDir);
 
         rv_current_file = inflate.findViewById(R.id.rv_current_file);
-        localFileAdapter = new LocalFileAdapter(R.layout.item_local_dir, currentFiles);
+        localFileAdapter = new LocalFileAdapter( currentFiles);
         rv_current_file.addItemDecoration(new RvItemDecoration(getContext()));
         rv_current_file.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_current_file.setAdapter(localFileAdapter);
@@ -766,12 +766,12 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         int width = ll_content.getWidth();
         int height = ll_content.getHeight();
         int width1 = rv_navigation.getWidth();
-        int height1 = rv_navigation.getHeight();
         modifyPop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, rvDevice, Gravity.CENTER, width1 / 2, 0);
         EditText edt_device_name = inflate.findViewById(R.id.edt_device_name);
         EditText edt_device_ip = inflate.findViewById(R.id.edt_device_ip);
         EditText edt_lift_id = inflate.findViewById(R.id.edt_lift_id);
         EditText edt_mic_id = inflate.findViewById(R.id.edt_mic_id);
+        edt_device_name.setText(device.getDevname().toStringUtf8());
 
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> modifyPop.dismiss());
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> modifyPop.dismiss());
@@ -791,22 +791,22 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
                 ToastUtils.showShort(R.string.please_enter_device_name);
                 return;
             }
-            int modifyFlag = InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_NAME_VALUE
-                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_IPADDR_VALUE
-                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_LIFTRES_VALUE;
-            List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipInfos = new ArrayList<>();
-            InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo ipInfo = InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo.newBuilder()
-                    .setIp(s2b(ip))
-                    .setPort(device.getIpinfo(0).getPort())
-                    .build();
-            ipInfos.add(ipInfo);
+            int modifyFlag = InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_NAME_VALUE;
+//                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_IPADDR_VALUE
+//                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_LIFTRES_VALUE;
+//            List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipInfos = new ArrayList<>();
+//            InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo ipInfo = InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo.newBuilder()
+//                    .setIp(s2b(ip))
+//                    .setPort(device.getIpinfo(0).getPort())
+//                    .build();
+//            ipInfos.add(ipInfo);
             InterfaceDevice.pbui_DeviceModInfo build = InterfaceDevice.pbui_DeviceModInfo.newBuilder()
-                    .setDeviceflag(modifyFlag)
+//                    .setDeviceflag(modifyFlag)
                     .setDevcieid(device.getDevcieid())
                     .setDevname(s2b(name))
-                    .addAllIpinfo(ipInfos)
-                    .setLiftgroupres0(liftId)
-                    .setLiftgroupres1(micId)
+//                    .addAllIpinfo(ipInfos)
+//                    .setLiftgroupres0(liftId)
+//                    .setLiftgroupres1(micId)
                     .setDeviceflag(device.getDeviceflag())
                     .build();
             jni.modifyDeviceInfo(build);

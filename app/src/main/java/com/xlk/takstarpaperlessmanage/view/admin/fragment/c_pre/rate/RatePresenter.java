@@ -1,5 +1,6 @@
 package com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.rate;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.mogujie.tt.protobuf.InterfaceBase;
 import com.mogujie.tt.protobuf.InterfaceFilescorevote;
@@ -32,6 +33,14 @@ class RatePresenter extends BasePresenter<RateContract.View> implements RateCont
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            case EventType.RESULT_DIR_PATH:{
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if(dirType== Constant.CHOOSE_DIR_TYPE_EXPORT_SCORE){
+                    mView.updateExportDirPath(dirPath);
+                }
+                break;
+            }
             case EventType.BUS_UPLOAD_SCORE_FILE_FINISH: {
                 String filePath = (String) msg.getObjects()[0];
                 int mediaId = (int) msg.getObjects()[1];
@@ -40,7 +49,7 @@ class RatePresenter extends BasePresenter<RateContract.View> implements RateCont
             }
             //投票变更通知
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_FILESCOREVOTE_VALUE: {
-                LogUtil.d(TAG, "BusEvent -->" + "投票变更通知");
+                LogUtils.i(TAG, "BusEvent --> 文件评分变更通知");
                 queryFileScore();
                 break;
             }

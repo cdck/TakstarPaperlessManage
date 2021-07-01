@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
  * @desc
  */
 public class LocalFileAdapter extends BaseQuickAdapter<File, BaseViewHolder> {
-    public LocalFileAdapter(int layoutResId, @Nullable List<File> data) {
+    public LocalFileAdapter( @Nullable List<File> data) {
         super(R.layout.item_local_dir, data);
     }
 

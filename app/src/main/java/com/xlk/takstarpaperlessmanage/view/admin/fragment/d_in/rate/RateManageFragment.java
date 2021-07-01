@@ -4,6 +4,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import com.xlk.takstarpaperlessmanage.adapter.MemberDetailAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.ScoreSubmitMemberAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.FileUtil;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
@@ -33,9 +36,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * @author Created by xlk on 2021/5/21.
- * @desc
+ * @desc 会中管理-评分管理 会后查看-评分查看
  */
 public class RateManageFragment extends BaseFragment<RateManagePresenter> implements RateManageContract.View {
 
@@ -45,6 +50,7 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
     private MemberDetailAdapter memberDetailAdapter;
     private ScoreSubmitMemberAdapter scoreSubmitMemberAdapter;
     private boolean isManage;
+    private EditText edt_save_address;
 
     @Override
     protected int getLayoutId() {
@@ -190,9 +196,48 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_export).setOnClickListener(v -> {
-            JxlUtil.exportSingleScoreResult(item);
+            if (presenter.scoreMembers.isEmpty()) {
+                ToastUtil.showShort(R.string.no_data_to_export);
+                return;
+            }
+//            JxlUtil.exportSingleScoreResult(item);
+            showExportFilePop(item);
             pop.dismiss();
         });
+    }
+
+    private void showExportFilePop(InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, root_view);
+        EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        edt_save_address = inflate.findViewById(R.id.edt_save_address);
+        edt_save_address.setKeyListener(null);
+        inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
+            String currentDirPath = edt_save_address.getText().toString().trim();
+            if (currentDirPath.isEmpty()) {
+                currentDirPath = Constant.root_dir;
+            }
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_EXPORT_SOCRE_RESULT, currentDirPath).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String fileName = edt_file_name.getText().toString().trim();
+            String addr = edt_save_address.getText().toString().trim();
+            if (fileName.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
+                return;
+            }
+            JxlUtil.exportSingleScoreResult(fileName, addr, item);
+            pop.dismiss();
+        });
+    }
+
+    @Override
+    public void updateExportDirPath(String dirPath) {
+        if (edt_save_address != null) {
+            edt_save_address.setText(dirPath);
+        }
     }
 
     private void showMemberPop(InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {

@@ -12,6 +12,7 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -24,6 +25,8 @@ import com.xlk.takstarpaperlessmanage.adapter.RateAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.UploadFileAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.ScoreFileBean;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
@@ -40,6 +43,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -52,6 +57,7 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
     private RateAdapter rateAdapter;
     List<ScoreFileBean> uploadFiles = new ArrayList<>();
     private UploadFileAdapter uploadFileAdapter;
+    private EditText edt_save_address;
 
 
     @Override
@@ -67,8 +73,44 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
             chooseLocalFile(REQUEST_CODE_IMPORT_SCORE_XLS);
         });
         inflate.findViewById(R.id.btn_export).setOnClickListener(v -> {
-            JxlUtil.exportFileScore(presenter.fileScores);
+            if (presenter.fileScores.isEmpty()) {
+                ToastUtils.showShort(R.string.no_data_to_export);
+                return;
+            }
+            showExportFilePop();
         });
+    }
+
+    private void showExportFilePop() {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, rv_content);
+        EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        edt_save_address = inflate.findViewById(R.id.edt_save_address);
+        edt_save_address.setKeyListener(null);
+        inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
+            String currentDirPath = edt_save_address.getText().toString().trim();
+            if (currentDirPath.isEmpty()) {
+                currentDirPath = Constant.root_dir;
+            }
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_EXPORT_SCORE, currentDirPath).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String fileName = edt_file_name.getText().toString().trim();
+            String addr = edt_save_address.getText().toString().trim();
+            if (fileName.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
+                return;
+            }
+            JxlUtil.exportFileScore(fileName, addr, presenter.fileScores);
+            pop.dismiss();
+        });
+    }
+
+    @Override
+    public void updateExportDirPath(String dirPath) {
+        edt_save_address.setText(dirPath);
     }
 
     @Override
@@ -171,10 +213,6 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
             String b = edt_score_b.getText().toString();
             String c = edt_score_c.getText().toString();
             String d = edt_score_d.getText().toString();
-            if (content.isEmpty()) {
-                ToastUtil.showShort(R.string.please_enter_score_content_first);
-                return;
-            }
             if (a.isEmpty() || b.isEmpty() || c.isEmpty()) {
                 ToastUtil.showShort(R.string.first_three_options_must_be_filled_in);
                 return;
@@ -192,8 +230,9 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
                 List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> addScores = new ArrayList<>();
                 if (uploadFiles.size() > 1) {
                     for (ScoreFileBean bean : uploadFiles) {
+                        String filePath = bean.getFilePath();
                         InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore build = InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore.newBuilder()
-                                .setContent(s2b(bean.getFilePath()))
+                                .setContent(s2b(filePath.substring(filePath.lastIndexOf("/") + 1)))
                                 .setFileid(bean.getMediaId())
                                 .setMode(modeIndex)
                                 .setSelectcount(answers.size())
@@ -204,7 +243,8 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
                 } else {
                     ScoreFileBean bean = uploadFiles.get(0);
                     if (cb_use_file_name.isChecked()) {
-                        content = bean.getFilePath();
+                        String filePath = bean.getFilePath();
+                        content = filePath.substring(filePath.lastIndexOf("/") + 1);
                     }
                     if (content.isEmpty()) {
                         ToastUtil.showShort(R.string.please_enter_score_content_first);
@@ -286,7 +326,7 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
-            jni.deleteVote(item.getVoteid());
+            jni.delScore(item.getVoteid());
             pop.dismiss();
         });
     }
@@ -323,7 +363,12 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
 
                 } else if (requestCode == REQUEST_CODE_IMPORT_SCORE_XLS) {
                     if (file.getName().endsWith(".xls")) {
-                        JxlUtil.readScoreXls(file);
+                        List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> items = JxlUtil.readScoreXls(file);
+                        if (items == null) {
+                            ToastUtil.showShort(R.string.file_format_err);
+                            return;
+                        }
+                        jni.addScore(0, items);
                     } else {
                         ToastUtil.showShort(R.string.please_choose_xls_file);
                     }

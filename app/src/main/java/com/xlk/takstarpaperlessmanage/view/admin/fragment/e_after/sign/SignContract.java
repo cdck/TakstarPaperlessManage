@@ -11,6 +11,8 @@ import java.util.List;
 interface SignContract {
     interface View extends BaseContract.View{
         void updateSignList(int signInCount);
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void queryMember();

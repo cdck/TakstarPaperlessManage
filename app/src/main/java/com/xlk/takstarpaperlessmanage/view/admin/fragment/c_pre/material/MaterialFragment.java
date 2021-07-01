@@ -124,7 +124,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
                     ToastUtil.showShort(R.string.can_not_modify_share_and_annotation);
                     return;
                 }
-                showModifyFilePop(null, selectedDir);
+                showModifyFilePop(null, selectedDir,false);
                 break;
             }
             case R.id.btn_delete: {
@@ -299,7 +299,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
             View inflate = LayoutInflater.from(getContext()).inflate(R.layout.dir_footer_view, rvDir, false);
             dirAdapter.addFooterView(inflate);
             inflate.findViewById(R.id.footer_view).setOnClickListener(v -> {
-                LogUtils.e("点击脚布局");
+                showModifyFilePop(null, null,true);
             });
             if (!presenter.dirInfos.isEmpty()) {
                 currentDirId = presenter.dirInfos.get(0).getId();
@@ -327,7 +327,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
                     switch (view.getId()) {
                         //修改
                         case R.id.operation_view_1: {
-                            showModifyFilePop(item, null);
+                            showModifyFilePop(item, null,false);
                             break;
                         }
                         //删除
@@ -402,7 +402,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
      * @param dirFile 文件
      * @param dir     目录
      */
-    private void showModifyFilePop(InterfaceFile.pbui_Item_MeetDirFileDetailInfo dirFile, InterfaceFile.pbui_Item_MeetDirDetailInfo dir) {
+    private void showModifyFilePop(InterfaceFile.pbui_Item_MeetDirFileDetailInfo dirFile, InterfaceFile.pbui_Item_MeetDirDetailInfo dir,boolean isAddDir) {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_modify_file, null, false);
         View ll_content = getActivity().findViewById(R.id.ll_content);
         View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
@@ -412,10 +412,13 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
         modifyFilePop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, rvFile, Gravity.CENTER, width1 / 2, 0);
         TextView tv_title = inflate.findViewById(R.id.tv_title);
         EditText edt_name = inflate.findViewById(R.id.edt_name);
-
         boolean isModFile = dirFile != null;
-        tv_title.setText(isModFile ? getString(R.string.modify_file_name) : getString(R.string.modify_dir_name));
-        edt_name.setText(isModFile ? dirFile.getName().toStringUtf8() : dir.getName().toStringUtf8());
+        if(!isAddDir) {
+            tv_title.setText(isModFile ? getString(R.string.modify_file_name) : getString(R.string.modify_dir_name));
+            edt_name.setText(isModFile ? dirFile.getName().toStringUtf8() : dir.getName().toStringUtf8());
+        }else {
+            tv_title.setText(R.string.create_dir);
+        }
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> modifyFilePop.dismiss());
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> modifyFilePop.dismiss());
         inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
@@ -424,33 +427,41 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
                 ToastUtil.showShort(R.string.please_enter_name_first);
                 return;
             }
-            if (isModFile) {
-                String fileName = dirFile.getName().toStringUtf8();
-                String suffix = fileName.substring(fileName.lastIndexOf("."));
-                if (!newName.endsWith(suffix)) {
-                    ToastUtil.showShort(getString(R.string.file_name_hint, suffix));
-                    return;
-                }
-                InterfaceFile.pbui_Item_MeetDirFileDetailInfo build = InterfaceFile.pbui_Item_MeetDirFileDetailInfo.newBuilder()
-                        .setName(s2b(newName))
-                        .setUploaderRole(dirFile.getUploaderRole())
-                        .setUploaderName(dirFile.getUploaderName())
-                        .setUploaderid(dirFile.getUploaderid())
-                        .setSize(dirFile.getSize())
-                        .setMstime(dirFile.getMstime())
-                        .setMediaid(dirFile.getMediaid())
-                        .setFilepos(dirFile.getFilepos())
-                        .setAttrib(dirFile.getAttrib())
-                        .build();
-                jni.modifyMeetDirFile(currentDirId, build);
-            } else {
+            if(isAddDir){
                 InterfaceFile.pbui_Item_MeetDirDetailInfo build = InterfaceFile.pbui_Item_MeetDirDetailInfo.newBuilder()
                         .setName(s2b(newName))
-                        .setParentid(dir.getParentid())
-                        .setId(dir.getId())
-                        .setFilenum(dir.getFilenum())
+                        .setParentid(0)
                         .build();
-                jni.modifyMeetDir(build);
+                jni.addMeetDir(build);
+            }else {
+                if (isModFile) {
+                    String fileName = dirFile.getName().toStringUtf8();
+                    String suffix = fileName.substring(fileName.lastIndexOf("."));
+                    if (!newName.endsWith(suffix)) {
+                        ToastUtil.showShort(getString(R.string.file_name_hint, suffix));
+                        return;
+                    }
+                    InterfaceFile.pbui_Item_MeetDirFileDetailInfo build = InterfaceFile.pbui_Item_MeetDirFileDetailInfo.newBuilder()
+                            .setName(s2b(newName))
+                            .setUploaderRole(dirFile.getUploaderRole())
+                            .setUploaderName(dirFile.getUploaderName())
+                            .setUploaderid(dirFile.getUploaderid())
+                            .setSize(dirFile.getSize())
+                            .setMstime(dirFile.getMstime())
+                            .setMediaid(dirFile.getMediaid())
+                            .setFilepos(dirFile.getFilepos())
+                            .setAttrib(dirFile.getAttrib())
+                            .build();
+                    jni.modifyMeetDirFile(currentDirId, build);
+                } else {
+                    InterfaceFile.pbui_Item_MeetDirDetailInfo build = InterfaceFile.pbui_Item_MeetDirDetailInfo.newBuilder()
+                            .setName(s2b(newName))
+                            .setParentid(dir.getParentid())
+                            .setId(dir.getId())
+                            .setFilenum(dir.getFilenum())
+                            .build();
+                    jni.modifyMeetDir(build);
+                }
             }
             modifyFilePop.dismiss();
         });

@@ -25,10 +25,12 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
+import com.mogujie.tt.protobuf.InterfaceBase;
 import com.mogujie.tt.protobuf.InterfaceFile;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.adapter.PictureFileAdapter;
+import com.xlk.takstarpaperlessmanage.adapter.UrlAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.bean.MainInterfaceBean;
@@ -48,6 +50,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
+import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2md5;
 
 /**
@@ -79,6 +82,9 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
     private ImageView pop_iv_text_color;
     private Spinner pop_sp_bold, pop_sp_show, pop_sp_font, pop_sp_align;
     private PopupWindow bgPicturePop, upgradePop;
+    private RecyclerView rv_pop_url;
+    private UrlAdapter urlAdapter;
+    private PopupWindow urlPop;
 
     @Override
     protected int getLayoutId() {
@@ -88,6 +94,7 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
     @Override
     protected void initView(View inflate) {
         edtWebsite = (EditText) inflate.findViewById(R.id.edt_website);
+        edtWebsite.setKeyListener(null);
         inflate.findViewById(R.id.btn_website).setOnClickListener(this);
         edtCompanyName = (EditText) inflate.findViewById(R.id.edt_company_name);
         inflate.findViewById(R.id.btn_company_name).setOnClickListener(this);
@@ -125,6 +132,9 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
             edtWebsite.setText("");
         } else {
             edtWebsite.setText(presenter.allUrls.get(0).getName().toStringUtf8());
+        }
+        if(urlPop!=null && urlPop.isShowing()){
+            urlAdapter.notifyDataSetChanged();
         }
     }
 
@@ -260,6 +270,7 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_website: {
+                showUrlPop();
                 break;
             }
             case R.id.btn_company_name: {
@@ -305,6 +316,72 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
                 break;
             }
         }
+    }
+
+    private void showUrlPop() {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_url, null);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        urlPop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 2 / 3, edtCompanyName, Gravity.CENTER, width1 / 2, 0);
+
+        rv_pop_url = inflate.findViewById(R.id.rv_pop_url);
+        EditText edt_pop_name = inflate.findViewById(R.id.edt_pop_name);
+        EditText edt_pop_url = inflate.findViewById(R.id.edt_pop_url);
+        urlAdapter = new UrlAdapter(R.layout.item_other_url, presenter.allUrls);
+        rv_pop_url.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_pop_url.setAdapter(urlAdapter);
+        urlAdapter.setOnItemClickListener((adapter, view, position) -> {
+            InterfaceBase.pbui_Item_UrlDetailInfo item = presenter.allUrls.get(position);
+            urlAdapter.setSelect(item.getId());
+            edt_pop_name.setText(item.getName().toStringUtf8());
+            edt_pop_url.setText(item.getAddr().toStringUtf8());
+        });
+        inflate.findViewById(R.id.btn_pop_add).setOnClickListener(v -> {
+            String name = edt_pop_name.getText().toString().trim();
+            String addr = edt_pop_url.getText().toString().trim();
+            if (name.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_url);
+                return;
+            }
+            InterfaceBase.pbui_Item_UrlDetailInfo build = InterfaceBase.pbui_Item_UrlDetailInfo.newBuilder()
+                    .setName(s2b(name))
+                    .setAddr(s2b(addr))
+                    .build();
+            jni.addUrl(build);
+        });
+        inflate.findViewById(R.id.btn_pop_modify).setOnClickListener(v -> {
+            int selectedId = urlAdapter.getSelectedId();
+            if (selectedId == -1) {
+                ToastUtil.showShort(R.string.please_choose_url_first);
+                return;
+            }
+            String name = edt_pop_name.getText().toString().trim();
+            String addr = edt_pop_url.getText().toString().trim();
+            if (name.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_url);
+                return;
+            }
+            InterfaceBase.pbui_Item_UrlDetailInfo build = InterfaceBase.pbui_Item_UrlDetailInfo.newBuilder()
+                    .setId(selectedId)
+                    .setName(s2b(name))
+                    .setAddr(s2b(addr))
+                    .build();
+            jni.modifyUrl(build);
+        });
+        inflate.findViewById(R.id.btn_pop_delete).setOnClickListener(v -> {
+            InterfaceBase.pbui_Item_UrlDetailInfo selectUrl = urlAdapter.getSelectUrl();
+            if (selectUrl == null) {
+                ToastUtil.showShort(R.string.please_choose_url_first);
+                return;
+            }
+            jni.delUrl(selectUrl);
+        });
+        inflate.findViewById(R.id.btn_pop_close).setOnClickListener(v -> {
+            urlPop.dismiss();
+        });
     }
 
     private void showUpgradePop() {

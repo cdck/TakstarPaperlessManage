@@ -36,6 +36,14 @@ class SeatBindPresenter extends BasePresenter<SeatBindContract.View> implements 
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            case EventType.RESULT_DIR_PATH:{
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if(dirType== Constant.CHOOSE_DIR_TYPE_EXPORT_BIND_SEAT){
+                    mView.updateExportDirPath(dirPath);
+                }
+                break;
+            }
             //会场底图下载完成
             case EventType.BUS_ROOM_BG: {
                 String currentRoomBgFilePath = (String) msg.getObjects()[0];

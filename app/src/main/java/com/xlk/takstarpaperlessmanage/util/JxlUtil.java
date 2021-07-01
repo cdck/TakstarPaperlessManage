@@ -156,14 +156,15 @@ public class JxlUtil {
     /**
      * 导出投票/选举内容
      *
-     * @param votes    投票信息
      * @param fileName 文件名（不需要后缀）
+     * @param dirPath  存储的位置
+     * @param votes    投票信息
      * @param content  内容描述
      */
-    public static void exportVoteInfo(List<InterfaceVote.pbui_Item_MeetVoteDetailInfo> votes, String fileName, String content) {
-        FileUtils.createOrExistsDir(Constant.export_dir);
+    public static void exportVoteInfo(String fileName, String dirPath, List<InterfaceVote.pbui_Item_MeetVoteDetailInfo> votes, String content) {
+        FileUtils.createOrExistsDir(dirPath);
         //1.创建Excel文件
-        File file = createXlsFile(Constant.export_dir + fileName);
+        File file = createXlsFile(dirPath + "/" + fileName);
         try {
             file.createNewFile();
             //2.创建工作簿
@@ -365,12 +366,14 @@ public class JxlUtil {
     /**
      * 将常用人员导出到Excel表格
      *
+     * @param fileName    无后缀文件名
+     * @param dirPath     保存的目录地址
      * @param memberInfos 常用人员集合
      */
-    public static void exportMember(List<InterfacePerson.pbui_Item_PersonDetailInfo> memberInfos) {
-        FileUtils.createOrExistsDir(Constant.export_dir);
+    public static void exportMember(String fileName, String dirPath, List<InterfacePerson.pbui_Item_PersonDetailInfo> memberInfos) {
+        FileUtils.createOrExistsDir(dirPath);
         //1.创建Excel文件
-        File file = createXlsFile(Constant.export_dir + "常用参会人");
+        File file = createXlsFile(dirPath + "/" + fileName);
         try {
             file.createNewFile();
             //2.创建工作簿
@@ -580,101 +583,104 @@ public class JxlUtil {
     /**
      * 归档会议参会人信息
      *
+     * @param fileName     无后缀的文件名
+     * @param dirPath      目录地址
      * @param devSeatInfos 参会人信息（包括会议身份）
      */
-    public static boolean exportMemberInfo(List<MemberRoleBean> devSeatInfos) {
-        FileUtils.createOrExistsDir(Constant.export_dir);
-        //1.创建Excel文件
-        File file = createXlsFile(Constant.export_dir + "会议参会人");
-        try {
-            file.createNewFile();
-            //2.创建工作簿
-            WritableWorkbook workbook = Workbook.createWorkbook(file);
-            //3.创建Sheet
-            WritableSheet ws = workbook.createSheet("参会人员", 0);
-            //4.创建单元格
-            Label label;
-            //配置单元格样式
-            WritableCellFormat wc = new WritableCellFormat();
-            // 设置居中
-            wc.setAlignment(Alignment.CENTRE);
-            // 设置边框线
-            wc.setBorder(Border.ALL, BorderLineStyle.THIN);
-            // 设置单元格的背景颜色
-            wc.setBackground(Colour.WHITE);
+    public static void exportMemberInfo(String fileName, String dirPath, List<MemberRoleBean> devSeatInfos) {
+        App.threadPool.execute(() -> {
+            FileUtils.createOrExistsDir(dirPath);
+            //1.创建Excel文件
+            File file = createXlsFile(dirPath + "/" + fileName);
+            try {
+                file.createNewFile();
+                //2.创建工作簿
+                WritableWorkbook workbook = Workbook.createWorkbook(file);
+                //3.创建Sheet
+                WritableSheet ws = workbook.createSheet("参会人员", 0);
+                //4.创建单元格
+                Label label;
+                //配置单元格样式
+                WritableCellFormat wc = new WritableCellFormat();
+                // 设置居中
+                wc.setAlignment(Alignment.CENTRE);
+                // 设置边框线
+                wc.setBorder(Border.ALL, BorderLineStyle.THIN);
+                // 设置单元格的背景颜色
+                wc.setBackground(Colour.WHITE);
 
-            label = new Label(0, 0, "人员姓名", wc);
-            ws.addCell(label);
-            label = new Label(1, 0, "单位", wc);
-            ws.addCell(label);
-            label = new Label(2, 0, "职位", wc);
-            ws.addCell(label);
-            label = new Label(3, 0, "备注", wc);
-            ws.addCell(label);
-            label = new Label(4, 0, "手机", wc);
-            ws.addCell(label);
-            label = new Label(5, 0, "邮箱", wc);
-            ws.addCell(label);
-            label = new Label(6, 0, "签到密码", wc);
-            ws.addCell(label);
-            label = new Label(7, 0, "人员ID", wc);
-            ws.addCell(label);
-            label = new Label(8, 0, "角色", wc);
-            ws.addCell(label);
-            for (int i = 0; i < devSeatInfos.size(); i++) {
-                MemberRoleBean memberRoleBean = devSeatInfos.get(i);
-                InterfaceMember.pbui_Item_MemberDetailInfo info = memberRoleBean.getMember();
-                InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo seat = memberRoleBean.getSeat();
-                //人员姓名
-                String name = info.getName().toStringUtf8();
-                label = new Label(0, i + 1, name, wc);
+                label = new Label(0, 0, "人员姓名", wc);
                 ws.addCell(label);
-                //单位
-                String company = info.getCompany().toStringUtf8();
-                label = new Label(1, i + 1, company, wc);
+                label = new Label(1, 0, "单位", wc);
                 ws.addCell(label);
-                //职位
-                String job = info.getJob().toStringUtf8();
-                label = new Label(2, i + 1, job, wc);
+                label = new Label(2, 0, "职位", wc);
                 ws.addCell(label);
-                //备注
-                String comment = info.getComment().toStringUtf8();
-                label = new Label(3, i + 1, comment, wc);
+                label = new Label(3, 0, "备注", wc);
                 ws.addCell(label);
-                //手机
-                String phone = info.getPhone().toStringUtf8();
-                label = new Label(4, i + 1, phone, wc);
+                label = new Label(4, 0, "手机", wc);
                 ws.addCell(label);
-                //邮箱
-                String email = info.getEmail().toStringUtf8();
-                label = new Label(5, i + 1, email, wc);
+                label = new Label(5, 0, "邮箱", wc);
                 ws.addCell(label);
-                //签到密码
-                String pwd = info.getPassword().toStringUtf8();
-                label = new Label(6, i + 1, pwd, wc);
+                label = new Label(6, 0, "签到密码", wc);
                 ws.addCell(label);
-                //人员id
-                int id = info.getPersonid();
-                label = new Label(7, i + 1, id + "", wc);
+                label = new Label(7, 0, "人员ID", wc);
                 ws.addCell(label);
-                //身份
-                String memberRoleName = "";
-                if (seat != null) {
-                    int role = seat.getRole();
-                    memberRoleName = Constant.getMemberRoleName(App.appContext, role);
+                label = new Label(8, 0, "角色", wc);
+                ws.addCell(label);
+                for (int i = 0; i < devSeatInfos.size(); i++) {
+                    MemberRoleBean memberRoleBean = devSeatInfos.get(i);
+                    InterfaceMember.pbui_Item_MemberDetailInfo info = memberRoleBean.getMember();
+                    InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo seat = memberRoleBean.getSeat();
+                    //人员姓名
+                    String name = info.getName().toStringUtf8();
+                    label = new Label(0, i + 1, name, wc);
+                    ws.addCell(label);
+                    //单位
+                    String company = info.getCompany().toStringUtf8();
+                    label = new Label(1, i + 1, company, wc);
+                    ws.addCell(label);
+                    //职位
+                    String job = info.getJob().toStringUtf8();
+                    label = new Label(2, i + 1, job, wc);
+                    ws.addCell(label);
+                    //备注
+                    String comment = info.getComment().toStringUtf8();
+                    label = new Label(3, i + 1, comment, wc);
+                    ws.addCell(label);
+                    //手机
+                    String phone = info.getPhone().toStringUtf8();
+                    label = new Label(4, i + 1, phone, wc);
+                    ws.addCell(label);
+                    //邮箱
+                    String email = info.getEmail().toStringUtf8();
+                    label = new Label(5, i + 1, email, wc);
+                    ws.addCell(label);
+                    //签到密码
+                    String pwd = info.getPassword().toStringUtf8();
+                    label = new Label(6, i + 1, pwd, wc);
+                    ws.addCell(label);
+                    //人员id
+                    int id = info.getPersonid();
+                    label = new Label(7, i + 1, id + "", wc);
+                    ws.addCell(label);
+                    //身份
+                    String memberRoleName = "";
+                    if (seat != null) {
+                        int role = seat.getRole();
+                        memberRoleName = Constant.getMemberRoleName(App.appContext, role);
+                    }
+                    label = new Label(8, i + 1, memberRoleName, wc);
+                    ws.addCell(label);
                 }
-                label = new Label(8, i + 1, memberRoleName, wc);
-                ws.addCell(label);
+                //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
+                workbook.write();
+                //7.最后一步，关闭工作簿
+                workbook.close();
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
+            } catch (IOException | WriteException e) {
+                e.printStackTrace();
             }
-            //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
-            workbook.write();
-            //7.最后一步，关闭工作簿
-            workbook.close();
-            return true;
-        } catch (IOException | WriteException e) {
-            e.printStackTrace();
-        }
-        return false;
+        });
     }
 
     /**
@@ -1003,13 +1009,15 @@ public class JxlUtil {
     /**
      * 导出座位绑定信息
      *
+     * @param fileName     无后缀文件名
+     * @param dirPath      保存的地址
      * @param devSeatInfos 参会人和席位信息
      */
-    public static void exportSeatInfo(List<MemberRoleBean> devSeatInfos) {
+    public static void exportSeatInfo(String fileName, String dirPath, List<MemberRoleBean> devSeatInfos) {
         App.threadPool.execute(() -> {
-            FileUtils.createOrExistsDir(Constant.export_dir);
+            FileUtils.createOrExistsDir(dirPath);
             //1.创建Excel文件
-            File file = createXlsFile(Constant.export_dir + "坐席表");
+            File file = createXlsFile(dirPath + "/" + fileName);
             try {
                 file.createNewFile();
                 //2.创建工作簿
@@ -1064,25 +1072,200 @@ public class JxlUtil {
      *
      * @param file 一定是.xls后缀的表格文件
      */
-    public static void readScoreXls(File file) {
-        App.threadPool.execute(() -> {
-            List<InterfaceFilescorevote.pbui_Type_UserDefineFileScore> fileScores = new ArrayList<>();
-            // TODO: 2021/5/25  
-            LogUtils.e("待实现");
-        });
+    public static List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> readScoreXls(File file) {
+//        App.threadPool.execute(() -> {
+        if (file != null && file.exists() && file.isFile() && file.getName().endsWith(".xls")) {
+            //满足条件进入try模块
+        } else {
+            return null;
+        }
+        try {
+            List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> fileScores = new ArrayList<>();
+            InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore.Builder builder = InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore.newBuilder();
+            InputStream is = new FileInputStream(file);
+            //使用jxl
+            Workbook rwb = Workbook.getWorkbook(is);
+            //有多少张表
+            Sheet[] sheets = rwb.getSheets();
+            //获取表格
+            Sheet sheet = sheets[0];
+            //有多少列
+            int columns = sheet.getColumns();
+            //有多少行
+            int rows = sheet.getRows();
+            //r=1 过滤掉第一行的标题
+            for (int r = 1; r < rows; r++) {
+                List<ByteString> textLists = new ArrayList<>();
+                for (int c = 0; c < columns; c++) {
+                    Cell cell = sheet.getCell(c, r);
+                    String contents = cell.getContents();
+                    switch (c) {//列数
+                        case 2:// 文件ID
+                            builder.setFileid(Integer.parseInt(contents));
+                            break;
+                        case 3:// 评分内容
+                            builder.setContent(s2b(contents));
+                            break;
+                        case 4:// 是否记名
+                            builder.setMode(contents.equals("是") ? 1 : 0);
+                            break;
+                        case 6:// 倒计时
+                            builder.setEndtime(Integer.parseInt(contents));
+                            break;
+                        case 10:// 有效选项
+                            builder.setSelectcount(Integer.parseInt(contents));
+                            break;
+                        case 11:// 选项一
+                        case 12:// 选项二
+                        case 13:// 选项三
+                        case 14:// 选项四
+                            String current = contents.contains("/") ? contents.substring(0, contents.indexOf("/")) : contents;
+                            textLists.add(s2b(current));
+                            break;
+                    }
+                }
+                builder.setSelectcount(textLists.size());
+                builder.addAllVoteText(textLists);
+                InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore build = builder.build();
+                fileScores.add(build);
+            }
+            is.close();
+            return fileScores;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return null;
+//        });
     }
 
-    public static void exportFileScore(List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> fileScores) {
+    /**
+     * 导出会议评分
+     *
+     * @param fileName   无后缀的文件名
+     * @param dirPath    保存的地址
+     * @param fileScores 评分数据
+     */
+    public static void exportFileScore(String fileName, String dirPath, final List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> fileScores) {
         App.threadPool.execute(() -> {
-            // TODO: 2021/5/25  
-            LogUtils.e("待实现");
+            FileUtils.createOrExistsDir(dirPath);
+            //1.创建Excel文件
+            File file = createXlsFile(dirPath + "/" + fileName);
+            try {
+                file.createNewFile();
+                //2.创建工作簿
+                WritableWorkbook workbook = Workbook.createWorkbook(file);
+                //3.创建Sheet
+                WritableSheet ws = workbook.createSheet("文件评分", 0);
+                //4.创建单元格
+                Label label;
+                //配置单元格样式
+                WritableCellFormat wc = new WritableCellFormat();
+                // 设置居中
+                wc.setAlignment(Alignment.CENTRE);
+                // 设置边框线
+                wc.setBorder(Border.ALL, BorderLineStyle.THIN);
+                // 设置单元格的背景颜色
+                wc.setBackground(Colour.WHITE);
+
+                label = new Label(0, 0, "序号", wc);
+                ws.addCell(label);
+                label = new Label(1, 0, "评分ID", wc);
+                ws.addCell(label);
+                label = new Label(2, 0, "文件ID", wc);
+                ws.addCell(label);
+                label = new Label(3, 0, "评分内容", wc);
+                ws.addCell(label);
+                label = new Label(4, 0, "是否记名", wc);
+                ws.addCell(label);
+                label = new Label(5, 0, "投票状态", wc);
+                ws.addCell(label);
+                label = new Label(6, 0, "倒计时(秒)", wc);
+                ws.addCell(label);
+                label = new Label(7, 0, "开始投票的时间", wc);
+                ws.addCell(label);
+                label = new Label(8, 0, "结束投票的时间", wc);
+                ws.addCell(label);
+                label = new Label(9, 0, "应到/已投", wc);
+                ws.addCell(label);
+                label = new Label(10, 0, "有效选项数量", wc);
+                ws.addCell(label);
+                label = new Label(11, 0, "选项一/总分", wc);
+                ws.addCell(label);
+                label = new Label(12, 0, "选项二/总分", wc);
+                ws.addCell(label);
+                label = new Label(13, 0, "选项三/总分", wc);
+                ws.addCell(label);
+                label = new Label(14, 0, "选项四/总分", wc);
+                ws.addCell(label);
+                LogUtils.e("文件评分个数=" + fileScores.size());
+                for (int i = 0; i < fileScores.size(); i++) {
+                    InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item = fileScores.get(i);
+                    LogUtils.i("当前的索引项=" + i + "，内容=" + item.getContent().toStringUtf8());
+                    //序号
+                    label = new Label(0, i + 1, String.valueOf(i + 1), wc);
+                    ws.addCell(label);
+                    //评分ID
+                    label = new Label(1, i + 1, String.valueOf(item.getVoteid()), wc);
+                    ws.addCell(label);
+                    //文件ID
+                    label = new Label(2, i + 1, String.valueOf(item.getFileid()), wc);
+                    ws.addCell(label);
+                    //评分内容
+                    label = new Label(3, i + 1, item.getContent().toStringUtf8(), wc);
+                    ws.addCell(label);
+                    //是否记名
+                    label = new Label(4, i + 1, item.getMode() == 1 ? "是" : "否", wc);
+                    ws.addCell(label);
+                    //投票状态
+                    label = new Label(5, i + 1, Constant.getVoteState(App.appContext, item.getVotestate()), wc);
+                    ws.addCell(label);
+                    //倒计时
+                    label = new Label(6, i + 1, String.valueOf(item.getTimeouts()), wc);
+                    ws.addCell(label);
+                    //开始投票时间
+                    label = new Label(7, i + 1, String.valueOf(item.getStarttime()), wc);
+                    ws.addCell(label);
+                    //结束投票时间
+                    label = new Label(8, i + 1, String.valueOf(item.getEndtime()), wc);
+                    ws.addCell(label);
+                    //应到/已投
+                    label = new Label(9, i + 1, item.getShouldmembernum() + "/" + item.getRealmembernum(), wc);
+                    ws.addCell(label);
+                    //有效选项数量
+                    label = new Label(10, i + 1, String.valueOf(item.getSelectcount()), wc);
+                    ws.addCell(label);
+                    List<Integer> itemsumscoreList = item.getItemsumscoreList();
+                    List<ByteString> voteTextList = item.getVoteTextList();
+                    int size = Math.min(itemsumscoreList.size(), voteTextList.size());
+                    for (int j = 0; j < size; j++) {
+                        String text = voteTextList.get(j).toStringUtf8();
+                        //选项/总分
+                        label = new Label(10 + 1 + j, i + 1, text + "/" + itemsumscoreList.get(j), wc);
+                        ws.addCell(label);
+                    }
+                }
+                //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
+                workbook.write();
+                //7.最后一步，关闭工作簿
+                workbook.close();
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
+            } catch (IOException | WriteException e) {
+                e.printStackTrace();
+            }
+
         });
     }
 
     /**
      * 导出某个评分的结果
      */
-    public static void exportSingleScoreResult(InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
+    public static void exportSingleScoreResult(String fileName,String dirPath,InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
         App.threadPool.execute(() -> {
             // TODO: 2021/5/25  
         });

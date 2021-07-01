@@ -32,6 +32,8 @@ import com.xlk.takstarpaperlessmanage.adapter.MemberPermissionAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.MemberRoleAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.MemberPermissionBean;
 import com.xlk.takstarpaperlessmanage.model.bean.MemberRoleBean;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
@@ -43,11 +45,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
@@ -71,6 +76,7 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
     private MemberPermissionAdapter permissionAdapter;
     private MemberRoleAdapter memberRoleAdapter;
     private PopupWindow memberRolePop;
+    private EditText edt_save_address;
 
     @Override
     protected int getLayoutId() {
@@ -107,11 +113,16 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
                 break;
             }
             case R.id.btn_export: {
-                if (JxlUtil.exportMemberInfo(presenter.memberRoleBeans)) {
-                    ToastUtils.showShort(R.string.export_successful);
-                } else {
-                    ToastUtils.showShort(R.string.export_failed);
+                if(presenter.memberRoleBeans.isEmpty()){
+                    ToastUtils.showShort(R.string.no_data_to_export);
+                    return;
                 }
+                showExportFilePop();
+//                if (JxlUtil.exportMemberInfo(presenter.memberRoleBeans)) {
+//                    ToastUtils.showShort(R.string.export_successful);
+//                } else {
+//                    ToastUtils.showShort(R.string.export_failed);
+//                }
                 break;
             }
             case R.id.btn_export_commonly: {
@@ -130,6 +141,40 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
                 showMemberRolePop();
                 break;
             }
+        }
+    }
+
+    private void showExportFilePop() {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, rvContent);
+        EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        edt_save_address = inflate.findViewById(R.id.edt_save_address);
+        edt_save_address.setKeyListener(null);
+        inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
+            String currentDirPath = edt_save_address.getText().toString().trim();
+            if (currentDirPath.isEmpty()) {
+                currentDirPath = Constant.root_dir;
+            }
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_EXPORT_MEMBER, currentDirPath).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String fileName = edt_file_name.getText().toString().trim();
+            String addr = edt_save_address.getText().toString().trim();
+            if (fileName.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
+                return;
+            }
+            JxlUtil.exportMemberInfo(fileName,addr,presenter.memberRoleBeans);
+            pop.dismiss();
+        });
+    }
+
+    @Override
+    public void updateExportDirPath(String dirPath) {
+        if(edt_save_address!=null){
+            edt_save_address.setText(dirPath);
         }
     }
 
@@ -337,7 +382,10 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
                 ToastUtil.showShort(R.string.please_enter_name_first);
                 return;
             }
-            if (!phone.isEmpty() && !RegexUtils.isTel(phone)) {
+            String regex="^((13[0-9])|(14[579])|(15[0-35-9])|(16[2567])|(17[0-35-8])|(18[0-9])|(19[0-35-9]))\\d{8}$";
+//            String regex="/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$/";
+
+            if (!phone.isEmpty() && !Pattern.matches(regex,phone)) {
                 ToastUtil.showShort(R.string.incorrect_phone_format);
                 return;
             }

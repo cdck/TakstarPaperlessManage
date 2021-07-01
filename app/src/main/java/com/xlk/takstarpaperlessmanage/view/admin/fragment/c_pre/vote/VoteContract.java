@@ -9,6 +9,8 @@ import com.xlk.takstarpaperlessmanage.base.BaseContract;
 public interface VoteContract {
     interface View extends BaseContract.View{
         void updateVoteList();
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void setVoteType(int vote_type);

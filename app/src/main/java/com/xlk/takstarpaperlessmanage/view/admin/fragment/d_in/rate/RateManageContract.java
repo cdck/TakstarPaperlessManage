@@ -13,6 +13,8 @@ interface RateManageContract {
         void updateMemberDetailedList();
 
         void updateScoreSubmitMemberList();
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void queryFileScore();

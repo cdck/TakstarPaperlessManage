@@ -7,7 +7,9 @@ import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfacePerson;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
+import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
@@ -41,6 +43,14 @@ public class AttendeePresenter extends BasePresenter<AttendeeContract.View> impl
                 }
                 break;
             }
+            case EventType.RESULT_DIR_PATH:{
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if(dirType== Constant.CHOOSE_DIR_TYPE_EXPORT_OFTEN_MEMBER){
+                    mView.updateExportDirPath(dirPath);
+                }
+                break;
+            }
         }
     }
 
@@ -52,14 +62,5 @@ public class AttendeePresenter extends BasePresenter<AttendeeContract.View> impl
             attendees.addAll(info.getItemList());
         }
         mView.updateAttendeeList();
-    }
-
-    @Override
-    public void exportAttendee() {
-        if(attendees.isEmpty()){
-            ToastUtil.showShort(R.string.tip_data_empty);
-            return;
-        }
-        JxlUtil.exportMember(attendees);
     }
 }

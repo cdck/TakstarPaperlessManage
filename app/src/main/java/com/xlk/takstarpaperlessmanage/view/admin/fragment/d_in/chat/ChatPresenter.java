@@ -196,7 +196,7 @@ class ChatPresenter extends BasePresenter<ChatContract.View> implements ChatCont
         InterfaceMember.pbui_Type_MemberDetailInfo info = jni.queryMember();
         members.clear();
         if (info != null) {
-            members = info.getItemList();
+            members.addAll(info.getItemList());
         }
         queryDevice();
     }
