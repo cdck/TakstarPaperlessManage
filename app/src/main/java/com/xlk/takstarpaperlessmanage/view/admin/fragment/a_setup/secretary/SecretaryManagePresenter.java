@@ -26,6 +26,9 @@ public class SecretaryManagePresenter extends BasePresenter<SecretaryManageContr
     public HashMap<Integer, List<Integer>> allAdminControllableRooms = new HashMap<>();//管理员可控的会场
     public List<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> controlledRooms = new ArrayList<>();//可控会场
     public List<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> optionalRooms = new ArrayList<>();//剩下的会场
+
+    public List<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> preControlledRooms = new ArrayList<>();
+    public List<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> preOptionalRooms = new ArrayList<>();
     private int currentAdminId;
     private List<Integer> removeIds = new ArrayList<>();
     private List<Integer> addIds = new ArrayList<>();
@@ -144,28 +147,25 @@ public class SecretaryManagePresenter extends BasePresenter<SecretaryManageContr
     }
 
     @Override
-    public void defineModify() {
-        LogUtils.e("管理员会场修改 addIds=" + addIds.toString() + ",removeIds=" + removeIds.toString());
-        boolean successful = false;
-        if (!addIds.isEmpty() || !removeIds.isEmpty()) {
-            successful = true;
-            addIds.clear();
-            removeIds.clear();
-            List<Integer> temps = new ArrayList<>();
-            for (int i = 0; i < controlledRooms.size(); i++) {
-                temps.add(controlledRooms.get(i).getRoomid());
-            }
-            jni.saveAdminRoom(currentAdminId, temps);
-        }
-        ToastUtil.showShort(successful ? R.string.modified_successfully : R.string.no_changes);
+    public void repeal() {
+        controlledRooms.clear();
+        controlledRooms.addAll(preControlledRooms);
+        optionalRooms.clear();
+        optionalRooms.addAll(preOptionalRooms);
+        mView.updateOptionalRoomList();
+        mView.updateControlledRoomList();
+    }
+
+    @Override
+    public void savePreviousStep() {
+        preControlledRooms.clear();
+        preControlledRooms.addAll(controlledRooms);
+        preOptionalRooms.clear();
+        preOptionalRooms.addAll(optionalRooms);
     }
 
     @Override
     public void addRoom2Admin(List<Integer> roomIds) {
-        if (currentAdminId == 1) {
-            ToastUtil.showShort(R.string.unable_to_modify_root_account);
-            return;
-        }
         List<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> temps = new ArrayList<>();
         Iterator<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> iterator = optionalRooms.iterator();
         while (iterator.hasNext()) {
@@ -188,10 +188,10 @@ public class SecretaryManagePresenter extends BasePresenter<SecretaryManageContr
 
     @Override
     public void removeRoomFromAdmin(List<Integer> roomIds) {
-//        if (currentAdminId == 1) {
-//            ToastUtil.showShort(R.string.unable_to_modify_root_account);
-//            return;
-//        }
+        if (currentAdminId == 1) {
+            ToastUtil.showShort(R.string.unable_to_modify_root_account);
+            return;
+        }
         List<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> temps = new ArrayList<>();
         Iterator<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> iterator = controlledRooms.iterator();
         while (iterator.hasNext()) {
@@ -210,5 +210,22 @@ public class SecretaryManagePresenter extends BasePresenter<SecretaryManageContr
         optionalRooms.addAll(temps);
         mView.updateControlledRoomList();
         mView.updateOptionalRoomList();
+    }
+
+    @Override
+    public void defineModify() {
+        LogUtils.e("管理员会场修改 addIds=" + addIds.toString() + ",removeIds=" + removeIds.toString());
+        boolean successful = false;
+        if (!addIds.isEmpty() || !removeIds.isEmpty()) {
+            successful = true;
+            addIds.clear();
+            removeIds.clear();
+            List<Integer> temps = new ArrayList<>();
+            for (int i = 0; i < controlledRooms.size(); i++) {
+                temps.add(controlledRooms.get(i).getRoomid());
+            }
+            jni.saveAdminRoom(currentAdminId, temps);
+        }
+        ToastUtil.showShort(successful ? R.string.modified_successfully : R.string.no_changes);
     }
 }

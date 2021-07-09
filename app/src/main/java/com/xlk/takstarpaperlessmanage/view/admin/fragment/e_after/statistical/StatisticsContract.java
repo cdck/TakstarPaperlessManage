@@ -12,6 +12,8 @@ interface StatisticsContract {
         void updateCount(InterfaceStatistic.pbui_Type_MeetStatisticInfo info);
 
         void updateCountByTime(InterfaceStatistic.pbui_Type_MeetQuarterStatisticInfo info);
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void queryMeetingStatistics();

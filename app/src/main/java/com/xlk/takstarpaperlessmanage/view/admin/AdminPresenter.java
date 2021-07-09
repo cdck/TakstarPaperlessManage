@@ -5,8 +5,10 @@ import android.content.Context;
 import com.blankj.utilcode.util.LogUtils;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.mogujie.tt.protobuf.InterfaceBase;
+import com.mogujie.tt.protobuf.InterfaceDevice;
 import com.mogujie.tt.protobuf.InterfaceIM;
 import com.mogujie.tt.protobuf.InterfaceMacro;
+import com.mogujie.tt.protobuf.InterfaceMeet;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
@@ -128,6 +130,19 @@ public class AdminPresenter extends BasePresenter<AdminContract.View> implements
                 }
                 break;
             }
+            //界面状态变更通知
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEVICEMEETSTATUS_VALUE: {
+                byte[] bytes = (byte[]) msg.getObjects()[0];
+                InterfaceDevice.pbui_MeetDeviceMeetStatus info = InterfaceDevice.pbui_MeetDeviceMeetStatus.parseFrom(bytes);
+                int deviceid = info.getDeviceid();
+                int facestatus = info.getFacestatus();
+                int memberid = info.getMemberid();
+                int meetingid = info.getMeetingid();
+                int oldfacestatus = info.getOldfacestatus();
+                LogUtils.i("界面状态变更通知 deviceid=" + deviceid + ",memberid=" + memberid + ",meetingid=" + meetingid + ",facestatus=" + facestatus + ",oldfacestatus=" + oldfacestatus);
+                updateCurrentMeeting();
+                break;
+            }
             //打开下载完成的图片
             case EventType.BUS_PREVIEW_IMAGE: {
                 String filepath = (String) msg.getObjects()[0];
@@ -146,6 +161,18 @@ public class AdminPresenter extends BasePresenter<AdminContract.View> implements
                 previewImage(index);
                 break;
             }
+        }
+    }
+
+    @Override
+    public void updateCurrentMeeting() {
+        GlobalValue.currentMeetingId = getCurrentMeetingId();
+        LogUtils.e("当前的会议id=" + GlobalValue.currentMeetingId);
+        InterfaceMeet.pbui_Item_MeetMeetInfo info = jni.queryMeetingById(GlobalValue.currentMeetingId);
+        if (info != null) {
+            mView.updateMeetingName(info.getName().toStringUtf8());
+        } else {
+            mView.updateMeetingName("未选择会议！");
         }
     }
 

@@ -41,7 +41,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         return inflate;
     }
 
-    private void initialPopupWindowXY() {
+    protected void initialPopupWindowXY() {
         if (popX != 0) return;
         /* **** **  getDimensionPixelSize 得到的值为px值且会进行四舍五入  ** **** */
         int act_fragment_marginStart = getContext().getResources().getDimensionPixelSize(R.dimen.act_fragment_marginStart);

@@ -25,7 +25,7 @@ import java.util.Objects;
  */
 public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
 
-    private List<InterfaceAdmin.pbui_Item_AdminDetailInfo> admins=new ArrayList<>();
+    private List<InterfaceAdmin.pbui_Item_AdminDetailInfo> admins = new ArrayList<>();
 
     public MainPresenter(MainContract.View view) {
         super(view);
@@ -34,24 +34,6 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
-            //平台初始化结果
-            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_READY_VALUE: {
-                int method = msg.getMethod();
-                byte[] bytes = (byte[]) msg.getObjects()[0];
-                if (method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_NOTIFY_VALUE) {
-                    InterfaceBase.pbui_Ready error = InterfaceBase.pbui_Ready.parseFrom(bytes);
-                    int areaid = error.getAreaid();
-                    LogUtils.i(TAG, "平台初始化结果 连接上的区域服务器ID=" + areaid);
-                    GlobalValue.initializationIsOver = true;
-                    initial();
-                } else if (method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_LOGON_VALUE) {
-                    InterfaceBase.pbui_Type_LogonError error = InterfaceBase.pbui_Type_LogonError.parseFrom(bytes);
-                    //Pb_WalletSystem_ErrorCode
-                    int errcode = error.getErrcode();
-                    LogUtils.i(TAG, "平台初始化结果 errcode=" + errcode);
-                }
-                break;
-            }
             //平台登陆验证返回
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEVICEVALIDATE_VALUE: {
                 byte[] s = (byte[]) msg.getObjects()[0];
@@ -108,23 +90,25 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     }
                 }
                 break;
-            }/*
-            //数据后台回复的错误信息
-            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DBSERVERERROR_VALUE: {
+            }
+            //平台初始化结果
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_READY_VALUE: {
+                int method = msg.getMethod();
                 byte[] bytes = (byte[]) msg.getObjects()[0];
-                InterfaceBase.pbui_Type_MeetDBServerOperError info = InterfaceBase.pbui_Type_MeetDBServerOperError.parseFrom(bytes);
-                if (info != null) {
-                    int type = info.getType();
-                    int method = info.getMethod();
-                    int status = info.getStatus();
-                    LogUtils.e(TAG, "数据后台回复的错误信息 type=" + type + ",method=" + method + ",status=" + status);
-                    if (type == 8 && method == 10) {
-                        //管理员登录
-                        mView.updateLoginStatus(status);
-                    }
+                if (method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_NOTIFY_VALUE) {
+                    InterfaceBase.pbui_Ready error = InterfaceBase.pbui_Ready.parseFrom(bytes);
+                    int areaid = error.getAreaid();
+                    LogUtils.i(TAG, "平台初始化结果 连接上的区域服务器ID=" + areaid);
+                    GlobalValue.initializationIsOver = true;
+                    initial();
+                } else if (method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_LOGON_VALUE) {
+                    InterfaceBase.pbui_Type_LogonError error = InterfaceBase.pbui_Type_LogonError.parseFrom(bytes);
+                    //Pb_WalletSystem_ErrorCode
+                    int errcode = error.getErrcode();
+                    LogUtils.i(TAG, "平台初始化结果 errcode=" + errcode);
                 }
                 break;
-            }*/
+            }
             //管理员登录返回
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ADMIN_VALUE: {
                 if (msg.getMethod() == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_LOGON_VALUE) {
@@ -134,7 +118,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     if (info != null) {
                         mView.loginBack(info);
                     }
-                }else if(msg.getMethod()==InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_NOTIFY_VALUE){
+                } else if (msg.getMethod() == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_NOTIFY_VALUE) {
                     LogUtils.i("管理员变更通知");
                     queryAdmin();
                 }
@@ -172,13 +156,14 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
 
     /**
      * 判断登陆的用户名是否存在
+     *
      * @param name 用户名
      * @return
      */
-    public boolean isHasAdminName(String name){
+    public boolean isHasAdminName(String name) {
         for (int i = 0; i < admins.size(); i++) {
             InterfaceAdmin.pbui_Item_AdminDetailInfo admin = admins.get(i);
-            if(admin.getAdminname().toStringUtf8().equals(name)){
+            if (admin.getAdminname().toStringUtf8().equals(name)) {
                 return true;
             }
         }

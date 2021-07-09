@@ -14,6 +14,8 @@ interface VoteResultContract {
         void showSubmittedPop(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote);
 
         void showChartPop(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote);
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void setVoteType(int voteType);

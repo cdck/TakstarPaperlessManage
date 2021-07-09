@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -65,86 +66,65 @@ public class SeatBindFragment extends BaseFragment<SeatBindPresenter> implements
         rootView = (LinearLayout) inflate.findViewById(R.id.root_view);
         rvMember = (RecyclerView) inflate.findViewById(R.id.rv_member);
         seatView = (CustomSeatView) inflate.findViewById(R.id.seat_view);
-        inflate.findViewById(R.id.btn_member_role).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<MemberRoleBean> temps = new ArrayList<>();
-                temps.addAll(presenter.memberRoleBeans);
-                showMemberRolePop(temps);
-            }
+        inflate.findViewById(R.id.btn_member_role).setOnClickListener(v -> {
+            List<MemberRoleBean> temps = new ArrayList<>();
+            temps.addAll(presenter.memberRoleBeans);
+            showMemberRolePop(temps);
         });
-        inflate.findViewById(R.id.btn_bind).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int memberId = bindMemberAdapter.getSelectedId();
-                if (memberId == -1) {
-                    ToastUtils.showShort(R.string.please_choose_member_first);
-                    return;
-                }
-                List<Integer> selectedIds = seatView.getSelectedIds();
-                if (selectedIds.isEmpty()) {
-                    ToastUtils.showShort(R.string.please_choose_seat);
-                    return;
-                }
-                jni.modifyMeetRanking(memberId, InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE, selectedIds.get(0));
+        inflate.findViewById(R.id.btn_bind).setOnClickListener(v -> {
+            int memberId = bindMemberAdapter.getSelectedId();
+            if (memberId == -1) {
+                ToastUtils.showShort(R.string.please_choose_member_first);
+                return;
             }
-        });
-        inflate.findViewById(R.id.btn_unbind).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Integer> selectedIds = seatView.getSelectedIds();
-                if (selectedIds.isEmpty()) {
-                    ToastUtils.showShort(R.string.please_choose_seat);
-                    return;
-                }
-                jni.modifyMeetRanking(0, InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE, selectedIds.get(0));
+            List<Integer> selectedIds = seatView.getSelectedIds();
+            if (selectedIds.isEmpty()) {
+                ToastUtils.showShort(R.string.please_choose_seat);
+                return;
             }
+            jni.modifyMeetRanking(memberId, InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE, selectedIds.get(0));
         });
-        inflate.findViewById(R.id.btn_random_bind).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < presenter.memberRoleBeans.size(); i++) {
-                    for (int j = 0; j < presenter.seatData.size(); j++) {
-                        if (i == j) {
-                            jni.modifyMeetRanking(presenter.memberRoleBeans.get(i).getMember().getPersonid(),
-                                    InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE,
-                                    presenter.seatData.get(j).getDevid());
-                            break;
-                        }
+        inflate.findViewById(R.id.btn_unbind).setOnClickListener(v -> {
+            List<Integer> selectedIds = seatView.getSelectedIds();
+            if (selectedIds.isEmpty()) {
+                ToastUtils.showShort(R.string.please_choose_seat);
+                return;
+            }
+            jni.modifyMeetRanking(0, InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE, selectedIds.get(0));
+        });
+        inflate.findViewById(R.id.btn_random_bind).setOnClickListener(v -> {
+            for (int i = 0; i < presenter.memberRoleBeans.size(); i++) {
+                for (int j = 0; j < presenter.seatData.size(); j++) {
+                    if (i == j) {
+                        jni.modifyMeetRanking(presenter.memberRoleBeans.get(i).getMember().getPersonid(),
+                                InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE,
+                                presenter.seatData.get(j).getDevid());
+                        break;
                     }
                 }
             }
         });
-        inflate.findViewById(R.id.btn_unbind_all).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<InterfaceRoom.pbui_Item_MeetSeatDetailInfo> temps = new ArrayList<>();
-                for (int i = 0; i < presenter.seatData.size(); i++) {
-                    InterfaceRoom.pbui_Item_MeetSeatDetailInfo build = InterfaceRoom.pbui_Item_MeetSeatDetailInfo.newBuilder()
-                            .setNameId(0)
-                            .setSeatid(presenter.seatData.get(i).getDevid())
-                            .setRole(InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE)
-                            .build();
-                    temps.add(build);
-                }
-                jni.modifyMeetRanking(temps);
+        inflate.findViewById(R.id.btn_unbind_all).setOnClickListener(v -> {
+            List<InterfaceRoom.pbui_Item_MeetSeatDetailInfo> temps = new ArrayList<>();
+            for (int i = 0; i < presenter.seatData.size(); i++) {
+                InterfaceRoom.pbui_Item_MeetSeatDetailInfo build = InterfaceRoom.pbui_Item_MeetSeatDetailInfo.newBuilder()
+                        .setNameId(0)
+                        .setSeatid(presenter.seatData.get(i).getDevid())
+                        .setRole(InterfaceMacro.Pb_MeetMemberRole.Pb_role_member_normal_VALUE)
+                        .build();
+                temps.add(build);
             }
+            jni.modifyMeetRanking(temps);
         });
-        inflate.findViewById(R.id.btn_import).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        inflate.findViewById(R.id.btn_import).setOnClickListener(v -> {
 
-            }
         });
-        inflate.findViewById(R.id.btn_export).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(presenter.memberRoleBeans.isEmpty()){
-                    ToastUtil.showShort(R.string.no_data_to_export);
-                    return;
-                }
-                showExportFilePop();
+        inflate.findViewById(R.id.btn_export).setOnClickListener(v -> {
+            if (presenter.memberRoleBeans.isEmpty()) {
+                ToastUtil.showShort(R.string.no_data_to_export);
+                return;
             }
+            showExportFilePop();
         });
     }
 
@@ -170,14 +150,14 @@ public class SeatBindFragment extends BaseFragment<SeatBindPresenter> implements
                 ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
                 return;
             }
-            JxlUtil.exportSeatInfo(fileName,addr,presenter.memberRoleBeans);
+            JxlUtil.exportSeatInfo(fileName, addr, presenter.memberRoleBeans);
             pop.dismiss();
         });
     }
 
     @Override
     public void updateExportDirPath(String dirPath) {
-        if(edt_save_address!=null){
+        if (edt_save_address != null) {
             edt_save_address.setText(dirPath);
         }
     }

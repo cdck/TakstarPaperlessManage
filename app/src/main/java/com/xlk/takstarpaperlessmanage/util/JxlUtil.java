@@ -258,11 +258,6 @@ public class JxlUtil {
      * @see InterfaceMacro.Pb_MeetVoteType
      */
     public static List<InterfaceVote.pbui_Item_MeetOnVotingDetailInfo> readVoteXls(String filePath, int mainType) {
-        File file = new File(filePath);
-        if (!file.exists()) {
-            LogUtils.e(TAG, "readVoteXls 没有找到该文件：" + filePath);
-            return null;
-        }
         List<InterfaceVote.pbui_Item_MeetOnVotingDetailInfo> temps = new ArrayList<>();
         InterfaceVote.pbui_Item_MeetOnVotingDetailInfo.Builder builder = InterfaceVote.pbui_Item_MeetOnVotingDetailInfo.newBuilder();
         try {
@@ -588,7 +583,7 @@ public class JxlUtil {
      * @param devSeatInfos 参会人信息（包括会议身份）
      */
     public static void exportMemberInfo(String fileName, String dirPath, List<MemberRoleBean> devSeatInfos) {
-        App.threadPool.execute(() -> {
+//        App.threadPool.execute(() -> {
             FileUtils.createOrExistsDir(dirPath);
             //1.创建Excel文件
             File file = createXlsFile(dirPath + "/" + fileName);
@@ -680,7 +675,7 @@ public class JxlUtil {
             } catch (IOException | WriteException e) {
                 e.printStackTrace();
             }
-        });
+//        });
     }
 
     /**
@@ -688,10 +683,10 @@ public class JxlUtil {
      *
      * @param signInData 签到信息
      */
-    public static boolean exportArchiveSignIn(List<SignInBean> signInData) {
-        FileUtils.createOrExistsDir(Constant.export_dir);
+    public static boolean exportArchiveSignIn(String dirPath, List<SignInBean> signInData) {
+        FileUtils.createOrExistsDir(dirPath);
         //1.创建Excel文件
-        File file = createXlsFile(Constant.export_dir + "会议签到信息");
+        File file = createXlsFile(dirPath + "会议签到信息");
         try {
             file.createNewFile();
             //2.创建工作簿
@@ -757,6 +752,7 @@ public class JxlUtil {
             workbook.write();
             //7.最后一步，关闭工作簿
             workbook.close();
+            LogUtils.e("归档会议签到信息  完毕-------" + file.getAbsolutePath());
             return true;
         } catch (IOException | WriteException e) {
             e.printStackTrace();
@@ -771,10 +767,10 @@ public class JxlUtil {
      * @param size     参会人总数
      * @param isVote   =true投票，=false选举
      */
-    public static boolean exportArchiveVote(List<InterfaceVote.pbui_Item_MeetVoteDetailInfo> voteData, int size, boolean isVote) {
-        FileUtils.createOrExistsDir(Constant.export_dir);
+    public static boolean exportArchiveVote(String dirPath, List<InterfaceVote.pbui_Item_MeetVoteDetailInfo> voteData, int size, boolean isVote) {
+        FileUtils.createOrExistsDir(dirPath);
         //1.创建Excel文件
-        File file = createXlsFile(Constant.export_dir + (isVote ? "投票结果导出" : "选举结果导出"));
+        File file = createXlsFile(dirPath + (isVote ? "投票结果导出" : "选举结果导出"));
         try {
             file.createNewFile();
             //2.创建工作簿
@@ -943,6 +939,7 @@ public class JxlUtil {
             workbook.write();
             //7.最后一步，关闭工作簿
             workbook.close();
+            LogUtils.e("归档投票/选举信息  完毕-------" + file.getAbsolutePath());
             return true;
         } catch (IOException | WriteException e) {
             e.printStackTrace();
@@ -1074,13 +1071,8 @@ public class JxlUtil {
      */
     public static List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> readScoreXls(File file) {
 //        App.threadPool.execute(() -> {
-        if (file != null && file.exists() && file.isFile() && file.getName().endsWith(".xls")) {
-            //满足条件进入try模块
-        } else {
-            return null;
-        }
+        List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> fileScores = new ArrayList<>();
         try {
-            List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> fileScores = new ArrayList<>();
             InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore.Builder builder = InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore.newBuilder();
             InputStream is = new FileInputStream(file);
             //使用jxl
@@ -1130,7 +1122,6 @@ public class JxlUtil {
                 fileScores.add(build);
             }
             is.close();
-            return fileScores;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -1140,7 +1131,7 @@ public class JxlUtil {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        return null;
+        return fileScores;
 //        });
     }
 
@@ -1265,7 +1256,7 @@ public class JxlUtil {
     /**
      * 导出某个评分的结果
      */
-    public static void exportSingleScoreResult(String fileName,String dirPath,InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
+    public static void exportSingleScoreResult(String fileName, String dirPath, InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
         App.threadPool.execute(() -> {
             // TODO: 2021/5/25  
         });

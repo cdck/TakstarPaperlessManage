@@ -107,11 +107,13 @@ public class TableFragment extends BaseFragment<TablePresenter> implements Table
             presenter.clearBackgroundImage();
             tableCardView.setBackgroundColor(Color.WHITE);
         });
-        inflate.findViewById(R.id.btn_save_default).setOnClickListener(v -> presenter.save(InterfaceTablecard.Pb_TableCard_ModifyFlag.Pb_TABLECARD_MODFLAG_SETDEFAULT_VALUE,
-                tableCardView.getTableCardData()));
+        inflate.findViewById(R.id.btn_save_default).setOnClickListener(v ->
+                presenter.save(InterfaceTablecard.Pb_TableCard_ModifyFlag.Pb_TABLECARD_MODFLAG_SETDEFAULT_VALUE,
+                        tableCardView.getTableCardData()));
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> presenter.queryTableCard());
-        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> presenter.save(InterfaceTablecard.Pb_TableCard_ModifyFlag.Pb_TABLECARD_MODFLAG_ZERO_VALUE,
-                tableCardView.getTableCardData()));
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v ->
+                presenter.save(InterfaceTablecard.Pb_TableCard_ModifyFlag.Pb_TABLECARD_MODFLAG_ZERO_VALUE,
+                        tableCardView.getTableCardData()));
     }
 
     @Override

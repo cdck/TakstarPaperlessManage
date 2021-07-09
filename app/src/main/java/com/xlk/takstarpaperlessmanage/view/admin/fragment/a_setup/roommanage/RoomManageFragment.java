@@ -21,6 +21,7 @@ import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -70,25 +71,22 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
             rv_room.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_room.addItemDecoration(new RvItemDecoration(getContext()));
             rv_room.setAdapter(roomAdapter);
-            roomAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                    InterfaceRoom.pbui_Item_MeetRoomDetailInfo item = presenter.meetRooms.get(position);
-                    switch (view.getId()) {
-                        case R.id.tv_device_manage: {
-                            presenter.setCurrentRoomId(item.getRoomid());
-                            presenter.queryDevice(item.getRoomid());
-                            showDeviceManagePop();
-                            break;
-                        }
-                        case R.id.tv_modify: {
-                            showAddorModifyPop(item);
-                            break;
-                        }
-                        case R.id.tv_delete: {
-                            showDeletePop(item);
-                            break;
-                        }
+            roomAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+                InterfaceRoom.pbui_Item_MeetRoomDetailInfo item = presenter.meetRooms.get(position);
+                switch (view.getId()) {
+                    case R.id.tv_device_manage: {
+                        presenter.setCurrentRoomId(item.getRoomid());
+                        presenter.queryDevice(item.getRoomid());
+                        showDeviceManagePop();
+                        break;
+                    }
+                    case R.id.tv_modify: {
+                        showAddorModifyPop(item);
+                        break;
+                    }
+                    case R.id.tv_delete: {
+                        showDeletePop(item);
+                        break;
                     }
                 }
             });
@@ -101,12 +99,9 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
     public void updateRoomDeviceRv() {
         if (roomDevAdapter == null) {
             roomDevAdapter = new ClientAdapter(presenter.roomDevices, true);
-            roomDevAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    int devcieid = presenter.roomDevices.get(position).getDevcieid();
-                    roomDevAdapter.setSelected(devcieid);
-                }
+            roomDevAdapter.setOnItemClickListener((adapter, view, position) -> {
+                int devcieid = presenter.roomDevices.get(position).getDevcieid();
+                roomDevAdapter.setSelected(devcieid);
             });
         } else {
             roomDevAdapter.notifySelected();
@@ -117,12 +112,9 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
     public void updateOtherDeviceRv() {
         if (otherDevAdapter == null) {
             otherDevAdapter = new ClientAdapter(presenter.otherDevices, true);
-            otherDevAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    int devcieid = presenter.otherDevices.get(position).getDevcieid();
-                    otherDevAdapter.setSelected(devcieid);
-                }
+            otherDevAdapter.setOnItemClickListener((adapter, view, position) -> {
+                int devcieid = presenter.otherDevices.get(position).getDevcieid();
+                otherDevAdapter.setSelected(devcieid);
             });
         } else {
             otherDevAdapter.notifySelected();
@@ -131,6 +123,7 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
 
     private void showDeviceManagePop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_room_device_manage, null, false);
+        initialPopupWindowXY();
         deviceManagePop = PopUtil.createCoverPopupWindow(inflate, rv_room, popWidth, popHeight, popX, popY);
         RecyclerView rv_room_device = inflate.findViewById(R.id.rv_room_device);
         rv_room_device.setAdapter(roomDevAdapter);
@@ -155,6 +148,7 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
                 ToastUtil.showShort(R.string.please_select_device_first);
                 return;
             }
+            presenter.savePreviousStep();
             presenter.addDevice2Room(deviceIds);
         });
         //移除
@@ -164,15 +158,18 @@ public class RoomManageFragment extends BaseFragment<RoomManagePresenter> implem
                 ToastUtil.showShort(R.string.please_select_device_first);
                 return;
             }
+            presenter.savePreviousStep();
             presenter.removeDeviceFromRoom(deviceIds);
         });
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> deviceManagePop.dismiss());
-        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> deviceManagePop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> presenter.repeal());
         inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
             presenter.defineModify();
         });
         deviceManagePop.setOnDismissListener(() -> {
             presenter.setCurrentRoomId(0);
+            otherDevAdapter.checkAll(false);
+            roomDevAdapter.checkAll(false);
         });
     }
 

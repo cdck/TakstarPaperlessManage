@@ -25,6 +25,7 @@ import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceMember;
 import com.mogujie.tt.protobuf.InterfacePerson;
 import com.mogujie.tt.protobuf.InterfaceRoom;
+import com.xlk.takstarpaperlessmanage.App;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.adapter.CommonlyMemberAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.MemberAdapter;
@@ -166,7 +167,9 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
                 ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
                 return;
             }
-            JxlUtil.exportMemberInfo(fileName,addr,presenter.memberRoleBeans);
+            App.threadPool.execute(()->{
+                JxlUtil.exportMemberInfo(fileName,addr,presenter.memberRoleBeans);
+            });
             pop.dismiss();
         });
     }
@@ -267,6 +270,7 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
 
     private void showSortPop(List<InterfaceMember.pbui_Item_MemberDetailInfo> sortMembers) {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_sort_member, null, false);
+        initialPopupWindowXY();
         sortMemberPop = PopUtil.createCoverPopupWindow(inflate, rootView, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         MemberAdapter sortMemberAdapter = new MemberAdapter(sortMembers, true);
@@ -450,6 +454,7 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
 
     private void showCommonlyMemberPop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_commonly_member, null, false);
+        initialPopupWindowXY();
         commonlyMemberPop = PopUtil.createCoverPopupWindow(inflate, rootView, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         CheckBox cb_all = inflate.findViewById(R.id.cb_all);
@@ -497,6 +502,7 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
 
     private void showPermissionPop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_member_permission, null, false);
+        initialPopupWindowXY();
         memberPermissionPop = PopUtil.createCoverPopupWindow(inflate, rootView, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         CheckBox cb_all_member = inflate.findViewById(R.id.cb_all_member);
@@ -605,6 +611,7 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
 
     private void showMemberRolePop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_member_role, null, false);
+        initialPopupWindowXY();
         memberRolePop = PopUtil.createCoverPopupWindow(inflate, rootView, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         CheckBox cb_all_member = inflate.findViewById(R.id.cb_all_member);

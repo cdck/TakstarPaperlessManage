@@ -75,7 +75,7 @@ public class BackService extends Service {
                 File file = new File(filePath);
                 if ("归档参会人信息.xls".equals(file.getName())) {
                     EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEMBER).build());
-                }else {
+                } else {
                     ToastUtil.showLong(getString(R.string.export_successful_, filePath));
                 }
                 break;
@@ -125,43 +125,42 @@ public class BackService extends Service {
     }
 
     private void resultStatus(InterfaceBase.pbui_Type_MeetDBServerOperError info) {
-
         int type = info.getType();
         int method = info.getMethod();
         int status = info.getStatus();
         LogUtils.e("数据后台回复的错误信息 type=" + type + ",method=" + method + ",status=" + status);
-        if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_DONE_VALUE){
+        if (status == InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_DONE_VALUE) {
             ToastUtil.showShort(R.string.successful_operation);
             return;
-        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_EXCPT_DB_VALUE){
+        } else if (status == InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_EXCPT_DB_VALUE) {
             ToastUtil.showShort(R.string.db_error_5);
             return;
-        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_EXCPT_SV_VALUE){
+        } else if (status == InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_EXCPT_SV_VALUE) {
             ToastUtil.showShort(R.string.db_error_6);
             return;
-        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_ACCESSDENIED_VALUE){
+        } else if (status == InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_ACCESSDENIED_VALUE) {
             ToastUtil.showShort(R.string.db_error_7);
             return;
-        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_PSWFAILED_VALUE){
+        } else if (status == InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_PSWFAILED_VALUE) {
             ToastUtil.showShort(R.string.db_error_8);
             return;
-        }else if(status==InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_PROTOLDISMATCH_VALUE){
+        } else if (status == InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_PROTOLDISMATCH_VALUE) {
             ToastUtil.showShort(R.string.db_error_12);
             return;
         }
-        switch (type){
+        switch (type) {
             //管理员相关
-            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ADMIN_VALUE:{
-                if(method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_LOGON_VALUE){
-                    switch (status){
-                        case InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_FAIL_VALUE:{
+            case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ADMIN_VALUE: {
+                if (method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_LOGON_VALUE) {
+                    switch (status) {
+                        case InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_FAIL_VALUE: {
                             ToastUtils.showShort(R.string.wrong_password);
                             break;
                         }
                     }
-                }else if(method==InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE){
-                    switch (status){
-                        case InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_ACCESSDENIED_VALUE:{
+                } else if (method == InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE) {
+                    switch (status) {
+                        case InterfaceMacro.Pb_DB_StatusCode.Pb_STATUS_ACCESSDENIED_VALUE: {
                             ToastUtils.showShort(R.string.no_permission);
                             break;
                         }
@@ -310,7 +309,7 @@ public class BackService extends Service {
         String filepath = pbui_type_downloadCb.getPathname().toStringUtf8();
         String userStr = pbui_type_downloadCb.getUserstr().toStringUtf8();
         String fileName = filepath.substring(filepath.lastIndexOf("/") + 1).toLowerCase();
-        LogUtils.i("downloadInform userStr=" + userStr + ",进度=" + progress + ",nstate=" + nstate);
+        LogUtils.i("downloadInform userStr=" + userStr + ",进度=" + progress + ",nstate=" + nstate + ",filepath=" + filepath);
         if (nstate == InterfaceMacro.Pb_Download_State.Pb_STATE_MEDIA_DOWNLOAD_WORKING_VALUE) {
             if (
                     !userStr.equals(Constant.ROOM_BG_PNG_TAG)//会场底图
@@ -336,8 +335,25 @@ public class BackService extends Service {
                             && !userStr.equals(Constant.ARCHIVE_MEET_DATA_FILE)
                             //归档议程文件
                             && !userStr.equals(Constant.ARCHIVE_AGENDA_FILE)
+//                            && !userStr.equals(Constant.ARCHIVE_DOWNLOAD_FILE)
             ) {
                 ToastUtils.showShort(getString(R.string.file_downloaded_percent, fileName, progress + "%"));
+            }
+//            if (userStr.equals(Constant.ARCHIVE_SHARE_FILE)
+//                    || userStr.equals(Constant.ARCHIVE_ANNOTATION_FILE)
+//                    || userStr.equals(Constant.ARCHIVE_MEET_DATA_FILE)
+//                    || userStr.equals(Constant.ARCHIVE_AGENDA_FILE)
+//            ) {
+//                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.ARCHIVE_BUS_DOWNLOAD_FILE).objects(mediaid, fileName, progress).build());
+//            }
+            if (userStr.equals(Constant.ARCHIVE_SHARE_FILE)) {
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_SHARE_FILE).objects(mediaid, fileName, progress).build());
+            } else if (userStr.equals(Constant.ARCHIVE_ANNOTATION_FILE)) {
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_ANNOTATION_FILE).objects(mediaid, fileName, progress).build());
+            } else if (userStr.equals(Constant.ARCHIVE_MEET_DATA_FILE)) {
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEET_DATA_FILE).objects(mediaid, fileName, progress).build());
+            } else if (userStr.equals(Constant.ARCHIVE_AGENDA_FILE)) {
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_AGENDA_FILE).objects(mediaid, fileName, progress).build());
             }
         } else if (nstate == InterfaceMacro.Pb_Download_State.Pb_STATE_MEDIA_DOWNLOAD_EXIT_VALUE) {
             //下载退出---不管成功与否,下载结束最后一次的状态都是这个
@@ -382,6 +398,7 @@ public class BackService extends Service {
 //                    case Constant.DOWNLOAD_MATERIAL_FILE:
 //                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_MATERIAL_FILE).objects(filepath, mediaid).build());
 //                        break;
+                    /*
                     //归档共享文件下载完成
                     case Constant.ARCHIVE_SHARE_FILE: {
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_SHARE_FILE).objects(filepath, mediaid).build());
@@ -398,9 +415,11 @@ public class BackService extends Service {
                         break;
                     }
 //                    //归档议程文件，下载成功
-                    case Constant.ARCHIVE_AGENDA_FILE:
+                    case Constant.ARCHIVE_AGENDA_FILE: {
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_AGENDA_FILE).objects(filepath, mediaid).build());
                         break;
+                    }
+                    */
                     //桌牌背景图片，下载完成
                     case Constant.DOWNLOAD_TABLE_CARD_BG:
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_TABLE_CARD_BG).objects(filepath, mediaid).build());

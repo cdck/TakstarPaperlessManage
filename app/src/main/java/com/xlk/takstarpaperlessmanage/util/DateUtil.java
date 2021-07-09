@@ -21,6 +21,12 @@ public class DateUtil {
         return format.format(tTime);
     }
 
+    public static String pdfExportTime(){
+        Date tTime = new Date(System.currentTimeMillis());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(tTime);
+    }
+
     /**
      * @param millisecond 单位 毫秒
      *                    时区设置：SimpleDateFormat对象.setTimeZone(TimeZone.getTimeZone("GTM"));

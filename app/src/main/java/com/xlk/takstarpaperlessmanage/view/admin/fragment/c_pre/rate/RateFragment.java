@@ -360,17 +360,16 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
                     jni.uploadFile(InterfaceMacro.Pb_Upload_Flag.Pb_MEET_UPLOADFLAG_ZERO_VALUE, 0,
                             InterfaceMacro.Pb_MeetFileAttrib.Pb_MEETFILE_ATTRIB_ZERO_VALUE,
                             file.getName(), file.getAbsolutePath(), 0, Constant.UPLOAD_SCORE_FILE);
-
                 } else if (requestCode == REQUEST_CODE_IMPORT_SCORE_XLS) {
                     if (file.getName().endsWith(".xls")) {
                         List<InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore> items = JxlUtil.readScoreXls(file);
-                        if (items == null) {
-                            ToastUtil.showShort(R.string.file_format_err);
+                        if (items.isEmpty()) {
+                            ToastUtil.showShort(R.string.error_empty_format);
                             return;
                         }
                         jni.addScore(0, items);
                     } else {
-                        ToastUtil.showShort(R.string.please_choose_xls_file);
+                        ToastUtil.showLong(R.string.please_choose_xls_file);
                     }
                 }
             }

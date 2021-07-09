@@ -9,470 +9,481 @@
     android:padding="@dimen/fragment_root_padding">
 
     <LinearLayout
+        android:id="@+id/screenshot_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingEnd="20dp">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:paddingEnd="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/stream_request"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+            <LinearLayout
+                android:id="@+id/ll_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
 
-            <TextView
-                android:id="@+id/tv_stream"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stream_request"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
 
-            <ImageView
-                android:id="@+id/iv_1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
+                <TextView
+                    android:id="@+id/tv_stream"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/same_screen_request"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_same_screen_request"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_2"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/file_request"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_file_request"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_3"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chat_request"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_chat_request"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_4"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/server_request"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_server_request"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_5"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/art_request"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_art_request"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_6"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_7"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/art_chat"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_art_chat"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_7"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="30"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_8"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vote_launch"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_vote_launch"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_8"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_9"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/election_launched"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_election_launched"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_9"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="15"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_10"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/questionnaire"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_questionnaire"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_10"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="45"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_11"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bulletin_launch"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_bulletin_launch"
+                    android:layout_width="@dimen/meeting_statistics_chart_width"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/blue"
+                    android:padding="2dp"
+                    android:text="0次"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/iv_11"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/meeting_statistics_chart_height"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="50"
+                    android:background="@color/blue" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/same_screen_request"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_same_screen_request"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-            <ImageView
-                android:id="@+id/iv_2"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_3"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/pop_bottom_view_height"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/file_request"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_file_request"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-            <ImageView
-                android:id="@+id/iv_3"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_4"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/chat_request"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_chat_request"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_4"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_5"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/server_request"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_server_request"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_5"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_6"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/art_request"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_art_request"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_6"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_7"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/art_chat"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_art_chat"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_7"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="30"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_8"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/vote_launch"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_vote_launch"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_8"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_9"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/election_launched"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_election_launched"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_9"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_10"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/questionnaire"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_questionnaire"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_10"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="45"
-                android:background="@color/blue" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_11"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bulletin_launch"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_bulletin_launch"
-                android:layout_width="@dimen/meeting_statistics_chart_width"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_marginStart="10dp"
-                android:background="@color/blue"
-                android:padding="2dp"
-                android:text="0次"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small" />
-
-            <ImageView
-                android:id="@+id/iv_11"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/meeting_statistics_chart_height"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="50"
-                android:background="@color/blue" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.github.mikephil.charting.charts.HorizontalBarChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pop_bottom_view_height"
-        android:layout_gravity="center"
-        android:background="@color/content_bg"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_show"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small"
-            tools:text="该会议截止目前为止，相当于执行0次低碳行为" />
-
-        <Button
-            android:id="@+id/btn_export"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginEnd="10dp"
+            android:background="@color/content_bg"
             android:gravity="center"
-            android:text="@string/export" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_show"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_small"
+                tools:text="该会议截止目前为止，相当于执行0次低碳行为" />
+
+            <Button
+                android:id="@+id/btn_export"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/export" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

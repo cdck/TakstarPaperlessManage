@@ -218,6 +218,7 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
 
     private void showParameterConfigurationPop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_parameter_configuration, null, false);
+        initialPopupWindowXY();
         parameterConfigurationPop = PopUtil.createCoverPopupWindow(inflate, root_view, popWidth, popHeight, popX, popY);
         ViewHolder holder = new ViewHolder(inflate);
         holderEvent(holder);
@@ -791,22 +792,22 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
                 ToastUtils.showShort(R.string.please_enter_device_name);
                 return;
             }
-            int modifyFlag = InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_NAME_VALUE;
-//                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_IPADDR_VALUE
-//                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_LIFTRES_VALUE;
-//            List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipInfos = new ArrayList<>();
-//            InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo ipInfo = InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo.newBuilder()
-//                    .setIp(s2b(ip))
-//                    .setPort(device.getIpinfo(0).getPort())
-//                    .build();
-//            ipInfos.add(ipInfo);
+            int modifyFlag = InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_NAME_VALUE
+                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_IPADDR_VALUE
+                    | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_LIFTRES_VALUE;
+            List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipInfos = new ArrayList<>();
+            InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo ipInfo = InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo.newBuilder()
+                    .setIp(s2b(ip))
+                    .setPort(device.getIpinfo(0).getPort())
+                    .build();
+            ipInfos.add(ipInfo);
             InterfaceDevice.pbui_DeviceModInfo build = InterfaceDevice.pbui_DeviceModInfo.newBuilder()
-//                    .setDeviceflag(modifyFlag)
+                    .setDeviceflag(modifyFlag)
                     .setDevcieid(device.getDevcieid())
                     .setDevname(s2b(name))
-//                    .addAllIpinfo(ipInfos)
-//                    .setLiftgroupres0(liftId)
-//                    .setLiftgroupres1(micId)
+                    .addAllIpinfo(ipInfos)
+                    .setLiftgroupres0(liftId)
+                    .setLiftgroupres1(micId)
                     .setDeviceflag(device.getDeviceflag())
                     .build();
             jni.modifyDeviceInfo(build);

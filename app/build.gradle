@@ -20,6 +20,9 @@ android {
                 abiFilters "armeabi-v7a"//,"arm64-v8a","armeabi", "x86", "mips","arm64-v8a"
             }
         }
+        packagingOptions {
+            exclude 'com/itextpdf/text/pdf/fonts/cmap_info.txt'
+        }
     }
 
     buildTypes {
@@ -35,7 +38,7 @@ android {
     //指定打包后应用名称
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "得胜会议管理系统-V${variant.versionName}.apk"
+            outputFileName = "得胜会议管理系统v${variant.versionName}.apk"
         }
     }
     sourceSets {
@@ -74,7 +77,9 @@ dependencies {
     implementation files('libs/ini4j-0.5.2.jar')
     implementation files('libs/protobuf-java-3.3.0.jar')
     implementation files('libs/jxl.jar')
-    implementation files('libs/iTextpdf.jar')
+    implementation files('libs/itextpdf-5.5.13.jar')
+    implementation files('libs/itext-asian-5.2.0.jar')
+//    implementation files('libs/iTextpdf.jar')
 
     //在androidx中 1.1.0-alpha01版本 localbroadcastmanager已经被弃用了
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
@@ -99,9 +104,13 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     //高度自定义日历控件：https://github.com/huanghaibin-dev/CalendarView
     implementation 'com.haibin:calendarview:3.7.1'
+
     //选择器：https://github.com/Bigkoo/Android-PickerView
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
 
     //饺子视频播放器：https://github.com/Jzvd/JZVideo
     implementation 'cn.jzvd:jiaozivideoplayer:7.6.0'
+
+    //解压缩第三方库：https://github.com/srikanth-lingala/zip4j
+    implementation 'net.lingala.zip4j:zip4j:2.9.0'
 }

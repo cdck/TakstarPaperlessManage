@@ -48,6 +48,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -72,6 +73,13 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
     private int currentDirId;
     private final int REQUEST_CODE_UPLOAD_FILE = 1;
     private DirFileAdapter sortFileAdapter;
+    private MeetingAdapter meetingAdapter;
+    private PopupWindow historyPop;
+    private HistoryDirAdapter historyDirAdapter;
+    private RecyclerView rv_history_catalogue;
+    private HistoryFileAdapter historyFileAdapter;
+    private RecyclerView rv_history_file;
+    private RecyclerView rv_history_meeting;
 
     @Override
     protected int getLayoutId() {
@@ -107,8 +115,138 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
 
     @Override
     protected void initial() {
-        presenter.queryMember();
-        presenter.queryMeetDir();
+        presenter.initial();
+    }
+
+    @Override
+    public void updateMeetingList() {
+//        if (historyPop != null && historyPop.isShowing()) {
+        if (meetingAdapter == null) {
+            meetingAdapter = new MeetingAdapter(R.layout.item_history_meeting, presenter.meetings);
+        } else {
+            meetingAdapter.notifyDataSetChanged();
+        }
+//        }
+    }
+
+    @Override
+    public void updateDirList() {
+        if (dirAdapter == null) {
+            dirAdapter = new DirAdapter(presenter.dirInfos);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            rvDir.setLayoutManager(layoutManager);
+            rvDir.setAdapter(dirAdapter);
+            dirAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                    currentDirId = presenter.dirInfos.get(position).getId();
+                    dirAdapter.setSelectedId(currentDirId);
+                    presenter.setCurrentDirId(currentDirId);
+                    presenter.queryMeetDirFile(currentDirId);
+                }
+            });
+            View inflate = LayoutInflater.from(getContext()).inflate(R.layout.dir_footer_view, rvDir, false);
+            dirAdapter.addFooterView(inflate);
+            inflate.findViewById(R.id.footer_view).setOnClickListener(v -> {
+                showModifyFilePop(null, null, true);
+            });
+            if (!presenter.dirInfos.isEmpty()) {
+                currentDirId = presenter.dirInfos.get(0).getId();
+                dirAdapter.setSelectedId(currentDirId);
+                presenter.setCurrentDirId(currentDirId);
+                presenter.queryMeetDirFile(currentDirId);
+            }
+        } else {
+            dirAdapter.notifyDataSetChanged();
+        }
+        if (historyPop != null && historyPop.isShowing()) {
+            //需要注意的是每次打开导入历史资料弹框rv_history_catalogue都是一个新的对象，所以historyDirAdapter也必须重新绑定
+            historyDirAdapter = new HistoryDirAdapter(R.layout.item_history_meeting, presenter.dirInfos);
+            rv_history_catalogue.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv_history_catalogue.setAdapter(historyDirAdapter);
+            historyDirAdapter.setOnItemClickListener((adapter, view, position) -> {
+                int dirId = presenter.dirInfos.get(position).getId();
+                historyDirAdapter.choose(dirId);
+                presenter.setCurrentHistoryDirId(dirId);
+                presenter.queryMeetDirFile(dirId);
+            });
+            if (!presenter.dirInfos.isEmpty()) {
+                int dirId = presenter.dirInfos.get(0).getId();
+                historyDirAdapter.choose(dirId);
+                presenter.setCurrentHistoryDirId(dirId);
+                presenter.queryMeetDirFile(dirId);
+            }
+        }
+    }
+
+    @Override
+    public void updateHistoryFileList() {
+        if (historyPop != null && historyPop.isShowing()) {
+            //需要注意的是每次打开导入历史资料弹框rv_history_file都是一个新的对象，所以historyFileAdapter也必须重新绑定
+            historyFileAdapter = new HistoryFileAdapter(R.layout.item_history_file, presenter.historyDirFiles);
+            rv_history_file.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv_history_file.setAdapter(historyFileAdapter);
+            historyFileAdapter.setOnItemClickListener((adapter, view, position) -> {
+                int mediaid = presenter.historyDirFiles.get(position).getMediaid();
+                historyFileAdapter.choose(mediaid);
+            });
+        }
+    }
+
+    @Override
+    public void updateFileList() {
+        if (dirFileAdapter == null) {
+            dirFileAdapter = new DirFileAdapter(presenter.dirFiles);
+            rvFile.setLayoutManager(new LinearLayoutManager(getContext()));
+            rvFile.addItemDecoration(new RvItemDecoration(getContext()));
+            rvFile.setAdapter(dirFileAdapter);
+            dirFileAdapter.addChildClickViewIds(R.id.operation_view_1, R.id.operation_view_2, R.id.operation_view_3);
+            dirFileAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                    InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = presenter.dirFiles.get(position);
+                    switch (view.getId()) {
+                        //修改
+                        case R.id.operation_view_1: {
+                            showModifyFilePop(item, null, false);
+                            break;
+                        }
+                        //删除
+                        case R.id.operation_view_2: {
+                            showDeleteFilePop(item, null);
+                            break;
+                        }
+                        //查看
+                        case R.id.operation_view_3: {
+                            String fileName = item.getName().toStringUtf8();
+                            if (FileUtil.isAudio(fileName)) {
+                                LogUtils.e("播放文件=" + fileName);
+                                jni.mediaPlayOperate(item.getMediaid(), GlobalValue.localDeviceId,
+                                        0, Constant.RESOURCE_ID_0, 0, 0);
+                                return;
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("filePath", filePath);
+//                                bundle.putString("fileName", fileName);
+//                                context.startActivity(new Intent(context, LocalPlayActivity.class)
+//                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                        .putExtras(bundle));
+                            }
+                            String filePath = Constant.file_dir + fileName;
+                            boolean fileExists = FileUtils.isFileExists(filePath);
+                            if (fileExists) {
+                                FileUtil.openFile(getContext(), filePath);
+                            } else {
+                                jni.downloadFile(filePath, item.getMediaid(), 1, 0, Constant.DOWNLOAD_OPEN_FILE);
+                            }
+                            break;
+                        }
+                    }
+                }
+            });
+        } else {
+            dirFileAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -124,7 +262,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
                     ToastUtil.showShort(R.string.can_not_modify_share_and_annotation);
                     return;
                 }
-                showModifyFilePop(null, selectedDir,false);
+                showModifyFilePop(null, selectedDir, false);
                 break;
             }
             case R.id.btn_delete: {
@@ -164,9 +302,52 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
                 break;
             }
             case R.id.btn_import_history: {
+                InterfaceFile.pbui_Item_MeetDirDetailInfo selectedDir = dirAdapter.getSelectedDir();
+                if (selectedDir == null) {
+                    ToastUtils.showShort(R.string.please_choose_dir_first);
+                    return;
+                }
+                showHistoryPop(selectedDir.getId());
                 break;
             }
         }
+    }
+
+    private void showHistoryPop(int dirId) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_history_material, null, false);
+        initialPopupWindowXY();
+        historyPop = PopUtil.createCoverPopupWindow(inflate, btnAdd, popWidth, popHeight, popX, popY);
+        rv_history_meeting = inflate.findViewById(R.id.rv_meeting);
+        /* **** **  每次打开弹框重置之前选中的会议  ** **** */
+        meetingAdapter.choose(-1);
+        rv_history_meeting.setAdapter(meetingAdapter);
+        rv_history_meeting.setLayoutManager(new LinearLayoutManager(getContext()));
+        meetingAdapter.setOnItemClickListener((adapter, view, position) -> {
+            int id = presenter.meetings.get(position).getId();
+            meetingAdapter.choose(id);
+            presenter.setCurrentHistoryDirId(0);
+            presenter.switchMeeting(id);
+        });
+        rv_history_catalogue = inflate.findViewById(R.id.rv_catalogue);
+        rv_history_file = inflate.findViewById(R.id.rv_file);
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> historyPop.dismiss());
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> historyPop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            if (historyDirAdapter != null) {
+                InterfaceFile.pbui_Item_MeetDirFileDetailInfo selectedFile = historyFileAdapter.getSelectedFile();
+                if (selectedFile != null) {
+                    presenter.exit();
+                    jni.addFile2Dir(dirId, selectedFile);
+                    historyPop.dismiss();
+                } else {
+                    ToastUtil.showShort(R.string.please_choose_file_first);
+                }
+            }
+        });
+        historyPop.setOnDismissListener(() -> {
+            presenter.setCurrentHistoryDirId(0);
+            presenter.exit();
+        });
     }
 
     private void showDirPermission(List<MemberDirPermissionBean> datas) {
@@ -175,6 +356,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
             LogUtils.i(bean.toString());
         }
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_dir_permission, null, false);
+        initialPopupWindowXY();
         PopupWindow pop = PopUtil.createCoverPopupWindow(inflate, btnAdd, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         CheckBox cb_check_all = inflate.findViewById(R.id.cb_check_all);
@@ -205,6 +387,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
 
     private void showSortPop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_sort_file, null, false);
+        initialPopupWindowXY();
         PopupWindow sortFilePop = PopUtil.createCoverPopupWindow(inflate, btnAdd, popWidth, popHeight, popX, popY);
         RecyclerView rv_content = inflate.findViewById(R.id.rv_content);
         sortFileAdapter = new DirFileAdapter(presenter.sortFiles, true);
@@ -279,94 +462,6 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
         });
     }
 
-    @Override
-    public void updateDirList() {
-        if (dirAdapter == null) {
-            dirAdapter = new DirAdapter(presenter.dirInfos);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            rvDir.setLayoutManager(layoutManager);
-            rvDir.setAdapter(dirAdapter);
-            dirAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    currentDirId = presenter.dirInfos.get(position).getId();
-                    dirAdapter.setSelectedId(currentDirId);
-                    presenter.setCurrentDirId(currentDirId);
-                    presenter.queryMeetDirFile(currentDirId);
-                }
-            });
-            View inflate = LayoutInflater.from(getContext()).inflate(R.layout.dir_footer_view, rvDir, false);
-            dirAdapter.addFooterView(inflate);
-            inflate.findViewById(R.id.footer_view).setOnClickListener(v -> {
-                showModifyFilePop(null, null,true);
-            });
-            if (!presenter.dirInfos.isEmpty()) {
-                currentDirId = presenter.dirInfos.get(0).getId();
-                dirAdapter.setSelectedId(currentDirId);
-                presenter.setCurrentDirId(currentDirId);
-                presenter.queryMeetDirFile(currentDirId);
-            }
-        } else {
-            dirAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void updateFileList() {
-        if (dirFileAdapter == null) {
-            dirFileAdapter = new DirFileAdapter(presenter.dirFiles);
-            rvFile.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvFile.addItemDecoration(new RvItemDecoration(getContext()));
-            rvFile.setAdapter(dirFileAdapter);
-            dirFileAdapter.addChildClickViewIds(R.id.operation_view_1, R.id.operation_view_2, R.id.operation_view_3);
-            dirFileAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                    InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = presenter.dirFiles.get(position);
-                    switch (view.getId()) {
-                        //修改
-                        case R.id.operation_view_1: {
-                            showModifyFilePop(item, null,false);
-                            break;
-                        }
-                        //删除
-                        case R.id.operation_view_2: {
-                            showDeleteFilePop(item, null);
-                            break;
-                        }
-                        //查看
-                        case R.id.operation_view_3: {
-                            String fileName = item.getName().toStringUtf8();
-                            if (FileUtil.isAudio(fileName)) {
-                                LogUtils.e("播放文件=" + fileName);
-                                jni.mediaPlayOperate(item.getMediaid(), GlobalValue.localDeviceId,
-                                        0, Constant.RESOURCE_ID_0, 0, 0);
-                                return;
-//                                Bundle bundle = new Bundle();
-//                                bundle.putString("filePath", filePath);
-//                                bundle.putString("fileName", fileName);
-//                                context.startActivity(new Intent(context, LocalPlayActivity.class)
-//                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                                        .putExtras(bundle));
-                            }
-                            String filePath = Constant.file_dir + fileName;
-                            boolean fileExists = FileUtils.isFileExists(filePath);
-                            if (fileExists) {
-                                FileUtil.openFile(getContext(), filePath);
-                            } else {
-                                jni.downloadFile(filePath, item.getMediaid(), 1, 0, Constant.DOWNLOAD_OPEN_FILE);
-                            }
-                            break;
-                        }
-                    }
-                }
-            });
-        } else {
-            dirFileAdapter.notifyDataSetChanged();
-        }
-    }
-
     /**
      * 是否删除目录/目录文件
      *
@@ -402,7 +497,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
      * @param dirFile 文件
      * @param dir     目录
      */
-    private void showModifyFilePop(InterfaceFile.pbui_Item_MeetDirFileDetailInfo dirFile, InterfaceFile.pbui_Item_MeetDirDetailInfo dir,boolean isAddDir) {
+    private void showModifyFilePop(InterfaceFile.pbui_Item_MeetDirFileDetailInfo dirFile, InterfaceFile.pbui_Item_MeetDirDetailInfo dir, boolean isAddDir) {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_modify_file, null, false);
         View ll_content = getActivity().findViewById(R.id.ll_content);
         View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
@@ -413,10 +508,10 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
         TextView tv_title = inflate.findViewById(R.id.tv_title);
         EditText edt_name = inflate.findViewById(R.id.edt_name);
         boolean isModFile = dirFile != null;
-        if(!isAddDir) {
+        if (!isAddDir) {
             tv_title.setText(isModFile ? getString(R.string.modify_file_name) : getString(R.string.modify_dir_name));
             edt_name.setText(isModFile ? dirFile.getName().toStringUtf8() : dir.getName().toStringUtf8());
-        }else {
+        } else {
             tv_title.setText(R.string.create_dir);
         }
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> modifyFilePop.dismiss());
@@ -427,13 +522,13 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
                 ToastUtil.showShort(R.string.please_enter_name_first);
                 return;
             }
-            if(isAddDir){
+            if (isAddDir) {
                 InterfaceFile.pbui_Item_MeetDirDetailInfo build = InterfaceFile.pbui_Item_MeetDirDetailInfo.newBuilder()
                         .setName(s2b(newName))
                         .setParentid(0)
                         .build();
                 jni.addMeetDir(build);
-            }else {
+            } else {
                 if (isModFile) {
                     String fileName = dirFile.getName().toStringUtf8();
                     String suffix = fileName.substring(fileName.lastIndexOf("."));

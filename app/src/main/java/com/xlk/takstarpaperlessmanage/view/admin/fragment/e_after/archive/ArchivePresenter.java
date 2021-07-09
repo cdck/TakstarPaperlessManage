@@ -1,6 +1,5 @@
 package com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.archive;
 
-import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ZipUtils;
@@ -16,16 +15,21 @@ import com.mogujie.tt.protobuf.InterfaceMember;
 import com.mogujie.tt.protobuf.InterfaceRoom;
 import com.mogujie.tt.protobuf.InterfaceSignin;
 import com.mogujie.tt.protobuf.InterfaceVote;
-import com.xlk.takstarpaperlessmanage.App;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
+import com.xlk.takstarpaperlessmanage.helper.task.BasicInformationTask;
+import com.xlk.takstarpaperlessmanage.helper.archive.LineUpTaskHelp;
+import com.xlk.takstarpaperlessmanage.helper.task.DownloadFileTask;
+import com.xlk.takstarpaperlessmanage.helper.task.MemberTask;
+import com.xlk.takstarpaperlessmanage.helper.task.SignInTask;
+import com.xlk.takstarpaperlessmanage.helper.task.VoteTask;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.MemberRoleBean;
 import com.xlk.takstarpaperlessmanage.model.bean.SignInBean;
 import com.xlk.takstarpaperlessmanage.util.DateUtil;
-import com.xlk.takstarpaperlessmanage.util.FileUtil;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
+import com.xlk.takstarpaperlessmanage.util.ZipUtil;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -33,12 +37,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author Created by xlk on 2021/5/28.
@@ -100,8 +107,8 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
     /**
      * 会议资料信息（其它目录下的文件）
      */
-//    private List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> otherFileData = new ArrayList<>();
-    private Map<Integer, List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo>> otherFileData = new HashMap<>();
+//    private Map<Integer, List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo>> otherFileData = new HashMap<>();
+    private Map<Integer, DirFileInfo> otherFileData = new HashMap<>();
     /**
      * 操作通知
      */
@@ -117,11 +124,23 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
     /**
      * =true表示压缩时进行加密处理
      */
-    private boolean isEncryption;
+    private boolean isEncryption = false;
+    /**
+     * 加密时的密码
+     */
+    private String passWord = "";
 
-    List<Integer> shareFileMediaIds = new ArrayList<>();
-    List<Integer> annotateFileMediaIds = new ArrayList<>();
-    List<Integer> materialFileMediaIds = new ArrayList<>();
+//    List<Integer> shareFileMediaIds = new ArrayList<>();
+//    List<Integer> annotateFileMediaIds = new ArrayList<>();
+//    List<Integer> materialFileMediaIds = new ArrayList<>();
+
+    private String dirPath = Constant.DIR_ARCHIVE_ZIP;
+    private ZipThread zipThread;
+    /**
+     * 是否点击取消按钮
+     */
+    private boolean isCancel = false;
+    private List<InterfaceFile.pbui_Item_MeetDirDetailInfo> dirInfos = new ArrayList<>();
 
     public ArchivePresenter(ArchiveContract.View view) {
         super(view);
@@ -141,13 +160,24 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
     }
 
     private void queryDir() {
-        InterfaceFile.pbui_Type_MeetDirDetailInfo dir = jni.queryMeetDir();
-        if (dir != null) {
-            for (int i = 0; i < dir.getItemList().size(); i++) {
-                InterfaceFile.pbui_Item_MeetDirDetailInfo item = dir.getItemList().get(i);
-                queryDirFile(item.getId());
+        InterfaceFile.pbui_Type_MeetDirDetailInfo object = jni.queryMeetDir();
+        dirInfos.clear();
+        if (object != null) {
+            dirInfos.addAll(object.getItemList());
+        }
+        for (int i = 0; i < dirInfos.size(); i++) {
+            InterfaceFile.pbui_Item_MeetDirDetailInfo item = dirInfos.get(i);
+            queryDirFile(item.getId());
+        }
+    }
+
+    public String getDirNameById(int dirId) {
+        for (int i = 0; i < dirInfos.size(); i++) {
+            if (dirInfos.get(i).getId() == dirId) {
+                return dirInfos.get(i).getName().toStringUtf8();
             }
         }
+        return "";
     }
 
     private void queryDirFile(int dirId) {
@@ -155,7 +185,8 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
         if (dirId == Constant.ANNOTATION_DIR_ID) {
             annotationFileData.clear();
             if (info != null) {
-                annotationFileData.addAll(info.getItemList());
+                List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> itemList = info.getItemList();
+                annotationFileData.addAll(itemList);
             }
         } else if (dirId == Constant.SHARE_DIR_ID) {
             shareFileData.clear();
@@ -165,9 +196,12 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
         } else {
 //            if (otherFileData.containsKey(dirId)) {
             if (info != null) {
-                otherFileData.put(dirId, info.getItemList());
+                otherFileData.put(dirId, new DirFileInfo(dirId, getDirNameById(dirId), info.getItemList()));
             } else {
-                otherFileData.put(dirId, new ArrayList<>());
+                if (otherFileData.containsKey(dirId)) {
+                    otherFileData.remove(dirId);
+                }
+//                otherFileData.put(dirId, new ArrayList<>());
             }
 //            } else {
 //                if (info != null) {
@@ -289,69 +323,6 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
-            case EventType.BUS_ARCHIVE_MEMBER:{
-                archiveInforms.add(new ArchiveInform("参会人员信息导出完成", "100%"));
-                mView.updateArchiveInform(archiveInforms);
-                removeTask("归档参会人信息");
-                mView.updateAttendeeInformation("完成");
-                break;
-            }
-            case EventType.BUS_ARCHIVE_AGENDA_FILE: {
-                String filePath = (String) msg.getObjects()[0];
-                int mediaId = (int) msg.getObjects()[1];
-                LogUtils.i("归档议程文件：" + filePath);
-                mView.updateMeetingBasicInformation("完成");
-                break;
-            }
-            //归档共享文件下载完成
-            case EventType.BUS_ARCHIVE_SHARE_FILE: {
-                String filePath = (String) msg.getObjects()[0];
-                int mediaId = (int) msg.getObjects()[1];
-                Iterator<Integer> iterator = shareFileMediaIds.iterator();
-                while (iterator.hasNext()) {
-                    Integer next = iterator.next();
-                    if (next == mediaId) {
-                        iterator.remove();
-                    }
-                }
-                if (shareFileMediaIds.isEmpty()) {
-                    mView.updateShardFile("完成");
-                }
-                break;
-            }
-            //归档批注文件下载完成
-            case EventType.BUS_ARCHIVE_ANNOTATION_FILE: {
-                String filePath = (String) msg.getObjects()[0];
-                int mediaId = (int) msg.getObjects()[1];
-                Iterator<Integer> iterator = annotateFileMediaIds.iterator();
-                while (iterator.hasNext()) {
-                    Integer next = iterator.next();
-                    if (next == mediaId) {
-                        iterator.remove();
-                    }
-                }
-                if (annotateFileMediaIds.isEmpty()) {
-                    mView.updateAnnotateFile("完成");
-                }
-                break;
-            }
-            //归档会议资料文件下载完成
-            case EventType.BUS_ARCHIVE_MEET_DATA_FILE: {
-                String filePath = (String) msg.getObjects()[0];
-                int mediaId = (int) msg.getObjects()[1];
-                Iterator<Integer> iterator = materialFileMediaIds.iterator();
-                while (iterator.hasNext()) {
-                    Integer next = iterator.next();
-                    if (next == mediaId) {
-                        iterator.remove();
-                    }
-                }
-                if (materialFileMediaIds.isEmpty()) {
-                    mView.updateMeetingMaterial("完成");
-                }
-                break;
-            }
-
             //公告变更通知
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETBULLET_VALUE: {
                 queryBulletin();
@@ -420,6 +391,151 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
                 queryDir();
                 break;
             }
+            //更新输出位置
+            case EventType.RESULT_DIR_PATH: {
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if (dirType == Constant.CHOOSE_DIR_TYPE_ARCHIVE) {
+                    this.dirPath = dirPath;
+                    mView.updateArchiveDirPath(dirPath);
+                }
+                break;
+            }
+            //归档参会人信息完成通知
+            case EventType.BUS_ARCHIVE_MEMBER: {
+                archiveInforms.add(new ArchiveInform("参会人员信息导出完成", "100%"));
+                mView.updateArchiveInform(archiveInforms);
+                removeTask("归档参会人信息");
+//                mView.updateAttendeeInformation("完成");
+                break;
+            }
+            /*
+            //需要归档的文件下载进度通知
+            case EventType.ARCHIVE_BUS_DOWNLOAD_FILE: {
+                Object[] objects = msg.getObjects();
+                int mediaId = (int) objects[0];
+                String fileName = (String) objects[1];
+                int progress = (int) objects[2];
+                for (int i = 0; i < archiveInforms.size(); i++) {
+                    ArchiveInform archiveInform = archiveInforms.get(i);
+                    if (archiveInform.getMediaId() == mediaId) {
+                        archiveInform.setContent("下载文件：" + fileName);
+                        archiveInform.setResult("下载进度：" + progress + "%");
+                    }
+                }
+                mView.updateArchiveInform(archiveInforms);
+                if (progress == 100) {
+                    removeTask(String.valueOf(mediaId));
+                } else {
+                    addTask(String.valueOf(mediaId));
+                }
+                break;
+            }*/
+            //归档议程文件下载进度通知
+            case EventType.BUS_ARCHIVE_AGENDA_FILE: {
+                Object[] objects = msg.getObjects();
+                int mediaId = (int) objects[0];
+                String fileName = (String) objects[1];
+                int progress = (int) objects[2];
+                for (int i = 0; i < archiveInforms.size(); i++) {
+                    ArchiveInform archiveInform = archiveInforms.get(i);
+                    if (archiveInform.getMediaId() == mediaId) {
+                        archiveInform.setContent("下载文件：" + fileName);
+                        archiveInform.setResult("下载进度：" + progress + "%");
+                    }
+                }
+                mView.updateArchiveInform(archiveInforms);
+                if (progress == 100) {
+                    removeTask("议程文件" + mediaId);
+                } else {
+                    addTask("议程文件" + mediaId);
+                }
+                break;
+            }
+            //归档共享文件下载进度通知
+            case EventType.BUS_ARCHIVE_SHARE_FILE: {
+                Object[] objects = msg.getObjects();
+                int mediaId = (int) objects[0];
+                String fileName = (String) objects[1];
+                int progress = (int) objects[2];
+                if (progress == 100) {
+                    addNextDownloadShareFileTask();
+                } else {
+
+                }
+                /*
+                for (int i = 0; i < archiveInforms.size(); i++) {
+                    ArchiveInform archiveInform = archiveInforms.get(i);
+                    if (archiveInform.getType() == 0 && archiveInform.getMediaId() == mediaId) {
+                        archiveInform.setContent("下载文件：" + fileName);
+                        archiveInform.setResult("下载进度：" + progress + "%");
+                    }
+                }
+                mView.updateArchiveInform(archiveInforms);
+                if (progress == 100) {
+                    removeTask("共享文件" + mediaId);
+                } else {
+                    addTask("共享文件" + mediaId);
+                }
+                */
+                break;
+            }
+            //归档批注文件下载进度通知
+            case EventType.BUS_ARCHIVE_ANNOTATION_FILE: {
+                Object[] objects = msg.getObjects();
+                int mediaId = (int) objects[0];
+                String fileName = (String) objects[1];
+                int progress = (int) objects[2];
+                if (progress == 100) {
+                    addNextDownloadAnnotationFileTask();
+                } else {
+
+                }
+                /*
+                for (int i = 0; i < archiveInforms.size(); i++) {
+                    ArchiveInform archiveInform = archiveInforms.get(i);
+                    if (archiveInform.getType() == 1 && archiveInform.getMediaId() == mediaId) {
+                        archiveInform.setContent("下载文件：" + fileName);
+                        archiveInform.setResult("下载进度：" + progress + "%");
+                    }
+                }
+                mView.updateArchiveInform(archiveInforms);
+                if (progress == 100) {
+                    removeTask("批注文件" + mediaId);
+                } else {
+                    addTask("批注文件" + mediaId);
+                }
+                */
+                break;
+            }
+            //归档会议资料文件下载进度通知
+            case EventType.BUS_ARCHIVE_MEET_DATA_FILE: {
+                Object[] objects = msg.getObjects();
+                int mediaId = (int) objects[0];
+                String fileName = (String) objects[1];
+                int progress = (int) objects[2];
+                if (progress == 100) {
+                    addNextDownloadOtherFileTask();
+                } else {
+
+                }
+                /*
+                for (int i = 0; i < archiveInforms.size(); i++) {
+                    ArchiveInform archiveInform = archiveInforms.get(i);
+                    if (archiveInform.getType() == 2 && archiveInform.getMediaId() == mediaId) {
+                        archiveInform.setContent("下载文件：" + fileName);
+                        archiveInform.setResult("下载进度：" + progress + "%");
+                    }
+                }
+                mView.updateArchiveInform(archiveInforms);
+                if (progress == 100) {
+                    removeTask("会议资料" + mediaId);
+                } else {
+                    addTask("会议资料" + mediaId);
+                }
+                 */
+                break;
+            }
         }
     }
 
@@ -434,11 +550,17 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * @param isEncryption =true 需要加密
      */
     public void setEncryption(boolean isEncryption) {
-        if (isCompressing || !archiveTasks.isEmpty()) {
+        if (hasStarted()) {
+            LogUtils.e("已经开始归档，不能中间进行加密");
             return;
         }
         this.isEncryption = isEncryption;
         LogUtils.i(TAG, "setEncryption 是否加密=" + isEncryption);
+    }
+
+    @Override
+    public void setPassword(String pwd) {
+        this.passWord = pwd;
     }
 
     /**
@@ -460,16 +582,23 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      */
     private void removeTask(String tag) {
         if (archiveTasks.contains(tag)) {
-            LogUtils.d(TAG, "removeTask 移除任务=" + tag);
             archiveTasks.remove(tag);
+            LogUtils.d(TAG, "removeTask 移除任务=" + tag + ",size=" + archiveTasks.size());
             if (archiveTasks.isEmpty()) {
                 zipArchiveDir();
             }
+        } else {
+            LogUtils.e("不存在该任务：" + tag);
         }
     }
 
-    public void zipArchiveDir() {
-        App.threadPool.execute(() -> {
+    class ZipThread extends Thread {
+        public ZipThread() {
+            super("ZipThread");
+        }
+
+        @Override
+        public void run() {
             try {
                 Thread.sleep(1000);
                 if (!archiveTasks.isEmpty()) {
@@ -477,37 +606,41 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
                     return;
                 }
                 if (isCompressing) {
-                    LogUtils.i(TAG, "zipArchiveDir 当前正在压缩...");
+                    LogUtils.i(TAG, "zipThread 当前正在压缩...");
                     return;
                 }
                 File srcFile = new File(Constant.DIR_ARCHIVE_TEMP);
                 if (!srcFile.exists()) {
-                    LogUtils.e(TAG, "zipArchiveDir 没有找到这个目录=" + Constant.DIR_ARCHIVE_TEMP);
+                    LogUtils.e(TAG, "zipThread 没有找到这个目录=" + Constant.DIR_ARCHIVE_TEMP);
                     return;
                 }
                 isCompressing = true;
-                LogUtils.i(TAG, "run 开始压缩 当前线程=" + Thread.currentThread().getId());
+                LogUtils.i(TAG, "zipThread 开始压缩 当前线程id=" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
                 archiveInforms.add(new ArchiveInform("开始压缩", "进行中..."));
                 mView.updateArchiveInform(archiveInforms);
-                FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_ZIP);
-                String zipFilePath = Constant.DIR_ARCHIVE_ZIP + "会议归档.zip";
+                FileUtils.createOrExistsDir(dirPath);
+                String zipFilePath = dirPath + "/会议归档.zip";
                 File zipFile = new File(zipFilePath);
                 if (zipFile.exists()) {
-                    zipFilePath = Constant.DIR_ARCHIVE_ZIP + "会议归档-" + DateUtil.nowDate() + ".zip";
+                    zipFilePath = dirPath + "/会议归档-" + DateUtil.nowDate() + ".zip";
                 }
 //                System.out.println("当前文件名编码格式：" + getEncoding(zipFilePath));
-//                Properties initProp = new Properties(System.getProperties());
-//                Charset charset = Charset.defaultCharset();
-//                System.out.println("charset:" + charset.name() + ",toString=" + charset.toString());
-//                System.out.println("当前系统编码:" + initProp.getProperty("file.encoding"));
-//                System.out.println("当前系统语言:" + initProp.getProperty("user.language"));
-
-//                if (isEncryption) {
-//                    File file = new File(Constant.DIR_ARCHIVE_TEMP);
-//                    ZipUtil.doZipFilesWithPassword(file, zipFilePath, "123456");
-//                } else {
-                ZipUtils.zipFile(Constant.DIR_ARCHIVE_TEMP, zipFilePath);
-//                }
+                Properties properties = new Properties(System.getProperties());
+                Charset charset = Charset.defaultCharset();
+                LogUtils.d("charset.name=" + charset.name()
+                        + ",当前系统编码:" + properties.getProperty("file.encoding")
+                        + ",当前系统语言:" + properties.getProperty("user.language")
+                );
+                LogUtils.e("是否加密=" + isEncryption + ", 密码=" + passWord);
+                long l = System.currentTimeMillis();
+                if (isEncryption) {
+//                    CompressUtil.zip(Constant.DIR_ARCHIVE_TEMP, zipFilePath, true, passWord);
+                    File file = new File(Constant.DIR_ARCHIVE_TEMP);
+                    ZipUtil.doZipFilesWithPassword(file, zipFilePath, passWord);
+                } else {
+                    ZipUtils.zipFile(Constant.DIR_ARCHIVE_TEMP, zipFilePath);
+                }
+                LogUtils.e("压缩结束----用时=" + (System.currentTimeMillis() - l));
                 for (int i = 0; i < archiveInforms.size(); i++) {
                     ArchiveInform archiveInform = archiveInforms.get(i);
                     if (archiveInform.getContent().equals("开始压缩")) {
@@ -517,14 +650,111 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
                     }
                 }
                 mView.updateArchiveInform(archiveInforms);
-                LogUtils.i(TAG, "run 压缩完毕");
-                FileUtils.deleteAllInDir(Constant.DIR_ARCHIVE_TEMP);
-
-                isCompressing = false;
-            } catch (InterruptedException | IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                LogUtils.i(TAG, "删除临时目录 zipThread.getState()=" + zipThread.getState());
+                FileUtils.delete(Constant.DIR_ARCHIVE_TEMP);
+                zipThread = null;
+                isCompressing = false;
             }
-        });
+        }
+    }
+
+    public void zipArchiveDir() {
+        LogUtils.i("zipArchiveDir---");
+        if (zipThread == null) {
+            zipThread = new ZipThread();
+        }
+        zipThread.start();
+
+//        App.threadPool.execute(zipThread);
+//        App.threadPool.execute(() -> {
+//            try {
+//                Thread.sleep(1000);
+//                if (!archiveTasks.isEmpty()) {
+//                    LogUtils.i(TAG, "run 还有正在下载的文件");
+//                    return;
+//                }
+//                if (isCompressing) {
+//                    LogUtils.i(TAG, "zipArchiveDir 当前正在压缩...");
+//                    return;
+//                }
+//                File srcFile = new File(Constant.DIR_ARCHIVE_TEMP);
+//                if (!srcFile.exists()) {
+//                    LogUtils.e(TAG, "zipArchiveDir 没有找到这个目录=" + Constant.DIR_ARCHIVE_TEMP);
+//                    return;
+//                }
+//                isCompressing = true;
+//                long l = System.currentTimeMillis();
+//                LogUtils.i(TAG, "run 开始压缩 当前线程id=" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
+//                archiveInforms.add(new ArchiveInform("开始压缩", "进行中..."));
+//                mView.updateArchiveInform(archiveInforms);
+//                FileUtils.createOrExistsDir(dirPath);
+//                String zipFilePath = dirPath + "/会议归档.zip";
+//                File zipFile = new File(zipFilePath);
+//                if (zipFile.exists()) {
+//                    zipFilePath = dirPath + "/会议归档-" + DateUtil.nowDate() + ".zip";
+//                }
+////                System.out.println("当前文件名编码格式：" + getEncoding(zipFilePath));
+////                Properties initProp = new Properties(System.getProperties());
+////                Charset charset = Charset.defaultCharset();
+////                System.out.println("charset:" + charset.name() + ",toString=" + charset.toString());
+////                System.out.println("当前系统编码:" + initProp.getProperty("file.encoding"));
+////                System.out.println("当前系统语言:" + initProp.getProperty("user.language"));
+//
+////                if (isEncryption) {
+////                    File file = new File(Constant.DIR_ARCHIVE_TEMP);
+////                    ZipUtil.doZipFilesWithPassword(file, zipFilePath, "123456");
+////                } else {
+//                ZipUtils.zipFile(Constant.DIR_ARCHIVE_TEMP, zipFilePath);
+//                LogUtils.e("压缩结束----用时=" + (System.currentTimeMillis() - l));
+////                }
+//                for (int i = 0; i < archiveInforms.size(); i++) {
+//                    ArchiveInform archiveInform = archiveInforms.get(i);
+//                    if (archiveInform.getContent().equals("开始压缩")) {
+//                        archiveInform.setContent("压缩完毕");
+//                        archiveInform.setResult("100%");
+//                        break;
+//                    }
+//                }
+//                mView.updateArchiveInform(archiveInforms);
+//                LogUtils.i(TAG, "删除临时目录");
+//                FileUtils.delete(Constant.DIR_ARCHIVE_TEMP);
+////                FileUtils.deleteAllInDir(Constant.DIR_ARCHIVE_TEMP);
+//                isCompressing = false;
+//            } catch (InterruptedException | IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+    }
+
+    @Override
+    public void cancelArchive(boolean cancel) {
+        isCancel = cancel;
+        LogUtils.i("cancelArchive isCancel=" + isCancel);
+    }
+
+    @Override
+    public void cancelArchive() {
+//        jni.clearDownload();
+        if (zipThread != null && zipThread.getState() == Thread.State.RUNNABLE) {
+            try {
+                zipThread.interrupt();
+                LogUtils.e("zipThread interrupt");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                zipThread = null;
+                LogUtils.e("zipThread设置为null");
+            }
+        }
+        FileUtils.delete(dirPath);
+        FileUtils.delete(Constant.DIR_ARCHIVE_TEMP);
+        archiveInforms.clear();
+        archiveTasks.clear();
+        mView.updateArchiveInform(archiveInforms);
+        LogUtils.i("cancelArchive 取消归档");
     }
 
     @Override
@@ -532,20 +762,12 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
         archiveInforms.clear();
         archiveTasks.clear();
         long l = System.currentTimeMillis();
-        mView.setAllWaitingStatus();
-//        mView.updateMeetingBasicInformation("等待");
         archiveMeetInfo();
-//        mView.updateAttendeeInformation("等待");
         archiveMemberInfo();
-//        mView.updateConferenceSignInInformation("等待");
         archiveSignInfo();
-//        mView.updateMeetingVoteResult("等待");
         archiveVoteInfo();
-//        mView.updateShardFile("等待");
         archiveShareInfo();
-//        mView.updateAnnotateFile("等待");
         archiveAnnotationInfo();
-//        mView.updateMeetingMaterial("等待");
         archiveMeetData();
         LogUtils.i(TAG, "archiveAll 归档总用时：" + (System.currentTimeMillis() - l));
     }
@@ -577,11 +799,163 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
         }
     }
 
+    @Override
+    public BasicInformationTask.Info getBasicInformationTaskInfo() {
+        String conferenceBasicInformation = "";
+        if (currentMeetInfo != null) {
+            conferenceBasicInformation += "会议名称：" + currentMeetInfo.getName().toStringUtf8()
+                    + "\n使用会场：" + currentRoomInfo.getName().toStringUtf8()
+                    + "\n会场地址：" + currentRoomInfo.getAddr().toStringUtf8()
+                    + "\n会议保密：" + (currentMeetInfo.getSecrecy() == 1 ? "是" : "否")
+                    + "\n会议开始时间：" + DateUtil.secondFormatDateTime(currentMeetInfo.getStartTime())
+                    + "\n会议结束时间：" + DateUtil.secondFormatDateTime(currentMeetInfo.getEndTime())
+                    + "\n签到方式：" + Constant.getMeetSignInTypeName(currentMeetInfo.getSigninType())
+                    + "\n会议管理员：" + (currentAdminInfo != null ? currentAdminInfo.getAdminname().toStringUtf8() : queryCurrentAdminName())
+                    + "\n管理员描述：" + (currentAdminInfo != null ? currentAdminInfo.getComment().toStringUtf8() : "")
+            ;
+        }
+        String bulletinText = "";
+        for (int i = 0; i < noticeData.size(); i++) {
+            InterfaceBullet.pbui_Item_BulletDetailInfo item = noticeData.get(i);
+            bulletinText += "标题：" + item.getTitle().toStringUtf8() + "\n" + "内容：" + item.getContent().toStringUtf8() + "\n\n";
+        }
+        return new BasicInformationTask.Info(conferenceBasicInformation, agendaContent, agendaMediaId, bulletinText);
+    }
+
+    @Override
+    public MemberTask.Info getMemberTaskInfo() {
+        return new MemberTask.Info(devSeatInfos);
+    }
+
+    @Override
+    public SignInTask.Info getSignInTaskInfo() {
+        return new SignInTask.Info(signInData);
+    }
+
+    @Override
+    public VoteTask.Info getVoteTaskInfo() {
+        return new VoteTask.Info(voteData, electionData, devSeatInfos.size());
+    }
+
+    LinkedList<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> shouldDownloadShareFiles = new LinkedList<>();
+
+    /**
+     * 添加下一个需要下载的共享文件
+     */
+    public void addNextDownloadShareFileTask() {
+        if (shouldDownloadShareFiles.isEmpty()) {
+            addNextDownloadAnnotationFileTask();
+            return;
+        }
+        //取出并删除最先添加的
+        InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = shouldDownloadShareFiles.poll();
+        String fileName = item.getName().toStringUtf8();
+        DownloadFileTask task = new DownloadFileTask(new DownloadFileTask.Info("共享文件",
+                Constant.ARCHIVE_SHARE_FILE, item));
+        task.taskNo = "共享文件-" + item.getMediaid();
+        LineUpTaskHelp.getInstance().addTask(task);
+    }
+
+    LinkedList<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> shouldDownloadAnnotationFiles = new LinkedList<>();
+
+    /**
+     * 添加下一个需要下载的批注文件
+     */
+    public void addNextDownloadAnnotationFileTask() {
+        if (shouldDownloadAnnotationFiles.isEmpty()) {
+            addNextDownloadOtherFileTask();
+            return;
+        }
+        //取出并删除最先添加的
+        InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = shouldDownloadAnnotationFiles.poll();
+        DownloadFileTask task = new DownloadFileTask(new DownloadFileTask.Info("批注文件",
+                Constant.ARCHIVE_ANNOTATION_FILE, item));
+        task.taskNo = "批注文件-" + item.getMediaid();
+        LineUpTaskHelp.getInstance().addTask(task);
+    }
+
+    LinkedList<DownloadOtherFileInfo> shouldDownloadOtherFiles = new LinkedList<>();
+
+    /**
+     * 添加下一个需要下载的会议资料文件
+     */
+    public void addNextDownloadOtherFileTask() {
+        if (shouldDownloadOtherFiles.isEmpty()) {
+            LogUtils.d("所有的文件都下载完毕");
+            return;
+        }
+        //取出并删除最先添加的
+        DownloadOtherFileInfo poll = shouldDownloadOtherFiles.poll();
+        String dirName = poll.getDirName();
+        InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = poll.getItem();
+        DownloadFileTask task = new DownloadFileTask(new DownloadFileTask.Info("会议资料/" + dirName,
+                Constant.ARCHIVE_MEET_DATA_FILE, item));
+        task.taskNo = "会议资料-" + dirName + "-" + item.getMediaid();
+        LineUpTaskHelp.getInstance().addTask(task);
+    }
+
+    @Override
+    public void addDownloadShareFileTask(LineUpTaskHelp lineUpTaskHelp) {
+        if (shareFileData.isEmpty()) return;
+        FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP + "共享文件/");
+        shouldDownloadShareFiles.addAll(shareFileData);
+//        for (int i = 0; i < shareFileData.size(); i++) {
+//            InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = shareFileData.get(i);
+//            new DirFileInfo(Constant.SHARE_DIR_ID, "共享文件", shareFileData);
+//
+//            DownloadFileTask task = new DownloadFileTask(new DownloadFileTask.Info("共享文件",
+//                    Constant.ARCHIVE_SHARE_FILE, item));
+//            task.taskNo = "共享文件-" + item.getMediaid();
+////            task.planNo = "共享文件";
+//            lineUpTaskHelp.addTask(task);
+//            downloadFileTasks.add(task);
+//        }
+    }
+
+    @Override
+    public void addDownloadAnnotationFileTask(LineUpTaskHelp lineUpTaskHelp) {
+        if (annotationFileData.isEmpty()) return;
+        FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP + "批注文件/");
+        shouldDownloadAnnotationFiles.addAll(annotationFileData);
+//        for (int i = 0; i < annotationFileData.size(); i++) {
+//            InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = annotationFileData.get(i);
+//            DownloadFileTask task = new DownloadFileTask(new DownloadFileTask.Info("批注文件",
+//                    Constant.ARCHIVE_SHARE_FILE, item));
+//            task.taskNo = "批注文件-" + item.getMediaid();
+////            task.planNo = "批注文件";
+//            lineUpTaskHelp.addTask(task);
+//            downloadFileTasks.add(task);
+//        }
+    }
+
+    @Override
+    public void addDownloadMeetDataFileTask(LineUpTaskHelp lineUpTaskHelp) {
+        if (otherFileData.isEmpty()) return;
+        FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP + "会议资料/");
+        Collection<DirFileInfo> values = otherFileData.values();
+        Iterator<DirFileInfo> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            DirFileInfo next = iterator.next();
+            FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP + "会议资料/" + next.dirName);
+            for (int i = 0; i < next.files.size(); i++) {
+                InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = next.files.get(i);
+                shouldDownloadOtherFiles.add(new DownloadOtherFileInfo(next.dirId, next.dirName, item));
+//                DownloadFileTask task = new DownloadFileTask(new DownloadFileTask.Info("会议资料-" + next.dirName,
+//                        Constant.ARCHIVE_MEET_DATA_FILE, item));
+//                task.taskNo = "会议资料-" + next.dirName + "-" + item.getMediaid();
+////                task.planNo = "会议资料";
+//                lineUpTaskHelp.addTask(task);
+            }
+        }
+    }
+
     /**
      * 归档会议基本信息
      */
     private void archiveMeetInfo() {
-        mView.updateMeetingBasicInformation("正在导出");
+        if (isCancel) return;
+        LogUtils.i("archiveMeetInfo---");
+//        mView.updateMeetingBasicInformation("正在导出");
         addTask("归档会议基本信息");
         long l = System.currentTimeMillis();
         //会议基本信息
@@ -590,7 +964,7 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
         if (agendaType == InterfaceMacro.Pb_AgendaType.Pb_MEET_AGENDA_TYPE_TEXT_VALUE) {
             if (agendaContent != null && !agendaContent.isEmpty()) {
                 read2file("会议议程信息.txt", agendaContent);
-                mView.updateMeetingBasicInformation("完成");
+//                mView.updateMeetingBasicInformation("完成");
             }
         } else if (agendaType == InterfaceMacro.Pb_AgendaType.Pb_MEET_AGENDA_TYPE_FILE_VALUE) {
             downloadAgendaFile();
@@ -605,11 +979,11 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * 归档参会人信息
      */
     private void archiveMemberInfo() {
+        if (isCancel) return;
+        LogUtils.i("archiveMemberInfo---");
         if (devSeatInfos.isEmpty()) {
             return;
         }
-        mView.updateAttendeeInformation("正在导出");
-        long l = System.currentTimeMillis();
         addTask("归档参会人信息");
         JxlUtil.exportMemberInfo("归档参会人信息", Constant.DIR_ARCHIVE_TEMP, devSeatInfos);
     }
@@ -618,58 +992,66 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * 归档签到信息
      */
     private void archiveSignInfo() {
+        if (isCancel) return;
+        LogUtils.i("archiveSignInfo---");
         if (signInData.isEmpty()) {
             return;
         }
-        mView.updateConferenceSignInInformation("正在导出");
+//        mView.updateConferenceSignInInformation("正在导出");
         addTask("归档签到信息");
         long l = System.currentTimeMillis();
-        JxlUtil.exportArchiveSignIn(signInData);
+        JxlUtil.exportArchiveSignIn(Constant.DIR_ARCHIVE_TEMP, signInData);
         LogUtils.i(TAG, "归档签到信息 用时=" + (System.currentTimeMillis() - l));
         archiveInforms.add(new ArchiveInform("签到信息导出完成", "100%"));
         mView.updateArchiveInform(archiveInforms);
         removeTask("归档签到信息");
-        mView.updateConferenceSignInInformation("完成");
+//        mView.updateConferenceSignInInformation("完成");
     }
 
     /**
      * 归档投票结果
      */
     private void archiveVoteInfo() {
-        mView.updateMeetingVoteResult("正在导出");
+        if (isCancel) return;
+        LogUtils.i("archiveVoteInfo---");
         addTask("归档投票结果");
         long l = System.currentTimeMillis();
         if (!voteData.isEmpty()) {
-            JxlUtil.exportArchiveVote(voteData, devSeatInfos.size(), true);
+            JxlUtil.exportArchiveVote(Constant.DIR_ARCHIVE_TEMP, voteData, devSeatInfos.size(), true);
         }
         if (!electionData.isEmpty()) {
-            JxlUtil.exportArchiveVote(electionData, devSeatInfos.size(), false);
+            JxlUtil.exportArchiveVote(Constant.DIR_ARCHIVE_TEMP, electionData, devSeatInfos.size(), false);
         }
         LogUtils.i(TAG, "归档投票结果 用时：" + (System.currentTimeMillis() - l));
         archiveInforms.add(new ArchiveInform("投票信息导出完成", "100%"));
         mView.updateArchiveInform(archiveInforms);
         removeTask("归档投票结果");
-        mView.updateMeetingVoteResult("完成");
     }
 
     /**
      * 归档共享文件
      */
     private void archiveShareInfo() {
+        if (isCancel) return;
         if (shareFileData.isEmpty()) {
             return;
         }
-        mView.updateShardFile("正在导出");
         FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP + "共享文件/");
-
         for (int i = 0; i < shareFileData.size(); i++) {
+            if (isCancel) {
+                LogUtils.e("中断循环下载共享文件");
+                return;
+            }
             InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = shareFileData.get(i);
             String fileName = item.getName().toStringUtf8();
-            shareFileMediaIds.add(item.getMediaid());
-            archiveInforms.add(new ArchiveInform(item.getMediaid(), "开始下载文件：" + fileName, "0%"));
-            mView.updateArchiveInform(archiveInforms);
-            addTask(String.valueOf(item.getMediaid()));
-            jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + "共享文件/" + fileName, item.getMediaid(), 1, 0, Constant.ARCHIVE_SHARE_FILE);
+            String taskTag = "共享文件" + item.getMediaid();
+            if (!archiveTasks.contains(taskTag)) {
+                archiveInforms.add(new ArchiveInform(0, item.getMediaid(), "下载文件：" + fileName, "0%"));
+                mView.updateArchiveInform(archiveInforms);
+                addTask(taskTag);
+                jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + "共享文件/" + fileName, item.getMediaid(),
+                        1, 0, Constant.ARCHIVE_SHARE_FILE);
+            }
         }
     }
 
@@ -677,19 +1059,26 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * 归档批注文件
      */
     private void archiveAnnotationInfo() {
+        if (isCancel) return;
         if (annotationFileData.isEmpty()) {
             return;
         }
-        mView.updateAnnotateFile("正在导出");
         FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP + "批注文件/");
         for (int i = 0; i < annotationFileData.size(); i++) {
+            if (isCancel) {
+                LogUtils.e("中断循环下载批注文件");
+                return;
+            }
             InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = annotationFileData.get(i);
             String fileName = item.getName().toStringUtf8();
-            annotateFileMediaIds.add(item.getMediaid());
-            archiveInforms.add(new ArchiveInform(item.getMediaid(), "开始下载文件：" + fileName, "0%"));
-            mView.updateArchiveInform(archiveInforms);
-            addTask(String.valueOf(item.getMediaid()));
-            jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + "批注文件/" + fileName, item.getMediaid(), 1, 0, Constant.ARCHIVE_ANNOTATION_FILE);
+            String taskTag = "批注文件" + item.getMediaid();
+            if (!archiveTasks.contains(taskTag)) {
+                archiveInforms.add(new ArchiveInform(1, item.getMediaid(), "下载文件：" + fileName, "0%"));
+                mView.updateArchiveInform(archiveInforms);
+                addTask(taskTag);
+                jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + "批注文件/" + fileName, item.getMediaid(),
+                        1, 0, Constant.ARCHIVE_ANNOTATION_FILE);
+            }
         }
     }
 
@@ -697,47 +1086,42 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * 归档会议资料
      */
     private void archiveMeetData() {
+        if (isCancel) return;
         LogUtils.e("归档会议资料文件 " + (otherFileData.isEmpty()));
         if (otherFileData.isEmpty()) {
             return;
         }
-        mView.updateMeetingMaterial("正在导出");
         FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP + "会议资料/");
-        Collection<List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo>> values = otherFileData.values();
-        Iterator<List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo>> iterator = values.iterator();
+        Collection<DirFileInfo> values = otherFileData.values();
+        Iterator<DirFileInfo> iterator = values.iterator();
         while (iterator.hasNext()) {
-            List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> items = iterator.next();
+            DirFileInfo next = iterator.next();
+            List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> items = next.getFiles();
             for (int i = 0; i < items.size(); i++) {
+                if (isCancel) {
+                    LogUtils.e("中断循环下载会议资料");
+                    return;
+                }
                 InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = items.get(i);
                 String fileName = item.getName().toStringUtf8();
                 int mediaid = item.getMediaid();
-                if (materialFileMediaIds.contains(mediaid)) {
-                    continue;
+                String taskTag = "会议资料" + item.getMediaid();
+                if (!archiveTasks.contains(taskTag)) {
+                    archiveInforms.add(new ArchiveInform(2, mediaid, "下载文件：" + fileName, "0%"));
+                    mView.updateArchiveInform(archiveInforms);
+                    addTask(taskTag);
+                    jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + "会议资料/" + fileName, mediaid,
+                            1, 0, Constant.ARCHIVE_MEET_DATA_FILE);
                 }
-                materialFileMediaIds.add(mediaid);
-                archiveInforms.add(new ArchiveInform(mediaid, "开始下载文件：" + fileName, "0%"));
-                mView.updateArchiveInform(archiveInforms);
-                addTask(String.valueOf(mediaid));
-                jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + "会议资料/" + fileName, mediaid,
-                        1, 0, Constant.ARCHIVE_MEET_DATA_FILE);
             }
         }
-//        for (int i = 0; i < otherFileData.size(); i++) {
-//            InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = otherFileData.get(i);
-//            String fileName = item.getName().toStringUtf8();
-//            materialFileMediaIds.add(item.getMediaid());
-//            archiveInforms.add(new ArchiveInform(item.getMediaid(), "开始下载文件：" + fileName, "0%"));
-//            mView.updateArchiveInform(archiveInforms);
-//            addTask(String.valueOf(item.getMediaid()));
-//            jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + "会议资料/" + fileName, item.getMediaid(),
-//                    1, 0, Constant.ARCHIVE_MEET_DATA_FILE);
-//        }
     }
 
     /**
      * 会议信息写入到文件中
      */
     private void meetInfo2file() {
+        if (isCancel) return;
         if (currentMeetInfo != null) {
             String content = "";
             content += "会议名称：" + currentMeetInfo.getName().toStringUtf8()
@@ -758,6 +1142,7 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * 下载议程文件
      */
     private void downloadAgendaFile() {
+        if (isCancel) return;
         byte[] bytes = jni.queryFileProperty(InterfaceMacro.Pb_MeetFilePropertyID.Pb_MEETFILE_PROPERTY_NAME.getNumber(), agendaMediaId);
         InterfaceBase.pbui_CommonTextProperty textProperty = null;
         try {
@@ -774,7 +1159,7 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
 //                view.showToast(R.string.currently_downloading);
 //            }
         } else {
-            addTask(String.valueOf(agendaMediaId));
+            addTask("议程文件" + agendaMediaId);
             jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + fileName, agendaMediaId, 1, 0,
                     Constant.ARCHIVE_AGENDA_FILE);
         }
@@ -784,6 +1169,7 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * 将公告写入文件中
      */
     private void notice2file() {
+        if (isCancel) return;
         if (noticeData.isEmpty()) {
             return;
         }
@@ -802,6 +1188,7 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * @param content  文本内容
      */
     private void read2file(String fileName, String content) {
+        if (isCancel) return;
 //        FileIOUtils.writeFileFromString()
         try {
             File file = new File(Constant.DIR_ARCHIVE_TEMP + fileName);

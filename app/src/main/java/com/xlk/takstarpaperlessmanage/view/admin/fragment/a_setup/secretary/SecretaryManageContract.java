@@ -29,5 +29,9 @@ public interface SecretaryManageContract {
         void addRoom2Admin(List<Integer> roomIds);
 
         void removeRoomFromAdmin(List<Integer> roomIds);
+
+        void savePreviousStep();
+
+        void repeal();
     }
 }

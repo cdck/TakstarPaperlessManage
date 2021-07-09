@@ -4,7 +4,9 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceStatistic;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
+import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 
 /**
  * @author Created by xlk on 2021/5/29.
@@ -29,6 +31,14 @@ class StatisticsPresenter extends BasePresenter<StatisticsContract.View> impleme
                     //返回按时间段查询的会议统计通知
                     InterfaceStatistic.pbui_Type_MeetQuarterStatisticInfo info = InterfaceStatistic.pbui_Type_MeetQuarterStatisticInfo.parseFrom(bytes);
                     mView.updateCountByTime(info);
+                }
+                break;
+            }
+            case EventType.RESULT_DIR_PATH:{
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if(dirType== Constant.CHOOSE_DIR_TYPE_EXPORT_STATISTICS){
+                    mView.updateExportDirPath(dirPath);
                 }
                 break;
             }

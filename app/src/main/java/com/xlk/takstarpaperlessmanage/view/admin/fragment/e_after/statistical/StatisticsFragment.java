@@ -1,14 +1,21 @@
 package com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.statistical;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -16,9 +23,24 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.mogujie.tt.protobuf.InterfaceBase;
+import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceStatistic;
+import com.mogujie.tt.protobuf.InterfaceVote;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
+import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
+import com.xlk.takstarpaperlessmanage.util.PdfUtil;
+import com.xlk.takstarpaperlessmanage.util.PopUtil;
+import com.xlk.takstarpaperlessmanage.util.ToastUtil;
+import com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.vote.PdfVoteInfo;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * @author Created by xlk on 2021/5/29.
@@ -52,6 +74,9 @@ public class StatisticsFragment extends BaseFragment<StatisticsPresenter> implem
     private TextView tvBulletinLaunch;
     private TextView tvShow;
     private ImageView iv_1, iv_2, iv_3, iv_4, iv_5, iv_6, iv_7, iv_8, iv_9, iv_10, iv_11;
+    private Button btnExport;
+    private EditText edt_save_address;
+    private LinearLayout screenshot_view;
 
     @Override
     protected int getLayoutId() {
@@ -59,11 +84,64 @@ public class StatisticsFragment extends BaseFragment<StatisticsPresenter> implem
     }
 
     @Override
+    public void updateExportDirPath(String dirPath) {
+        if (edt_save_address != null) {
+            edt_save_address.setText(dirPath);
+        }
+    }
+
+    private void showExportFilePop() {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, rootView);
+        EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        TextView tv_suffix = inflate.findViewById(R.id.tv_suffix);
+        tv_suffix.setText(".png");
+        edt_save_address = inflate.findViewById(R.id.edt_save_address);
+        edt_save_address.setKeyListener(null);
+        inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
+            String currentDirPath = edt_save_address.getText().toString().trim();
+            if (currentDirPath.isEmpty()) {
+                currentDirPath = Constant.root_dir;
+            }
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH)
+                    .objects(Constant.CHOOSE_DIR_TYPE_EXPORT_STATISTICS, currentDirPath).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String fileName = edt_file_name.getText().toString().trim();
+            String addr = edt_save_address.getText().toString().trim();
+            if (fileName.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
+                return;
+            }
+            btnExport.setVisibility(View.GONE);
+            /* **** **  screenshot_view布局文件中的View需要指定背景颜色，不然都是截取的图片是黑色背景  ** **** */
+            Bitmap bm = Bitmap.createBitmap(screenshot_view.getWidth(), screenshot_view.getHeight(), Bitmap.Config.ARGB_8888);
+            screenshot_view.draw(new Canvas(bm));
+            FileUtils.createOrExistsFile(addr + "/" + fileName + ".png");
+            try {
+                FileOutputStream fos = new FileOutputStream(addr + "/" + fileName + ".png");
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+                btnExport.setVisibility(View.VISIBLE);
+                ToastUtil.showShort(R.string.export_successful);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            pop.dismiss();
+        });
+    }
+
+    @Override
     protected void initView(View inflate) {
         chart = inflate.findViewById(R.id.chart);
 //        initialChart();
-        inflate.findViewById(R.id.btn_export).setOnClickListener(v -> {
-
+        btnExport = inflate.findViewById(R.id.btn_export);
+        screenshot_view = inflate.findViewById(R.id.screenshot_view);
+        btnExport.setOnClickListener(v -> {
+            showExportFilePop();
         });
         rootView = (LinearLayout) inflate.findViewById(R.id.root_view);
         ll1 = (LinearLayout) inflate.findViewById(R.id.ll_1);

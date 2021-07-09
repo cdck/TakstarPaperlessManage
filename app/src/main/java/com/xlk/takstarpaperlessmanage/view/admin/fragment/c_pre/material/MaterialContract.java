@@ -14,9 +14,18 @@ interface MaterialContract {
         void updateDirList();
 
         void updateFileList();
+
+        /**
+         * 更新历史资料中的会议列表
+         */
+        void updateMeetingList();
+
+        void updateHistoryFileList();
     }
 
     interface Presenter extends BaseContract.Presenter {
+        void initial();
+
         void queryMeetDir();
 
         void queryMember();
@@ -26,5 +35,11 @@ interface MaterialContract {
         void setCurrentDirId(int dirId);
 
         List<MemberDirPermissionBean> getDirPermission();
+
+        void switchMeeting(int meetingId);
+
+        void setCurrentHistoryDirId(int dirId);
+
+        void exit();
     }
 }

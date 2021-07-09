@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -41,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -81,6 +83,7 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
             showExportFilePop(isVote);
         });
     }
+
     private void showExportFilePop(boolean isVote) {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
         PopupWindow pop = PopUtil.createHalfPop(inflate, rv_vote);
@@ -103,14 +106,14 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
                 ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
                 return;
             }
-            JxlUtil.exportVoteInfo(fileName, addr, presenter.voteInfos,isVote ? getString(R.string.vote_content) : getString(R.string.election_content));
+            JxlUtil.exportVoteInfo(fileName, addr, presenter.voteInfos, isVote ? getString(R.string.vote_content) : getString(R.string.election_content));
             pop.dismiss();
         });
     }
 
     @Override
     public void updateExportDirPath(String dirPath) {
-        if(edt_save_address!=null){
+        if (edt_save_address != null) {
             edt_save_address.setText(dirPath);
         }
     }
@@ -332,8 +335,16 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
                 Uri uri = data.getData();
                 File file = UriUtils.uri2File(uri);
                 if (file != null) {
-                    List<InterfaceVote.pbui_Item_MeetOnVotingDetailInfo> votes = JxlUtil.readVoteXls(file.getAbsolutePath(), vote_type);
-                    jni.createVote(votes);
+                    if (file.getName().endsWith(".xls")) {
+                        List<InterfaceVote.pbui_Item_MeetOnVotingDetailInfo> votes = JxlUtil.readVoteXls(file.getAbsolutePath(), vote_type);
+                        if(votes.isEmpty()){
+                            ToastUtils.showLong(R.string.error_empty_format);
+                            return;
+                        }
+                        jni.createVote(votes);
+                    } else {
+                        ToastUtils.showLong(R.string.please_choose_xls_file);
+                    }
                 }
             }
         }

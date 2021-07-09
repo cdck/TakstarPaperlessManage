@@ -30,6 +30,10 @@ public class RoomManagePresenter extends BasePresenter<RoomManageContract.View> 
     public List<InterfaceRoom.pbui_Item_MeetRoomDetailInfo> meetRooms = new ArrayList<>();
     public List<InterfaceDevice.pbui_Item_DeviceDetailInfo> roomDevices = new ArrayList<>();
     public List<InterfaceDevice.pbui_Item_DeviceDetailInfo> otherDevices = new ArrayList<>();
+
+    List<InterfaceDevice.pbui_Item_DeviceDetailInfo> preOtherDevices = new ArrayList<>();
+    List<InterfaceDevice.pbui_Item_DeviceDetailInfo> preRoomDevices = new ArrayList<>();
+
     /**
      * 所有会议室的设备id
      */
@@ -177,6 +181,24 @@ public class RoomManagePresenter extends BasePresenter<RoomManageContract.View> 
     }
 
     @Override
+    public void savePreviousStep() {
+        preOtherDevices.clear();
+        preOtherDevices.addAll(otherDevices);
+        preRoomDevices.clear();
+        preRoomDevices.addAll(roomDevices);
+    }
+
+    @Override
+    public void repeal() {
+        otherDevices.clear();
+        otherDevices.addAll(preOtherDevices);
+        roomDevices.clear();
+        roomDevices.addAll(preRoomDevices);
+        mView.updateOtherDeviceRv();
+        mView.updateRoomDeviceRv();
+    }
+
+    @Override
     public void addDevice2Room(List<Integer> deviceIds) {
         List<InterfaceDevice.pbui_Item_DeviceDetailInfo> temps = new ArrayList<>();
         Iterator<InterfaceDevice.pbui_Item_DeviceDetailInfo> iterator = otherDevices.iterator();
@@ -198,7 +220,6 @@ public class RoomManagePresenter extends BasePresenter<RoomManageContract.View> 
         roomDevices.addAll(temps);
         mView.updateRoomDeviceRv();
         mView.updateOtherDeviceRv();
-//        jni.addDevice2Room(currentRoomId, deviceIds);
     }
 
     @Override
@@ -223,7 +244,6 @@ public class RoomManagePresenter extends BasePresenter<RoomManageContract.View> 
         otherDevices.addAll(temps);
         mView.updateRoomDeviceRv();
         mView.updateOtherDeviceRv();
-//        jni.removeDeviceFromRoom(currentRoomId, deviceIds);
     }
 
     @Override

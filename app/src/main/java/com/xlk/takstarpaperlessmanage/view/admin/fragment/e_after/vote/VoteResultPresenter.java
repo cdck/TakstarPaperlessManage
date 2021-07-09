@@ -7,7 +7,9 @@ import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceMember;
 import com.mogujie.tt.protobuf.InterfaceVote;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
+import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.SubmitMember;
 
 import java.util.ArrayList;
@@ -51,6 +53,14 @@ class VoteResultPresenter extends BasePresenter<VoteResultContract.View> impleme
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_DEVICEMEETSTATUS_VALUE:
                 queryMemberDetailed();
                 break;
+            case EventType.RESULT_DIR_PATH:{
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if(dirType== Constant.CHOOSE_DIR_TYPE_EXPORT_VOTE_SUBMIT){
+                    mView.updateExportDirPath(dirPath);
+                }
+                break;
+            }
             default:
                 break;
         }

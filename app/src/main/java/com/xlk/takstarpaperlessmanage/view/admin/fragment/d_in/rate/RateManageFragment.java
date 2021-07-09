@@ -27,6 +27,7 @@ import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.FileUtil;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
+import com.xlk.takstarpaperlessmanage.util.PdfUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
@@ -182,8 +183,8 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
         TextView tv_total_score = inflate.findViewById(R.id.tv_total_score);
         tv_total_score.setText(String.valueOf(total));
         TextView tv_average_score = inflate.findViewById(R.id.tv_average_score);
-        if (item.getRealmembernum() > 0) {
-            double div = Constant.div(total, item.getRealmembernum(), 2);
+        if (item.getSelectcount() > 0) {
+            double div = Constant.div(total, item.getSelectcount(), 2);
             tv_average_score.setText(String.valueOf(div));
         }
         RecyclerView rv_member = inflate.findViewById(R.id.rv_member);
@@ -200,16 +201,17 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
                 ToastUtil.showShort(R.string.no_data_to_export);
                 return;
             }
-//            JxlUtil.exportSingleScoreResult(item);
-            showExportFilePop(item);
+            showExportFilePop(new PdfRateInfo(fileName, item, presenter.scoreMembers));
             pop.dismiss();
         });
     }
 
-    private void showExportFilePop(InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
+    private void showExportFilePop(PdfRateInfo pdfRateInfo) {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
         PopupWindow pop = PopUtil.createHalfPop(inflate, root_view);
         EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        TextView tv_suffix = inflate.findViewById(R.id.tv_suffix);
+        tv_suffix.setText(".pdf");
         edt_save_address = inflate.findViewById(R.id.edt_save_address);
         edt_save_address.setKeyListener(null);
         inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
@@ -228,7 +230,7 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
                 ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
                 return;
             }
-            JxlUtil.exportSingleScoreResult(fileName, addr, item);
+            PdfUtil.exportScore(addr, fileName, pdfRateInfo);
             pop.dismiss();
         });
     }

@@ -603,7 +603,7 @@
     <string name="meeting_shared_file">会议共享文件</string>
     <string name="meeting_annotate_file">会议批注文件</string>
     <string name="output_location_">输出位置：</string>
-    <string name="export_status">导出状态</string>
+    <string name="export_status_">导出状态：</string>
     <string name="operation_informationn">操作信息</string>
     <string name="please_wait_archive_complete_first">请先等待归档完成再操作</string>
     <string name="operation_status">操作状态</string>
@@ -659,4 +659,13 @@
     <string name="create_dir">新建目录</string>
     <string name="directory_name_">目录名称：</string>
     <string name="file_format_err">文件格式错误</string>
+    <string name="repeal">撤销</string>
+    <string name="catalogue">目录</string>
+    <string name="error_empty_format">内容格式错误</string>
+    <string name="can_only_choose_one_administrator">只能选择一个作为管理员</string>
+    <string name="can_only_choose_bound_client_device">只能选择已绑定参会人的会议终端设备</string>
+    <string name="bandwidth_testing">带宽测试</string>
+    <string name="please_enter_password">请输入密码</string>
+    <string name="error_password">请输入6位数的密码</string>
+    <string name="already_archive">归档已经开始，不能临时修改</string>
 </resources>

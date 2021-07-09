@@ -38,7 +38,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
  */
 public class App extends Application {
     public static List<Activity> activities = new ArrayList<>();
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
     public static boolean read2file = false;
     public static Context appContext;
 

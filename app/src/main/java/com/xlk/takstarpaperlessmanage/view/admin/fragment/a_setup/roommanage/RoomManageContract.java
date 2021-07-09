@@ -27,5 +27,9 @@ public interface RoomManageContract  {
         void removeDeviceFromRoom(List<Integer> deviceIds);
 
         void defineModify();
+
+        void savePreviousStep();
+
+        void repeal();
     }
 }

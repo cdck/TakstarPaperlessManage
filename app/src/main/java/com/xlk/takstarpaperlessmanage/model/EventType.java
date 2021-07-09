@@ -53,7 +53,7 @@ public class EventType {
      */
     public static final int BUS_COLLECT_CAMERA_STOP = BUS_BASE + 20;
     /**
-     *
+     * 归档下载的文件通知
      */
     public static final int BUS_ARCHIVE_SHARE_FILE = BUS_BASE + 21;
     public static final int BUS_ARCHIVE_ANNOTATION_FILE = BUS_BASE + 22;
@@ -72,4 +72,5 @@ public class EventType {
      * 返回选择的目录
      */
     public static final int RESULT_DIR_PATH = BUS_BASE + 29;
+    public static final int ARCHIVE_BUS_DOWNLOAD_FILE = BUS_BASE + 30;
 }

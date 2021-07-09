@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.mogujie.tt.protobuf.InterfaceBase;
 import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.mogujie.tt.protobuf.InterfaceVote;
 import com.xlk.takstarpaperlessmanage.R;
@@ -25,11 +27,17 @@ import com.xlk.takstarpaperlessmanage.adapter.SubmitMemberAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.VoteResultAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.ExportSubmitMember;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.DateUtil;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
+import com.xlk.takstarpaperlessmanage.util.PdfUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
+import com.xlk.takstarpaperlessmanage.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +56,7 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
     private TextView tv_vote_or_election, tv_vote_type;
     private RecyclerView rv_content;
     private VoteResultAdapter voteResultAdapter;
+    private EditText edt_save_address;
 
     @Override
     protected int getLayoutId() {
@@ -100,7 +109,7 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
                         if (mode != InterfaceMacro.Pb_MeetVoteMode.Pb_VOTEMODE_agonymous_VALUE) {
                             if (votestate != InterfaceMacro.Pb_MeetVoteStatus.Pb_vote_notvote_VALUE) {
                                 presenter.querySubmittedVoters(item, 2);
-                                exportVoteSubmitMember(item);
+                                showExportFilePop(item);
                             } else {
                                 ToastUtils.showShort(R.string.cannot_view_notvote);
                             }
@@ -159,17 +168,54 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
         inflate.findViewById(R.id.btn_export).setOnClickListener(v -> {
-            exportVoteSubmitMember(vote);
+            showExportFilePop(vote);
         });
     }
 
-    private void exportVoteSubmitMember(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote) {
-        String[] strings = presenter.queryYd(vote);
-        String createTime = DateUtil.nowDate();
-        ExportSubmitMember exportSubmitMember = new ExportSubmitMember(vote.getContent().toStringUtf8(),
-                createTime, strings[0], strings[1], strings[2], strings[3], presenter.submitMembers);
-        JxlUtil.exportSubmitMember(exportSubmitMember);
+    @Override
+    public void updateExportDirPath(String dirPath) {
+        if (edt_save_address != null) {
+            edt_save_address.setText(dirPath);
+        }
     }
+
+    private void showExportFilePop(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
+        PopupWindow pop = PopUtil.createHalfPop(inflate, rv_content);
+        EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
+        TextView tv_suffix = inflate.findViewById(R.id.tv_suffix);
+        tv_suffix.setText(".pdf");
+        edt_save_address = inflate.findViewById(R.id.edt_save_address);
+        edt_save_address.setKeyListener(null);
+        inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
+            String currentDirPath = edt_save_address.getText().toString().trim();
+            if (currentDirPath.isEmpty()) {
+                currentDirPath = Constant.root_dir;
+            }
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH)
+                    .objects(Constant.CHOOSE_DIR_TYPE_EXPORT_VOTE_SUBMIT, currentDirPath).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String fileName = edt_file_name.getText().toString().trim();
+            String addr = edt_save_address.getText().toString().trim();
+            if (fileName.isEmpty() || addr.isEmpty()) {
+                ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
+                return;
+            }
+            InterfaceBase.pbui_CommonInt32uProperty yingDaoInfo = jni.queryVoteSubmitterProperty(vote.getVoteid(), 0, InterfaceMacro.Pb_MeetVotePropertyID.Pb_MEETVOTE_PROPERTY_ATTENDNUM.getNumber());
+            InterfaceBase.pbui_CommonInt32uProperty yiTouInfo = jni.queryVoteSubmitterProperty(vote.getVoteid(), 0, InterfaceMacro.Pb_MeetVotePropertyID.Pb_MEETVOTE_PROPERTY_VOTEDNUM.getNumber());
+            InterfaceBase.pbui_CommonInt32uProperty shiDaoInfo = jni.queryVoteSubmitterProperty(vote.getVoteid(), 0, InterfaceMacro.Pb_MeetVotePropertyID.Pb_MEETVOTE_PROPERTY_CHECKINNUM.getNumber());
+            int yingdao = yingDaoInfo == null ? 0 : yingDaoInfo.getPropertyval();
+            int shidao = shiDaoInfo == null ? 0 : shiDaoInfo.getPropertyval();
+            int yitou = yiTouInfo == null ? 0 : yiTouInfo.getPropertyval();
+            PdfVoteInfo pdfVoteInfo = new PdfVoteInfo(vote.getContent().toStringUtf8(), yingdao, shidao, yitou, yingdao - yitou, presenter.submitMembers);
+            PdfUtil.exportVote(addr, fileName, pdfVoteInfo);
+            pop.dismiss();
+        });
+    }
+
 
     /**
      * 获取当前投票的总票数

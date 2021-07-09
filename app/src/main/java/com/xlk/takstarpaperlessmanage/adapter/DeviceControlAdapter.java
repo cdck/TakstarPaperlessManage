@@ -49,12 +49,13 @@ public class DeviceControlAdapter extends BaseQuickAdapter<DevControlBean, BaseV
         return temps;
     }
 
-    public List<InterfaceDevice.pbui_Item_DeviceDetailInfo> getCheckedDevice() {
-        List<InterfaceDevice.pbui_Item_DeviceDetailInfo> temps = new ArrayList<>();
+    public List<DevControlBean> getCheckedDevice() {
+        List<DevControlBean> temps = new ArrayList<>();
         for (int i = 0; i < getData().size(); i++) {
-            InterfaceDevice.pbui_Item_DeviceDetailInfo dev = getData().get(i).getDeviceInfo();
+            DevControlBean devControlBean = getData().get(i);
+            InterfaceDevice.pbui_Item_DeviceDetailInfo dev = devControlBean.getDeviceInfo();
             if (checkIds.contains(dev.getDevcieid())) {
-                temps.add(dev);
+                temps.add(devControlBean);
             }
         }
         return temps;

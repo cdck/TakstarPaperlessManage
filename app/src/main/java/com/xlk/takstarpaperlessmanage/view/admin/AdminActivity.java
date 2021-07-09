@@ -14,7 +14,10 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.entity.node.BaseNode;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.mogujie.tt.protobuf.InterfaceDevice;
 import com.mogujie.tt.protobuf.InterfaceMacro;
+import com.mogujie.tt.protobuf.InterfaceMeet;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseActivity;
 import com.xlk.takstarpaperlessmanage.model.Constant;
@@ -120,7 +123,6 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
     public void initView() {
         rv_navigation = findViewById(R.id.rv_navigation);
         tv_temp_use = findViewById(R.id.tv_temp_use);
-        tv_temp_use.setText(String.valueOf(GlobalValue.localDeviceId));
         fl_admin = findViewById(R.id.fl_admin);
         tv_time = findViewById(R.id.tv_time);
         tv_date = findViewById(R.id.tv_date);
@@ -162,9 +164,22 @@ public class AdminActivity extends BaseActivity<AdminPresenter> implements Admin
         jni.modifyContextProperties(InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_ROLE_VALUE,
                 InterfaceMacro.Pb_MeetFaceStatus.Pb_MemState_AdminFace_VALUE);
         initNodeAdapter();
-        GlobalValue.currentMeetingId = presenter.getCurrentMeetingId();
-        LogUtils.e("当前的会议id=" + GlobalValue.currentMeetingId);
+        presenter.updateCurrentMeeting();
+        byte[] bytes = jni.queryDevicePropertiesById(InterfaceMacro.Pb_MeetDevicePropertyID.Pb_MEETDEVICE_PROPERTY_NAME_VALUE, GlobalValue.localDeviceId);
+        if (bytes != null) {
+            try {
+                InterfaceDevice.pbui_DeviceStringProperty info = InterfaceDevice.pbui_DeviceStringProperty.parseFrom(bytes);
+                LogUtils.i("本机设备名称=" + info.getPropertytext().toStringUtf8() + ",设备ID=" + GlobalValue.localDeviceId);
+            } catch (InvalidProtocolBufferException e) {
+                e.printStackTrace();
+            }
+        }
         updateNavigationAndFragment();
+    }
+
+    @Override
+    public void updateMeetingName(String meetingName) {
+        tv_temp_use.setText(meetingName);
     }
 
     private void initNodeAdapter() {

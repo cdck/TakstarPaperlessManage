@@ -130,6 +130,7 @@ public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresent
 
     private void showRoomManagePop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_secretary_room_manage, null, false);
+        initialPopupWindowXY();
         roomManagePop = PopUtil.createCoverPopupWindow(inflate, rv_user, popWidth, popHeight, popX, popY);
         //可控会场
         RecyclerView rv_controlled = inflate.findViewById(R.id.rv_controlled);
@@ -148,6 +149,7 @@ public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresent
                 ToastUtil.showShort(R.string.please_select_venue_first);
                 return;
             }
+            presenter.savePreviousStep();
             presenter.addRoom2Admin(roomIds);
         });
         //移除
@@ -157,10 +159,11 @@ public class SecretaryManageFragment extends BaseFragment<SecretaryManagePresent
                 ToastUtil.showShort(R.string.please_select_venue_first);
                 return;
             }
+            presenter.savePreviousStep();
             presenter.removeRoomFromAdmin(roomIds);
         });
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> roomManagePop.dismiss());
-        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> roomManagePop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> presenter.repeal());
         inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
             presenter.defineModify();
         });

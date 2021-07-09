@@ -15,11 +15,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mogujie.tt.protobuf.InterfaceDevice;
 import com.mogujie.tt.protobuf.InterfaceMacro;
+import com.mogujie.tt.protobuf.InterfaceRoom;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.adapter.DeviceControlAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
+import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.bean.DevControlBean;
+import com.xlk.takstarpaperlessmanage.model.bean.MemberRoleBean;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -139,50 +144,80 @@ public class DeviceControlFragment extends BaseFragment<DeviceControlPresenter> 
             jni.assistedSignIn(checkIds);
         });
         //管理员设定
-        inflate.findViewById(R.id.btn_administrator_settings).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        inflate.findViewById(R.id.btn_administrator_settings).setOnClickListener(v -> {
+            List<DevControlBean> checkedDevice = deviceControlAdapter.getCheckedDevice();
+            if (checkedDevice.isEmpty()) {
+                ToastUtils.showShort(R.string.please_choose_device_first);
+                return;
             }
-        });
-        inflate.findViewById(R.id.btn_wake_up).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Integer> checkIds = deviceControlAdapter.getCheckIds();
-                if (checkIds.isEmpty()) {
-                    ToastUtils.showShort(R.string.please_choose_device_first);
+//            if (checkedDevice.size() > 1) {
+//                ToastUtils.showShort(R.string.can_only_choose_one_administrator);
+//                return;
+//            }
+            List<InterfaceRoom.pbui_Item_MeetSeatDetailInfo> temps = new ArrayList<>();
+            for (int i = 0; i < checkedDevice.size(); i++) {
+                DevControlBean devControlBean = checkedDevice.get(i);
+                InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo info = devControlBean.getSeatInfo();
+                int devcieid = info.getDevid();
+                int memberid = info.getMemberid();
+                boolean isClientDevice = Constant.isThisDevType(InterfaceMacro.Pb_DeviceIDType.Pb_DeviceIDType_MeetClient_VALUE, devcieid);
+                LogUtils.e("管理员设定：设备名称=" + info.getDevname().toStringUtf8() + ",memberid=" + memberid + ",devcieid=" + devcieid + ",isClientDevice=" + isClientDevice);
+                InterfaceRoom.pbui_Item_MeetSeatDetailInfo build = InterfaceRoom.pbui_Item_MeetSeatDetailInfo.newBuilder()
+                        .setNameId(memberid)
+                        .setSeatid(devcieid)
+                        .setRole(InterfaceMacro.Pb_MeetMemberRole.Pb_role_admin_VALUE)
+                        .build();
+                temps.add(build);
+                if (memberid == 0 || !isClientDevice) {
+                    ToastUtils.showShort(R.string.can_only_choose_bound_client_device);
                     return;
                 }
-                jni.wakeOnLan(checkIds);
             }
+            jni.modifyMeetRanking(temps);
+            /*
+            DevControlBean devControlBean = checkedDevice.get(0);
+            InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo info = devControlBean.getSeatInfo();
+            int devcieid = info.getDevid();
+            int memberid = info.getMemberid();
+            boolean isClientDevice = Constant.isThisDevType(InterfaceMacro.Pb_DeviceIDType.Pb_DeviceIDType_MeetClient_VALUE, devcieid);
+            LogUtils.e("设备名称=" + info.getDevname().toStringUtf8() + ",memberid=" + memberid + ",devcieid=" + devcieid + ",isClientDevice=" + isClientDevice);
+            if (memberid == 0 || !isClientDevice) {
+                ToastUtils.showShort(R.string.can_only_choose_bound_client_device);
+                return;
+            }
+            jni.modifyMeetRanking(memberid, InterfaceMacro.Pb_MeetMemberRole.Pb_role_admin_VALUE, devcieid);
+            */
+        });
+        //网络唤醒
+        inflate.findViewById(R.id.btn_wake_up).setOnClickListener(v -> {
+            List<Integer> checkIds = deviceControlAdapter.getCheckIds();
+            if (checkIds.isEmpty()) {
+                ToastUtils.showShort(R.string.please_choose_device_first);
+                return;
+            }
+            jni.wakeOnLan(checkIds);
         });
         //外部文档打开
-        inflate.findViewById(R.id.btn_externally).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<InterfaceDevice.pbui_Item_DeviceDetailInfo> checkedDevice = deviceControlAdapter.getCheckedDevice();
-                for (int i = 0; i < checkedDevice.size(); i++) {
-                    InterfaceDevice.pbui_Item_DeviceDetailInfo item = checkedDevice.get(i);
-                    int deviceflag = item.getDeviceflag();
-                    int newFlag = deviceflag;
-                    if ((deviceflag & InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE)
-                            == InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE) {
-                        newFlag -= InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE;
-                    } else {
-                        newFlag += InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE;
-                    }
-                    jni.modifyDeviceFlag(item.getDevcieid(), newFlag);
+        inflate.findViewById(R.id.btn_externally).setOnClickListener(v -> {
+            List<DevControlBean> checkedDevice = deviceControlAdapter.getCheckedDevice();
+            for (int i = 0; i < checkedDevice.size(); i++) {
+                DevControlBean devControlBean = checkedDevice.get(i);
+                InterfaceDevice.pbui_Item_DeviceDetailInfo item = devControlBean.getDeviceInfo();
+                int deviceflag = item.getDeviceflag();
+                int newFlag = deviceflag;
+                if ((deviceflag & InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE)
+                        == InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE) {
+                    newFlag -= InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE;
+                } else {
+                    newFlag += InterfaceMacro.Pb_MeetDeviceFlag.Pb_MEETDEVICE_FLAG_OPENOUTSIDE_VALUE;
                 }
+                jni.modifyDeviceFlag(item.getDevcieid(), newFlag);
             }
         });
-        inflate.findViewById(R.id.btn_broadband_testing).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                }
-        );
+        //带宽测试
+        inflate.findViewById(R.id.btn_broadband_testing).setOnClickListener(v -> {
+            
+        });
     }
 
     @Override

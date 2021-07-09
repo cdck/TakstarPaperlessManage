@@ -11,9 +11,12 @@ public interface AdminContract {
         void updateTime(String[] adminTime);
 
         void updateOnlineStatus();
+
+        void updateMeetingName(String meetingName);
     }
 
     interface Presenter extends BaseContract.Presenter {
 
+        void updateCurrentMeeting();
     }
 }

@@ -5,14 +5,17 @@ package com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.archive;
  * @desc
  */
 public class ArchiveInform {
+    /**
+     * 0=共享资料，1=批注资料，2=会议资料
+     */
     int type;
-    int id;
+    int mediaId;
     String content;
     String result;
 
     public ArchiveInform(int type, int id, String content, String result) {
         this.type = type;
-        this.id = id;
+        this.mediaId = id;
         this.content = content;
         this.result = result;
     }
@@ -22,19 +25,16 @@ public class ArchiveInform {
         this.result = result;
     }
 
-
-    public ArchiveInform(int id, String content, String result) {
-        this.id = id;
-        this.content = content;
-        this.result = result;
+    public int getType() {
+        return type;
     }
 
-    public int getId() {
-        return id;
+    public int getMediaId() {
+        return mediaId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMediaId(int mediaId) {
+        this.mediaId = mediaId;
     }
 
     public String getContent() {

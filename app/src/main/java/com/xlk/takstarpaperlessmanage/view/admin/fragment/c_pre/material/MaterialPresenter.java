@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.mogujie.tt.protobuf.InterfaceBase;
 import com.mogujie.tt.protobuf.InterfaceFile;
 import com.mogujie.tt.protobuf.InterfaceMacro;
+import com.mogujie.tt.protobuf.InterfaceMeet;
 import com.mogujie.tt.protobuf.InterfaceMember;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
 import com.xlk.takstarpaperlessmanage.model.Constant;
@@ -21,14 +22,61 @@ import java.util.List;
 public class MaterialPresenter extends BasePresenter<MaterialContract.View> implements MaterialContract.Presenter {
     public List<InterfaceFile.pbui_Item_MeetDirDetailInfo> dirInfos = new ArrayList<>();
     public List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> dirFiles = new ArrayList<>();
+    public List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> historyDirFiles = new ArrayList<>();
     public List<InterfaceFile.pbui_Item_MeetDirFileDetailInfo> sortFiles = new ArrayList<>();
     private List<MemberDirPermissionBean> memberDirPermissionBeans = new ArrayList<>();
 
     private int currentDirId;
+    private int currentMeetingId;
+    /**
+     * 所有的会议
+     */
+    public List<InterfaceMeet.pbui_Item_MeetMeetInfo> meetings = new ArrayList<>();
+    private int currentHistoryDirId;
 
 
     public MaterialPresenter(MaterialContract.View view) {
         super(view);
+    }
+
+    @Override
+    public void initial() {
+        queryMember();
+        queryMeetDir();
+        currentMeetingId = getCurrentMeetingId();
+        queryAllMeeting();
+    }
+
+    @Override
+    public void setCurrentHistoryDirId(int dirId) {
+        currentHistoryDirId = dirId;
+        LogUtils.i(TAG, "currentHistoryDirId=" + dirId);
+    }
+
+    @Override
+    public void switchMeeting(int meetingId) {
+        jni.modifyContextProperties(InterfaceMacro.Pb_ContextPropertyID.Pb_MEETCONTEXT_PROPERTY_CURMEETINGID_VALUE, meetingId);
+        queryMeetDir();
+    }
+
+    @Override
+    public void exit() {
+        switchMeeting(currentMeetingId);
+    }
+
+    private void queryAllMeeting() {
+        InterfaceMeet.pbui_Type_MeetMeetInfo info = jni.queryMeeting();
+        meetings.clear();
+        if (info != null) {
+            List<InterfaceMeet.pbui_Item_MeetMeetInfo> itemList = info.getItemList();
+            for (int i = 0; i < itemList.size(); i++) {
+                InterfaceMeet.pbui_Item_MeetMeetInfo item = itemList.get(i);
+                if (item.getId() != currentMeetingId) {
+                    meetings.add(item);
+                }
+            }
+        }
+        mView.updateMeetingList();
     }
 
     @Override
@@ -49,7 +97,7 @@ public class MaterialPresenter extends BasePresenter<MaterialContract.View> impl
                 int subid = info.getSubid();
                 LogUtils.i(TAG, "busEvent 会议目录文件变更通知 id=" + id + ",subid=" + subid + ",opermethod=" + opermethod);
                 if (id != 0) {
-                    if (currentDirId == id) {
+                    if (currentDirId == id || currentHistoryDirId == id) {
                         queryMeetDirFile(id);
                     }
                 }
@@ -92,7 +140,6 @@ public class MaterialPresenter extends BasePresenter<MaterialContract.View> impl
         mView.updateDirList();
     }
 
-
     @Override
     public void setCurrentDirId(int dirId) {
         currentDirId = dirId;
@@ -102,26 +149,25 @@ public class MaterialPresenter extends BasePresenter<MaterialContract.View> impl
     public void queryMeetDirFile(int dirId) {
         InterfaceFile.pbui_Type_MeetDirFileDetailInfo info = jni.queryMeetDirFile(dirId);
         dirFiles.clear();
+        historyDirFiles.clear();
         if (info != null) {
             dirFiles.addAll(info.getItemList());
-            for (int i = 0; i < dirFiles.size(); i++) {
-                InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = dirFiles.get(i);
-                String fileName = item.getName().toStringUtf8();
-                int mediaid = item.getMediaid();
-                int attrib = item.getAttrib();
-                int mstime = item.getMstime();
-                LogUtils.i("文件===" + fileName + ",mediaid=" + mediaid + ",attrib=" + attrib + ",mstime=" + mstime + ",isPicture=" + (Constant.isPicture(mediaid)));
+            if (currentHistoryDirId == dirId) {
+                historyDirFiles.addAll(info.getItemList());
             }
         }
         if (currentDirId == dirId) {
             mView.updateFileList();
         }
+        mView.updateHistoryFileList();
         queryMeetDirPermission(dirId);
     }
 
     @Override
     public void queryMember() {
         InterfaceMember.pbui_Type_MemberDetailInfo info = jni.queryMember();
+//        List<MemberDirPermissionBean> temps = new ArrayList<>();
+//        temps.addAll(memberDirPermissionBeans);
         memberDirPermissionBeans.clear();
         if (info != null) {
             List<InterfaceMember.pbui_Item_MemberDetailInfo> itemList = info.getItemList();
