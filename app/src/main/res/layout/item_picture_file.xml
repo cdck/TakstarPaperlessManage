@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:drawableStart="@drawable/ic_delete"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_normal"
             android:drawablePadding="5dp"
             android:gravity="center"
             android:text="@string/delete"
@@ -75,7 +75,7 @@
             android:visibility="gone"
             android:drawableStart="@drawable/ic_cancel"
             android:drawablePadding="5dp"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_normal"
             android:gravity="center"
             android:text="@string/cancel_release"
             android:textColor="@color/blue" />

@@ -17,7 +17,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/number" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_name" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_status" />
 
 
@@ -60,7 +60,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
     <LinearLayout
@@ -83,7 +83,7 @@
             android:gravity="center"
             android:text="@string/export_to_pdf"
             android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/operation_view_2"
@@ -97,7 +97,7 @@
             android:gravity="center"
             android:text="@string/view_detail"
             android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/operation_view_3"
@@ -109,7 +109,7 @@
             android:gravity="center"
             android:text="@string/view_chart"
             android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
     </LinearLayout>
 
@@ -124,7 +124,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
 
@@ -139,7 +139,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
 

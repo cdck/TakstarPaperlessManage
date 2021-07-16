@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_root_view"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="25dp">
 
     <Button
         android:id="@+id/item_view_1"
@@ -16,6 +16,6 @@
         android:singleLine="true"
         android:background="@drawable/room_shape_bg"
         android:textColor="@drawable/room_text_color"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="会议室" />
 </RelativeLayout>

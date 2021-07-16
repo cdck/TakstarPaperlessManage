@@ -15,27 +15,16 @@ import java.util.List;
  */
 interface ArchiveContract {
     interface View extends BaseContract.View {
-        void updateArchiveInform(List<ArchiveInform> archiveInforms);
 
         void updateArchiveDirPath(String dirPath);
+
+        void updateArchiveInform(int type, String fileName,int mediaId,String dirName, int progress);
     }
 
     interface Presenter extends BaseContract.Presenter {
         void queryAllData();
 
-        boolean hasStarted();
-
         void setEncryption(boolean encryption);
-
-        void archiveAll();
-
-        void archiveSelected(boolean checked, boolean checked1, boolean checked2, boolean checked3, boolean checked4, boolean checked5, boolean checked6);
-
-        void cancelArchive();
-
-        void cancelArchive(boolean cancel);
-
-        void setPassword(String pwd);
 
         BasicInformationTask.Info getBasicInformationTaskInfo();
 
@@ -45,10 +34,15 @@ interface ArchiveContract {
 
         VoteTask.Info getVoteTaskInfo();
 
-        void addDownloadShareFileTask(LineUpTaskHelp lineUpTaskHelp);
+        void addShouldDownloadShareFiles(LineUpTaskHelp lineUpTaskHelp);
 
-        void addDownloadAnnotationFileTask(LineUpTaskHelp lineUpTaskHelp);
+        void addShouldDownloadAnnotationFiles(LineUpTaskHelp lineUpTaskHelp);
 
-        void addDownloadMeetDataFileTask(LineUpTaskHelp lineUpTaskHelp);
+        void addShouldDownloadMeetDataFiles(LineUpTaskHelp lineUpTaskHelp);
+
+        /**
+         * 清空将要下载的文件
+         */
+        void clearShouldDownloadFiles();
     }
 }

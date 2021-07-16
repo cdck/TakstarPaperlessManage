@@ -16,7 +16,7 @@
             android:layout_centerInParent="true"
             android:text="@string/modify"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -35,187 +35,192 @@
         android:background="@drawable/dialog_content_bg"
         android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="300dp"
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/name_"
+                    android:textSize="@dimen/text_size_normal" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/name_" />
-
-                    <EditText
-                        android:id="@+id/edt_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
-                        android:background="@drawable/editbox_background_normal"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="300dp"
+                <EditText
+                    android:id="@+id/edt_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/unit_" />
-
-                    <EditText
-                        android:id="@+id/edt_unit"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
-                        android:background="@drawable/editbox_background_normal"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/job_" />
-
-                    <EditText
-                        android:id="@+id/edt_job"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
-                        android:background="@drawable/editbox_background_normal"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/phone_" />
-
-                    <EditText
-                        android:id="@+id/edt_phone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
-                        android:background="@drawable/editbox_background_normal"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/email_" />
-
-                    <EditText
-                        android:id="@+id/edt_email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
-                        android:background="@drawable/editbox_background_normal"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/sign_in_password_" />
-
-                    <EditText
-                        android:id="@+id/edt_password"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
-                        android:background="@drawable/editbox_background_normal"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/remarks_" />
-
-                    <EditText
-                        android:id="@+id/edt_remark"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2.5"
-                        android:background="@drawable/editbox_background_normal"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
+                    android:layout_weight="3"
+                    android:background="@drawable/edt_ic_bg"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
-        </ScrollView>
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/unit_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_unit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@drawable/edt_ic_bg"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/job_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_job"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@drawable/edt_ic_bg"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/phone_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@drawable/edt_ic_bg"
+                    android:inputType="phone"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/email_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@drawable/edt_ic_bg"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/sign_in_password_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@drawable/edt_ic_bg"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxEms="6"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/remarks_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_remark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@drawable/edt_ic_bg"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"

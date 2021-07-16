@@ -6,13 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -29,10 +26,7 @@ import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
-import com.xlk.takstarpaperlessmanage.model.bean.ExportSubmitMember;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
-import com.xlk.takstarpaperlessmanage.util.DateUtil;
-import com.xlk.takstarpaperlessmanage.util.JxlUtil;
 import com.xlk.takstarpaperlessmanage.util.PdfUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
@@ -42,7 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -250,31 +243,6 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
         TextView tv_vote_title = inflate.findViewById(R.id.tv_vote_title);
         TextView tv_count = inflate.findViewById(R.id.tv_count);
         PieChart pie_chart = inflate.findViewById(R.id.pie_chart);
-        /*
-        RelativeLayout rl_single = inflate.findViewById(R.id.rl_single);
-        //答案有投票数量的个数，=1表示几个答案中都选择了其中一个
-        // eg:n个投票人员，都选择了反对票
-        int count = 0;
-        int index = 0;//记录有数量的答案所在索引
-        for (int i = 0; i < itemList.size(); i++) {
-            InterfaceVote.pbui_SubItem_VoteItemInfo info = itemList.get(i);
-            int selcnt = info.getSelcnt();
-            if (selcnt != 0) {
-                count++;
-                index = i;
-            }
-        }
-        if (count == 1) {
-            //n个投票人员都选择了其中一个选项，100%
-            rl_single.setVisibility(View.VISIBLE);
-            // TODO: 2021/5/28 圆形的背景  getResources().getColor(R.color.option_a)
-            rl_single.setBackgroundColor();
-            pie_chart.setVisibility(View.GONE);
-        } else {
-            rl_single.setVisibility(View.GONE);
-            pie_chart.setVisibility(View.VISIBLE);
-        }
-        */
         String type = Constant.getVoteType(getContext(), vote.getType());
         String mode = vote.getMode() == 1 ? getString(R.string.notation) : getString(R.string.anonymous);
         tv_vote_title.setText(vote.getContent().toStringUtf8() + "（" + type + "、" + mode + "）");
@@ -284,10 +252,133 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
             countStr += s;
         }
         tv_count.setText(countStr);
-        configChart(vote, pie_chart);
+
+        int index = getSingleAnswerIndex(vote);
+        if (index == -1) {
+            configChart(vote, pie_chart);
+        } else {
+            singleAnswerConfig(vote, pie_chart, index);
+        }
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
     }
 
+    private int getSingleAnswerIndex(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote) {
+        int count = 0;
+        int index = -1;
+        List<InterfaceVote.pbui_SubItem_VoteItemInfo> itemList = vote.getItemList();
+        for (int i = 0; i < itemList.size(); i++) {
+            InterfaceVote.pbui_SubItem_VoteItemInfo item = itemList.get(i);
+            int selcnt = item.getSelcnt();
+            if (count != 0 && selcnt != 0) {
+                return -1;
+            }
+            if (count == 0) {
+                count = selcnt;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+
+    private void singleAnswerConfig(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote, PieChart chart, int index) {
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
+        List<InterfaceVote.pbui_SubItem_VoteItemInfo> itemList = vote.getItemList();
+        for (int i = 0; i < itemList.size(); i++) {
+            InterfaceVote.pbui_SubItem_VoteItemInfo item = itemList.get(i);
+            String answer = item.getText().toStringUtf8();
+            int selcnt = item.getSelcnt();
+            PieEntry pieEntry = new PieEntry((float) 0, answer);
+            pieEntries.add(pieEntry);
+            if (i == 0) {
+                colors.add(getResources().getColor(R.color.option_a));
+            } else if (i == 1) {
+                colors.add(getResources().getColor(R.color.option_b));
+            } else if (i == 2) {
+                colors.add(getResources().getColor(R.color.option_c));
+            } else if (i == 3) {
+                colors.add(getResources().getColor(R.color.option_d));
+            } else if (i == 4) {
+                colors.add(getResources().getColor(R.color.option_e));
+            }
+        }
+
+        chart.setLogEnabled(true);
+        //如果启用此功能，则图表内的值将以百分比而不是原始值绘制。 提供为 提供的值 ValueFormatter然后，以百分比形式 to格式
+        chart.setUsePercentValues(true);
+        //将此设置为true，以将入口标签绘制到饼片中（由PieEntry类的getLabel()方法提供）
+        chart.setDrawEntryLabels(false);
+        //设置额外的偏移量（在图表视图周围）附加到自动计算的偏移量上
+        chart.setExtraOffsets(5, 5, 100, 5);
+        //减速摩擦系数，以[0 ; 1]为区间，数值越大表示速度越慢，如设为0，则会立即停止，1为无效值，会自动转换为0.999f。1为无效值，将自动转换为0.999f
+        chart.setDragDecelerationFrictionCoef(0.95f);
+
+        //设置中间的文本
+        chart.setCenterText("100.0 %");
+        //设置中心区域的文本颜色
+        chart.setCenterTextColor(Color.WHITE);
+        //设置中心文本字体大小，单位dp
+        chart.setCenterTextSize(14f);
+        //将此设置为 "true"，以使饼中心为空
+        chart.setDrawHoleEnabled(true);
+        //设置画在饼图中心的孔的颜色。(上一行设置为true生效)
+        /* **** **  这里设置成当前圆的背景颜色，这样就算设置了文本用户也看不到，达到只有中间一个100%的效果  ** **** */
+        chart.setHoleColor(colors.get(index));
+
+        //设置透明圆的颜色
+        chart.setTransparentCircleColor(Color.WHITE);
+        //设置透明圆的透明度
+        chart.setTransparentCircleAlpha(110);
+        //设置饼图中心孔的半径，以最大半径的百分比为单位（max=整个饼图的半径），默认为50%
+        chart.setHoleRadius(100f);
+        //设置画在饼图中孔洞旁边的透明圆的半径，以最大半径的百分比为单位(max=整个图表的半径)，默认55%->表示比中心孔洞默认大5%
+        chart.setTransparentCircleRadius(61f);
+        //将此设置为 "true"，以绘制显示在饼图中心的文字
+        chart.setDrawCenterText(true);
+        //设置雷达图的旋转偏移量，单位为度。默认270f
+        chart.setRotationAngle(0);
+        //设置为 "true"，可以通过触摸来实现图表的旋转/旋转。设置为false则禁用。默认值：true
+        chart.setRotationEnabled(false);
+        //将此设置为false，以防止通过点击手势突出显示数值。值仍然可以通过拖动或编程方式高亮显示。默认值：true
+        chart.setHighlightPerTapEnabled(false);
+
+        //返回图表的Legend对象。本方法可以用来获取图例的实例，以便自定义自动生成的图例
+        Legend l = chart.getLegend();
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(true);
+        //在水平轴上设置图例条目之间的空间，单位为像素，内部转换为dp
+        l.setXEntrySpace(7f);
+        //在垂直轴上设置图例条目之间的空间，单位为像素，内部转换为dp
+        l.setYEntrySpace(5f);
+        l.setWordWrapEnabled(true);
+        //设置此轴上标签的Y轴偏移量。对于图例来说，偏移量越大，意味着图例作为一个整体将被放置在离顶部越远的地方
+        l.setYOffset(0f);
+
+        PieDataSet dataSet = new PieDataSet(pieEntries, "");
+        dataSet.setValueTextSize(14f);
+        dataSet.setColors(colors);
+        //设置百分比内容的文本颜色
+        /* **** **  设置成当前圆的颜色，达到隐藏的效果  ** **** */
+        dataSet.setValueTextColor(colors.get(index));
+
+        PieData pieData = new PieData(dataSet);
+        MyPercentFormatter f = new MyPercentFormatter(chart);
+        pieData.setValueFormatter(f);
+        pieData.setDrawValues(true);
+        pieData.setValueTextSize(14f);
+        chart.setData(pieData);
+
+        Description description = new Description();
+        description.setText("");
+        chart.setDescription(description);
+
+        chart.invalidate();
+    }
 
     private void configChart(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote, PieChart chart) {
         chart.setLogEnabled(true);
@@ -320,7 +411,6 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
         chart.setRotationEnabled(true);
         //将此设置为false，以防止通过点击手势突出显示数值。值仍然可以通过拖动或编程方式高亮显示。默认值：true
         chart.setHighlightPerTapEnabled(false);
-
         //返回图表的Legend对象。本方法可以用来获取图例的实例，以便自定义自动生成的图例
         Legend l = chart.getLegend();
 //        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);

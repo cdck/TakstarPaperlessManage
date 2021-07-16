@@ -1,5 +1,6 @@
 package com.xlk.takstarpaperlessmanage.adapter;
 
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.Button;
 
@@ -26,7 +27,7 @@ public class SourceMemberAdapter extends BaseQuickAdapter<DeviceMember, BaseView
     private final boolean isSingle;
 
     public SourceMemberAdapter(@Nullable List<DeviceMember> data, boolean isSingle) {
-        super(R.layout.item_single_button, data);
+        super(R.layout.item_single_view, data);
         this.isSingle = isSingle;
     }
 
@@ -62,17 +63,26 @@ public class SourceMemberAdapter extends BaseQuickAdapter<DeviceMember, BaseView
         }
         notifyDataSetChanged();
     }
-    public boolean isCheckAll(){
-        return getCheckedIds().size()==getData().size();
+
+    public boolean isCheckAll() {
+        return getCheckedIds().size() == getData().size();
     }
 
     @Override
     protected void convert(@NotNull BaseViewHolder holder, DeviceMember item) {
         InterfaceDevice.pbui_Item_DeviceDetailInfo dev = item.getDeviceDetailInfo();
         InterfaceMember.pbui_Item_MemberDetailInfo member = item.getMemberDetailInfo();
-        Button item_single_btn = holder.getView(R.id.item_single_btn);
-        item_single_btn.setText(member.getName().toStringUtf8());
+        holder.setText(R.id.item_view_1, member.getName().toStringUtf8());
         boolean isSelected = checkIds.contains(dev.getDevcieid());
-        item_single_btn.setSelected(isSelected);
+        Resources resources = getContext().getResources();
+        int textColor = isSelected ? resources.getColor(R.color.white) : resources.getColor(R.color.text_default_color);
+        holder.setTextColor(R.id.item_view_1, textColor);
+        int backgroundColor = isSelected ? resources.getColor(R.color.admin_child_selected_bg) : resources.getColor(R.color.white);
+        holder.setBackgroundColor(R.id.item_view_1, backgroundColor);
+
+//        Button item_single_btn = holder.getView(R.id.item_single_btn);
+//        item_single_btn.setText(member.getName().toStringUtf8());
+//        boolean isSelected = checkIds.contains(dev.getDevcieid());
+//        item_single_btn.setSelected(isSelected);
     }
 }

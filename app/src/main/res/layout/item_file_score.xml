@@ -17,7 +17,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_smallest"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/number" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_smallest"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_name" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_smallest"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_status" />
 
 
@@ -60,7 +60,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_smallest"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
     <TextView
@@ -74,7 +74,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_smallest"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
     <TextView
@@ -88,7 +88,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_smallest"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
     <LinearLayout
@@ -109,7 +109,7 @@
             android:drawableStart="@drawable/ic_start"
             android:gravity="center"
             android:drawablePadding="2dp"
-            android:textSize="@dimen/text_size_smallest"
+            android:textSize="@dimen/text_size_normal"
             android:text="@string/start"
             android:textColor="@color/blue" />
 
@@ -120,7 +120,7 @@
             android:gravity="center"
             android:layout_marginStart="2dp"
             android:drawableStart="@drawable/ic_stop"
-            android:textSize="@dimen/text_size_smallest"
+            android:textSize="@dimen/text_size_normal"
             android:drawablePadding="2dp"
             android:text="@string/stop"
             android:textColor="@color/blue" />
@@ -132,7 +132,7 @@
             android:layout_marginStart="2dp"
             android:drawableStart="@drawable/ic_view"
             android:gravity="center"
-            android:textSize="@dimen/text_size_smallest"
+            android:textSize="@dimen/text_size_normal"
             android:drawablePadding="2dp"
             android:text="@string/view"
             android:textColor="@color/blue" />
@@ -149,7 +149,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_smallest"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
 

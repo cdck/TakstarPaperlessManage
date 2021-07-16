@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ResourceUtils;
-import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.hjq.permissions.OnPermission;
@@ -33,6 +34,7 @@ import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 import com.xlk.takstarpaperlessmanage.util.IniUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
+import com.xlk.takstarpaperlessmanage.util.SizeUtil;
 import com.xlk.takstarpaperlessmanage.util.SpHelper;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 import com.xlk.takstarpaperlessmanage.view.admin.AdminActivity;
@@ -45,6 +47,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import me.jessyan.autosize.utils.AutoSizeUtils;
+import me.jessyan.autosize.utils.ScreenUtils;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
@@ -80,7 +84,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             edtPwd.setSelection(pwdSp.length());
         }
         findViewById(R.id.btn_login).setOnClickListener(v -> {
-            if(!GlobalValue.initializationIsOver){
+            if (!GlobalValue.initializationIsOver) {
                 ToastUtils.showShort(R.string.not_yet_initialized);
                 return;
             }
@@ -90,7 +94,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 ToastUtils.showShort(R.string.please_enter_name_and_password);
                 return;
             }
-            if(!presenter.isHasAdminName(user)){
+            if (!presenter.isHasAdminName(user)) {
                 ToastUtils.showShort(R.string.username_does_not_exist);
                 return;
             }
@@ -200,6 +204,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void start() {
+        SizeUtil.getDeviceScreenSize(this);
         if (App.mMediaProjection == null) {
             mMediaProjectionManager = (MediaProjectionManager) getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
             startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_CODE_READ_FRAME_BUFFER);

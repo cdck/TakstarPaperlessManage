@@ -61,11 +61,12 @@ public class AgendaAdapter extends BaseQuickAdapter<InterfaceAgenda.pbui_ItemAge
         holder.setTextColor(R.id.item_view_1, textColor)
                 .setTextColor(R.id.item_view_2, textColor)
                 .setTextColor(R.id.item_view_3, textColor)
+                .setTextColor(R.id.tv_temp, textColor)
                 .setTextColor(R.id.item_view_4, textColor);
         int backgroundColor = isSelected ? resources.getColor(R.color.admin_child_selected_bg) : resources.getColor(R.color.white);
-        holder.setBackgroundColor(R.id.item_view_1, backgroundColor)
-                .setBackgroundColor(R.id.item_view_2, backgroundColor)
-                .setBackgroundColor(R.id.item_view_3, backgroundColor)
-                .setBackgroundColor(R.id.item_view_4, backgroundColor);
+        holder.setBackgroundColor(R.id.item_view_root, backgroundColor);
+//                .setBackgroundColor(R.id.item_view_2, backgroundColor)
+//                .setBackgroundColor(R.id.item_view_3, backgroundColor)
+//                .setBackgroundColor(R.id.item_view_4, backgroundColor);
     }
 }

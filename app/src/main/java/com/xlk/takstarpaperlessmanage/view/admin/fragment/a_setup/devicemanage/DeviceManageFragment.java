@@ -2,9 +2,11 @@ package com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.devicemanage;
 
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.RegexUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -47,6 +50,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -221,7 +225,26 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         initialPopupWindowXY();
         parameterConfigurationPop = PopUtil.createCoverPopupWindow(inflate, root_view, popWidth, popHeight, popX, popY);
         ViewHolder holder = new ViewHolder(inflate);
+        initSpinnerAdapter(holder);
         holderEvent(holder);
+    }
+
+    private void initSpinnerAdapter(ViewHolder holder) {
+        ArrayAdapter<String> codingModeAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.coding_mode));
+        holder.spCodingMode.setAdapter(codingModeAdapter);
+        ArrayAdapter<String> screenStreamAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.stream_channel));
+        holder.spScreenStream.setAdapter(screenStreamAdapter);
+        ArrayAdapter<String> screenSizeAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.screen_size));
+        holder.spScreenSize.setAdapter(screenSizeAdapter);
+        ArrayAdapter<String> cameraStreamAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.stream_channel));
+        holder.spCameraStream.setAdapter(cameraStreamAdapter);
+        ArrayAdapter<String> cameraSizeAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.screen_size));
+        holder.spCameraSize.setAdapter(cameraSizeAdapter);
     }
 
     private void holderEvent(ViewHolder holder) {
@@ -542,7 +565,7 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         edt_current_dir.setText(currentDir);
 
         rv_current_file = inflate.findViewById(R.id.rv_current_file);
-        localFileAdapter = new LocalFileAdapter( currentFiles);
+        localFileAdapter = new LocalFileAdapter(currentFiles);
         rv_current_file.addItemDecoration(new RvItemDecoration(getContext()));
         rv_current_file.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_current_file.setAdapter(localFileAdapter);
@@ -772,7 +795,21 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         EditText edt_device_ip = inflate.findViewById(R.id.edt_device_ip);
         EditText edt_lift_id = inflate.findViewById(R.id.edt_lift_id);
         EditText edt_mic_id = inflate.findViewById(R.id.edt_mic_id);
+        int liftgroupres0 = device.getLiftgroupres0();
+        int liftgroupres1 = device.getLiftgroupres1();
+        List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipinfoList = device.getIpinfoList();
+        if (ipinfoList != null && !ipinfoList.isEmpty()) {
+            for (int i = 0; i < ipinfoList.size(); i++) {
+                InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo item = ipinfoList.get(i);
+                String ip = item.getIp().toStringUtf8();
+                int port = item.getPort();
+                LogUtils.i("当前设备的IP=" + ip + ",port=" + port);
+            }
+            edt_device_ip.setText(ipinfoList.get(0).getIp().toStringUtf8());
+        }
         edt_device_name.setText(device.getDevname().toStringUtf8());
+        edt_lift_id.setText(String.valueOf(liftgroupres0));
+        edt_mic_id.setText(String.valueOf(liftgroupres1));
 
         inflate.findViewById(R.id.iv_close).setOnClickListener(v -> modifyPop.dismiss());
         inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> modifyPop.dismiss());
@@ -788,6 +825,10 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if (!TextUtils.isEmpty(ip) && !RegexUtils.isIP(ip)) {
+                ToastUtil.showShort(R.string.ip_address_format_error);
+                return;
+            }
             if (TextUtils.isEmpty(name)) {
                 ToastUtils.showShort(R.string.please_enter_device_name);
                 return;
@@ -795,17 +836,27 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
             int modifyFlag = InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_NAME_VALUE
                     | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_IPADDR_VALUE
                     | InterfaceMacro.Pb_DeviceModifyFlag.Pb_DEVICE_MODIFYFLAG_LIFTRES_VALUE;
-            List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipInfos = new ArrayList<>();
-            InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo ipInfo = InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo.newBuilder()
-                    .setIp(s2b(ip))
-                    .setPort(device.getIpinfo(0).getPort())
-                    .build();
-            ipInfos.add(ipInfo);
+            List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipInfosss = new ArrayList<>();
+            List<InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo> ipInfos = device.getIpinfoList();
+            if (ipInfos != null && !ipInfos.isEmpty()) {
+                for (int i = 0; i < ipInfos.size(); i++) {
+                    InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo item;
+                    if (i == 0) {
+                        item = InterfaceDevice.pbui_SubItem_DeviceIpAddrInfo.newBuilder()
+                                .setIp(s2b(ip))
+                                .setPort(ipInfos.get(0).getPort())
+                                .build();
+                    } else {
+                        item = ipInfos.get(i);
+                    }
+                    ipInfosss.add(item);
+                }
+            }
             InterfaceDevice.pbui_DeviceModInfo build = InterfaceDevice.pbui_DeviceModInfo.newBuilder()
-                    .setDeviceflag(modifyFlag)
+                    .setModflag(modifyFlag)
                     .setDevcieid(device.getDevcieid())
                     .setDevname(s2b(name))
-                    .addAllIpinfo(ipInfos)
+                    .addAllIpinfo(ipInfosss)
                     .setLiftgroupres0(liftId)
                     .setLiftgroupres1(micId)
                     .setDeviceflag(device.getDeviceflag())

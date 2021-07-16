@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/modify_meeting"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -59,6 +59,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="end"
+                        android:textSize="@dimen/text_size_normal"
                         android:text="@string/name_" />
 
                     <EditText
@@ -69,7 +70,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="3"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 
@@ -84,6 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:textSize="@dimen/text_size_normal"
                         android:gravity="end"
                         android:text="@string/unit_" />
 
@@ -95,7 +97,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="3"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 
@@ -111,6 +113,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="end"
+                        android:textSize="@dimen/text_size_normal"
                         android:text="@string/job_" />
 
                     <EditText
@@ -121,7 +124,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="3"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 
@@ -137,6 +140,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="end"
+                        android:textSize="@dimen/text_size_normal"
                         android:text="@string/phone_" />
 
                     <EditText
@@ -148,7 +152,7 @@
                         android:layout_weight="3"
                         android:gravity="center_vertical"
                         android:inputType="phone"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 
@@ -163,6 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:textSize="@dimen/text_size_normal"
                         android:gravity="end"
                         android:text="@string/email_" />
 
@@ -175,7 +180,7 @@
                         android:layout_weight="3"
                         android:gravity="center_vertical"
                         android:inputType="textEmailAddress"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 
@@ -190,6 +195,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:textSize="@dimen/text_size_normal"
                         android:gravity="end"
                         android:text="@string/sign_in_password_" />
 
@@ -202,7 +208,7 @@
                         android:layout_weight="3"
                         android:gravity="center_vertical"
                         android:inputType="textEmailAddress"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 
@@ -217,6 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:textSize="@dimen/text_size_normal"
                         android:gravity="end"
                         android:text="@string/remarks_" />
 
@@ -229,7 +236,7 @@
                         android:layout_weight="3"
                         android:gravity="center_vertical"
                         android:inputType="textEmailAddress"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 

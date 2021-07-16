@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/modify_meeting"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -36,240 +36,255 @@
         android:background="@drawable/bg_dialog_gray"
         android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/election_content_" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/election_content_" />
-
-                    <EditText
-                        android:id="@+id/edt_content"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/election_type_" />
-
-                    <Spinner
-                        android:id="@+id/sp_type"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:spinnerMode="dialog"
-                        android:entries="@array/vote_type_spinner"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/notation_" />
-
-                    <Spinner
-                        android:id="@+id/sp_notation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:entries="@array/yes_or_no"
-                        android:spinnerMode="dialog"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_option_a"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/option_a_" />
-
-                    <EditText
-                        android:id="@+id/edt_option_a"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:gravity="center_vertical"
-                        android:inputType="phone"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_option_b"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/option_b_" />
-
-                    <EditText
-                        android:id="@+id/edt_option_b"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:gravity="center_vertical"
-                        android:inputType="textEmailAddress"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_option_c"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/option_c_" />
-
-                    <EditText
-                        android:id="@+id/edt_option_c"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:gravity="center_vertical"
-                        android:inputType="textEmailAddress"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_option_d"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/option_d_" />
-
-                    <EditText
-                        android:id="@+id/edt_option_d"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:gravity="center_vertical"
-                        android:inputType="textEmailAddress"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_option_e"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/option_e_" />
-
-                    <EditText
-                        android:id="@+id/edt_option_e"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:gravity="center_vertical"
-                        android:inputType="textEmailAddress"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-                </LinearLayout>
-
-
+                <EditText
+                    android:id="@+id/edt_content"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
             </LinearLayout>
 
-        </ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/election_type_" />
+
+                <Spinner
+                    android:id="@+id/sp_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="4"
+                    android:entries="@array/vote_type_spinner"
+                    android:gravity="center_vertical"
+                    android:spinnerMode="dialog"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/notation_" />
+
+                <Spinner
+                    android:id="@+id/sp_notation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="4"
+                    android:entries="@array/yes_or_no"
+                    android:gravity="center_vertical"
+                    android:spinnerMode="dialog"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_option_a"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/option_a_" />
+
+                <EditText
+                    android:id="@+id/edt_option_a"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:inputType="phone"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_option_b"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_size_normal"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/option_b_" />
+
+                <EditText
+                    android:id="@+id/edt_option_b"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:inputType="textEmailAddress"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_option_c"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/option_c_" />
+
+                <EditText
+                    android:id="@+id/edt_option_c"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:inputType="textEmailAddress"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_option_d"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_normal"
+                    android:gravity="end"
+                    android:text="@string/option_d_" />
+
+                <EditText
+                    android:id="@+id/edt_option_d"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:inputType="textEmailAddress"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_option_e"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_normal"
+                    android:gravity="end"
+                    android:text="@string/option_e_" />
+
+                <EditText
+                    android:id="@+id/edt_option_e"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:inputType="textEmailAddress"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

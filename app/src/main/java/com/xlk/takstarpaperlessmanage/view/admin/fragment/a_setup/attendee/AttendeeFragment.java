@@ -69,7 +69,7 @@ public class AttendeeFragment extends BaseFragment<AttendeePresenter> implements
             chooseLocalFile(IMPORT_ATTENDEE_REQUEST_CODE);
         });
         inflate.findViewById(R.id.btn_export).setOnClickListener(v -> {
-            if(presenter.attendees.isEmpty()){
+            if (presenter.attendees.isEmpty()) {
                 ToastUtil.showShort(R.string.tip_data_empty);
                 return;
             }
@@ -99,14 +99,14 @@ public class AttendeeFragment extends BaseFragment<AttendeePresenter> implements
                 ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
                 return;
             }
-            JxlUtil.exportMember(fileName,addr,presenter.attendees);
+            JxlUtil.exportMember(fileName, addr, presenter.attendees);
             pop.dismiss();
         });
     }
 
     @Override
     public void updateExportDirPath(String dirPath) {
-        if(edt_save_address!=null){
+        if (edt_save_address != null) {
             edt_save_address.setText(dirPath);
         }
     }
@@ -203,10 +203,29 @@ public class AttendeeFragment extends BaseFragment<AttendeePresenter> implements
                 jni.addAttendee(builder.build());
             } else {
                 builder.setPersonid(item.getPersonid());
-                jni.modifyAttendee(builder.build());
+                showDefinePop(builder.build());
             }
             modifyPop.dismiss();
         });
+    }
+
+    private void showDefinePop(InterfacePerson.pbui_Item_PersonDetailInfo build) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_define, null, false);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width / 2, height / 3, rv_attendee, Gravity.CENTER, width1 / 2, 0);
+        TextView tv_title = inflate.findViewById(R.id.tv_title);
+        TextView tv_content = inflate.findViewById(R.id.tv_content);
+        tv_content.setText(getString(R.string.tip_define_to_modify_, getString(R.string.member_information)));
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            jni.modifyAttendee(build);
+            pop.dismiss();
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
     }
 
     private void showDeletePop(InterfacePerson.pbui_Item_PersonDetailInfo item) {

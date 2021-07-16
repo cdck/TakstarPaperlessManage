@@ -133,7 +133,7 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
         } else {
             edtWebsite.setText(presenter.allUrls.get(0).getName().toStringUtf8());
         }
-        if(urlPop!=null && urlPop.isShowing()){
+        if (urlPop != null && urlPop.isShowing()) {
             urlAdapter.notifyDataSetChanged();
         }
     }
@@ -210,7 +210,7 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
 
     @Override
     public void updateMainLogoImg(String filePath) {
-        LogUtils.e("updateMainLogoImg filePath="+filePath);
+        LogUtils.e("updateMainLogoImg filePath=" + filePath);
         if (interfacePop != null && interfacePop.isShowing()) {
             getActivity().runOnUiThread(() -> {
                 dragView.updateLogoImg(POP_TAG_MAIN, filePath);
@@ -279,7 +279,7 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
                     ToastUtil.showShort(R.string.please_enter_name_first);
                     return;
                 }
-                presenter.modifyCompanyName(companyName);
+                showDefineModifyCompanyNamePop(companyName);
                 break;
             }
             case R.id.btn_company_release: {
@@ -316,6 +316,28 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
                 break;
             }
         }
+    }
+
+    /**
+     * 确定是否要修改公司名弹窗
+     * @param companyName 新输入的公司名称
+     */
+    private void showDefineModifyCompanyNamePop(String companyName) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_define, null, false);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width / 2, height / 3, edtCompanyName, Gravity.CENTER, width1 / 2, 0);
+        TextView tv_content = inflate.findViewById(R.id.tv_content);
+        tv_content.setText(getString(R.string.tip_define_to_modify_company_name));
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            presenter.modifyCompanyName(companyName);
+            pop.dismiss();
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
     }
 
     private void showUrlPop() {
@@ -452,10 +474,30 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
         String newPwd = edtNewPassword.getText().toString().trim();
         String ensureNewPwd = edtEnsureNewPassword.getText().toString().trim();
         if (newPwd.equals(ensureNewPwd)) {
-            presenter.modifyLocalAdminPassword(s2md5(oldPwd), s2md5(newPwd));
+            showDefinePop(oldPwd, newPwd);
         } else {
             ToastUtil.showShort(R.string.the_password_entered_twice_does_not_match);
         }
+    }
+    /**
+     * 确定是否要修改登录密码弹窗
+     * @param oldPwd 旧密码
+     * @param newPwd 新密码
+     */
+    private void showDefinePop(String oldPwd, String newPwd) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_define, null, false);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width / 2, height / 3, edtCompanyName, Gravity.CENTER, width1 / 2, 0);
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            presenter.modifyLocalAdminPassword(s2md5(oldPwd), s2md5(newPwd));
+            pop.dismiss();
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
     }
 
     private void showReleaseFilePop() {

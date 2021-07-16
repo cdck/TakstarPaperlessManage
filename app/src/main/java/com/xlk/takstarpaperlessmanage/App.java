@@ -13,7 +13,6 @@ import android.view.WindowManager;
 
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ServiceUtils;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.util.CrashHandler;
 import com.xlk.takstarpaperlessmanage.util.MyRejectedExecutionHandler;
@@ -31,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import me.jessyan.autosize.AutoSizeConfig;
 
 /**
  * @author Created by xlk on 2021/4/21.

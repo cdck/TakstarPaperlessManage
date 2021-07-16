@@ -164,6 +164,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
             //需要注意的是每次打开导入历史资料弹框rv_history_catalogue都是一个新的对象，所以historyDirAdapter也必须重新绑定
             historyDirAdapter = new HistoryDirAdapter(R.layout.item_history_meeting, presenter.dirInfos);
             rv_history_catalogue.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv_history_catalogue.addItemDecoration(new RvItemDecoration(getContext()));
             rv_history_catalogue.setAdapter(historyDirAdapter);
             historyDirAdapter.setOnItemClickListener((adapter, view, position) -> {
                 int dirId = presenter.dirInfos.get(position).getId();
@@ -186,6 +187,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
             //需要注意的是每次打开导入历史资料弹框rv_history_file都是一个新的对象，所以historyFileAdapter也必须重新绑定
             historyFileAdapter = new HistoryFileAdapter(R.layout.item_history_file, presenter.historyDirFiles);
             rv_history_file.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv_history_file.addItemDecoration(new RvItemDecoration(getContext()));
             rv_history_file.setAdapter(historyFileAdapter);
             historyFileAdapter.setOnItemClickListener((adapter, view, position) -> {
                 int mediaid = presenter.historyDirFiles.get(position).getMediaid();
@@ -321,6 +323,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
         /* **** **  每次打开弹框重置之前选中的会议  ** **** */
         meetingAdapter.choose(-1);
         rv_history_meeting.setAdapter(meetingAdapter);
+        rv_history_meeting.addItemDecoration(new RvItemDecoration(getContext()));
         rv_history_meeting.setLayoutManager(new LinearLayoutManager(getContext()));
         meetingAdapter.setOnItemClickListener((adapter, view, position) -> {
             int id = presenter.meetings.get(position).getId();
@@ -566,6 +569,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
+            if (data == null) return;
             Uri uri = data.getData();
             File file = UriUtils.uri2File(uri);
             if (file == null) {

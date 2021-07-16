@@ -12,7 +12,7 @@
         android:layout_weight="0.5"
         android:gravity="center"
         android:text="@string/number"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/item_view_2"
@@ -22,7 +22,7 @@
         android:layout_weight="1.5"
         android:gravity="center"
         android:text="@string/user_name"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/item_view_3"
@@ -32,7 +32,7 @@
         android:layout_weight="1.5"
         android:gravity="center"
         android:text="@string/password"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/item_view_4"
@@ -42,7 +42,7 @@
         android:layout_weight="1.5"
         android:gravity="center"
         android:text="@string/phone"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/item_view_5"
@@ -52,7 +52,7 @@
         android:layout_weight="2"
         android:gravity="center"
         android:text="@string/email"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -66,11 +66,11 @@
             android:id="@+id/tv_permission_management"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_manage"
+            android:drawableStart="@drawable/ic_permission_manage"
             android:text="@string/permission_management"
             android:drawablePadding="2dp"
             android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/tv_modify"
@@ -82,7 +82,7 @@
             android:drawablePadding="2dp"
             android:text="@string/modify"
             android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/tv_delete"
@@ -92,7 +92,7 @@
             android:drawablePadding="2dp"
             android:text="@string/delete"
             android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
     </LinearLayout>
 
     <TextView
@@ -103,5 +103,5 @@
         android:layout_weight="1.5"
         android:gravity="center"
         android:text="@string/remarks"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 </LinearLayout>

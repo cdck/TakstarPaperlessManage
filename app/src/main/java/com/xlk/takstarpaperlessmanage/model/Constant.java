@@ -27,9 +27,9 @@ public class Constant {
     public static final String export_dir = file_dir + "export/";
     public static final String record_video_dir = file_dir + "RecordVideo/";
 
-//    public static final String DIR_ARCHIVE_TEMP = file_dir + "Conference archive cache directory/";
+    //    public static final String DIR_ARCHIVE_TEMP = file_dir + "Conference archive cache directory/";
     public static final String DIR_ARCHIVE_TEMP = file_dir + "会议归档/";
-    public static final String DIR_ARCHIVE_ZIP = file_dir + "Conference archive/";
+    public static final String DIR_ARCHIVE_ZIP = file_dir;
 
 
     /**
@@ -72,6 +72,10 @@ public class Constant {
      * 选择归档的输出位置
      */
     public static final int CHOOSE_DIR_TYPE_ARCHIVE = 10;
+    /**
+     * 导出投票信息文件目录
+     */
+    public static final int CHOOSE_DIR_TYPE_EXPORT_VOTE_MANAGE = 11;
 
 
     /**
@@ -587,10 +591,11 @@ public class Constant {
             return context.getString(R.string.vote_state_has_ended);
         }
     }
+
     /**
      * 获取投票的状态
      */
-    public static String getVoteState( int votestate) {
+    public static String getVoteState(int votestate) {
         if (votestate == InterfaceMacro.Pb_MeetVoteStatus.Pb_vote_notvote_VALUE) {
             return App.appContext.getString(R.string.vote_state_not_initiated);
         } else if (votestate == InterfaceMacro.Pb_MeetVoteStatus.Pb_vote_voteing_VALUE) {

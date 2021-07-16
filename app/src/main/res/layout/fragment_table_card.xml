@@ -120,7 +120,7 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:spinnerMode="dropdown"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -240,7 +240,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

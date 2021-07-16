@@ -62,8 +62,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/number"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -72,8 +73,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/device_id"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -82,8 +84,9 @@
             android:layout_weight="1.5"
             android:gravity="center"
             android:text="@string/device_name"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -92,8 +95,9 @@
             android:layout_weight="1.5"
             android:gravity="center"
             android:text="@string/device_type"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -102,8 +106,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/version_number"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -112,8 +117,9 @@
             android:layout_weight="1.5"
             android:gravity="center"
             android:text="@string/device_ip"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -122,8 +128,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/device_port"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -132,8 +139,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/guest_mode"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -142,8 +150,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/device_status"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -152,8 +161,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/interface_status"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -162,8 +172,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/lift_id"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -172,8 +183,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/mic_id"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textStyle="bold"
+            android:textColor="@color/text_default_color"
+            android:textSize="@dimen/text_size_normal" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

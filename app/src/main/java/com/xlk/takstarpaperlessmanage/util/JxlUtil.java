@@ -88,10 +88,9 @@ public class JxlUtil {
      * 第二个参数：行
      * 第三个参数：内容
      */
-    public static void exportSubmitMember(ExportSubmitMember info) {
+    public static void exportSubmitMember(String fileName,String dirPath,ExportSubmitMember info) {
         App.threadPool.execute(() -> {
-            FileUtils.createOrExistsDir(Constant.export_dir);
-            String fileName = "参会人投票-选举详情";
+            FileUtils.createOrExistsDir(dirPath);
             //1.创建Excel文件
             File file = createXlsFile(Constant.export_dir + fileName);
             try {
@@ -582,100 +581,99 @@ public class JxlUtil {
      * @param dirPath      目录地址
      * @param devSeatInfos 参会人信息（包括会议身份）
      */
-    public static void exportMemberInfo(String fileName, String dirPath, List<MemberRoleBean> devSeatInfos) {
-//        App.threadPool.execute(() -> {
-            FileUtils.createOrExistsDir(dirPath);
-            //1.创建Excel文件
-            File file = createXlsFile(dirPath + "/" + fileName);
-            try {
-                file.createNewFile();
-                //2.创建工作簿
-                WritableWorkbook workbook = Workbook.createWorkbook(file);
-                //3.创建Sheet
-                WritableSheet ws = workbook.createSheet("参会人员", 0);
-                //4.创建单元格
-                Label label;
-                //配置单元格样式
-                WritableCellFormat wc = new WritableCellFormat();
-                // 设置居中
-                wc.setAlignment(Alignment.CENTRE);
-                // 设置边框线
-                wc.setBorder(Border.ALL, BorderLineStyle.THIN);
-                // 设置单元格的背景颜色
-                wc.setBackground(Colour.WHITE);
+    public static String exportMemberInfo(String fileName, String dirPath, List<MemberRoleBean> devSeatInfos) {
+        FileUtils.createOrExistsDir(dirPath);
+        //1.创建Excel文件
+        File file = createXlsFile(dirPath + "/" + fileName);
+        try {
+            file.createNewFile();
+            //2.创建工作簿
+            WritableWorkbook workbook = Workbook.createWorkbook(file);
+            //3.创建Sheet
+            WritableSheet ws = workbook.createSheet("参会人员", 0);
+            //4.创建单元格
+            Label label;
+            //配置单元格样式
+            WritableCellFormat wc = new WritableCellFormat();
+            // 设置居中
+            wc.setAlignment(Alignment.CENTRE);
+            // 设置边框线
+            wc.setBorder(Border.ALL, BorderLineStyle.THIN);
+            // 设置单元格的背景颜色
+            wc.setBackground(Colour.WHITE);
 
-                label = new Label(0, 0, "人员姓名", wc);
+            label = new Label(0, 0, "人员姓名", wc);
+            ws.addCell(label);
+            label = new Label(1, 0, "单位", wc);
+            ws.addCell(label);
+            label = new Label(2, 0, "职位", wc);
+            ws.addCell(label);
+            label = new Label(3, 0, "备注", wc);
+            ws.addCell(label);
+            label = new Label(4, 0, "手机", wc);
+            ws.addCell(label);
+            label = new Label(5, 0, "邮箱", wc);
+            ws.addCell(label);
+            label = new Label(6, 0, "签到密码", wc);
+            ws.addCell(label);
+            label = new Label(7, 0, "人员ID", wc);
+            ws.addCell(label);
+            label = new Label(8, 0, "角色", wc);
+            ws.addCell(label);
+            for (int i = 0; i < devSeatInfos.size(); i++) {
+                MemberRoleBean memberRoleBean = devSeatInfos.get(i);
+                InterfaceMember.pbui_Item_MemberDetailInfo info = memberRoleBean.getMember();
+                InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo seat = memberRoleBean.getSeat();
+                //人员姓名
+                String name = info.getName().toStringUtf8();
+                label = new Label(0, i + 1, name, wc);
                 ws.addCell(label);
-                label = new Label(1, 0, "单位", wc);
+                //单位
+                String company = info.getCompany().toStringUtf8();
+                label = new Label(1, i + 1, company, wc);
                 ws.addCell(label);
-                label = new Label(2, 0, "职位", wc);
+                //职位
+                String job = info.getJob().toStringUtf8();
+                label = new Label(2, i + 1, job, wc);
                 ws.addCell(label);
-                label = new Label(3, 0, "备注", wc);
+                //备注
+                String comment = info.getComment().toStringUtf8();
+                label = new Label(3, i + 1, comment, wc);
                 ws.addCell(label);
-                label = new Label(4, 0, "手机", wc);
+                //手机
+                String phone = info.getPhone().toStringUtf8();
+                label = new Label(4, i + 1, phone, wc);
                 ws.addCell(label);
-                label = new Label(5, 0, "邮箱", wc);
+                //邮箱
+                String email = info.getEmail().toStringUtf8();
+                label = new Label(5, i + 1, email, wc);
                 ws.addCell(label);
-                label = new Label(6, 0, "签到密码", wc);
+                //签到密码
+                String pwd = info.getPassword().toStringUtf8();
+                label = new Label(6, i + 1, pwd, wc);
                 ws.addCell(label);
-                label = new Label(7, 0, "人员ID", wc);
+                //人员id
+                int id = info.getPersonid();
+                label = new Label(7, i + 1, id + "", wc);
                 ws.addCell(label);
-                label = new Label(8, 0, "角色", wc);
-                ws.addCell(label);
-                for (int i = 0; i < devSeatInfos.size(); i++) {
-                    MemberRoleBean memberRoleBean = devSeatInfos.get(i);
-                    InterfaceMember.pbui_Item_MemberDetailInfo info = memberRoleBean.getMember();
-                    InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo seat = memberRoleBean.getSeat();
-                    //人员姓名
-                    String name = info.getName().toStringUtf8();
-                    label = new Label(0, i + 1, name, wc);
-                    ws.addCell(label);
-                    //单位
-                    String company = info.getCompany().toStringUtf8();
-                    label = new Label(1, i + 1, company, wc);
-                    ws.addCell(label);
-                    //职位
-                    String job = info.getJob().toStringUtf8();
-                    label = new Label(2, i + 1, job, wc);
-                    ws.addCell(label);
-                    //备注
-                    String comment = info.getComment().toStringUtf8();
-                    label = new Label(3, i + 1, comment, wc);
-                    ws.addCell(label);
-                    //手机
-                    String phone = info.getPhone().toStringUtf8();
-                    label = new Label(4, i + 1, phone, wc);
-                    ws.addCell(label);
-                    //邮箱
-                    String email = info.getEmail().toStringUtf8();
-                    label = new Label(5, i + 1, email, wc);
-                    ws.addCell(label);
-                    //签到密码
-                    String pwd = info.getPassword().toStringUtf8();
-                    label = new Label(6, i + 1, pwd, wc);
-                    ws.addCell(label);
-                    //人员id
-                    int id = info.getPersonid();
-                    label = new Label(7, i + 1, id + "", wc);
-                    ws.addCell(label);
-                    //身份
-                    String memberRoleName = "";
-                    if (seat != null) {
-                        int role = seat.getRole();
-                        memberRoleName = Constant.getMemberRoleName(App.appContext, role);
-                    }
-                    label = new Label(8, i + 1, memberRoleName, wc);
-                    ws.addCell(label);
+                //身份
+                String memberRoleName = "";
+                if (seat != null) {
+                    int role = seat.getRole();
+                    memberRoleName = Constant.getMemberRoleName(App.appContext, role);
                 }
-                //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
-                workbook.write();
-                //7.最后一步，关闭工作簿
-                workbook.close();
-                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
-            } catch (IOException | WriteException e) {
-                e.printStackTrace();
+                label = new Label(8, i + 1, memberRoleName, wc);
+                ws.addCell(label);
             }
-//        });
+            //6.写入数据，一定记得写入数据，不然你都开始怀疑世界了，excel里面啥都没有
+            workbook.write();
+            //7.最后一步，关闭工作簿
+            workbook.close();
+            return file.getAbsolutePath();
+        } catch (IOException | WriteException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

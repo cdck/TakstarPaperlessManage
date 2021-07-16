@@ -15,7 +15,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/number" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_name" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_status" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_room_name" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
     <TextView
@@ -75,7 +75,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/start_time" />
 
 
@@ -97,6 +97,7 @@
             android:layout_marginEnd="2dp"
             android:drawableStart="@drawable/ic_modify"
             android:drawablePadding="2dp"
+            android:textSize="@dimen/text_size_normal"
             android:text="@string/modify"
             android:textColor="@color/blue" />
 
@@ -109,6 +110,7 @@
             android:drawableStart="@drawable/ic_delete"
             android:drawablePadding="2dp"
             android:text="@string/delete"
+            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/blue" />
 
         <TextView
@@ -118,6 +120,7 @@
             android:layout_marginStart="2dp"
             android:drawableStart="@drawable/ic_view"
             android:drawablePadding="2dp"
+            android:textSize="@dimen/text_size_normal"
             android:text="@string/view"
             android:textColor="@color/blue" />
     </LinearLayout>

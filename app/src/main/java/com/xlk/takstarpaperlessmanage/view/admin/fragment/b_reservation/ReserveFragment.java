@@ -45,7 +45,7 @@ import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
  * @author Created by xlk on 2021/5/15.
- * @desc
+ * @desc 会议预约
  */
 public class ReserveFragment extends BaseFragment<ReservePresenter> implements ReserveContract.View, CalendarView.OnYearChangeListener
         , CalendarView.OnMonthChangeListener, CalendarView.OnCalendarSelectListener
@@ -153,8 +153,8 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
             } else {
                 calendar_layout.expand();
             }
-            btn_month.setSelected(!selected);
-            btn_week.setSelected(selected);
+//            btn_month.setSelected(!selected);
+//            btn_week.setSelected(selected);
         });
         btn_week.setOnClickListener(v -> {
             boolean selected = btn_week.isSelected();
@@ -163,8 +163,8 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
             } else {
                 calendar_layout.shrink();
             }
-            btn_week.setSelected(!selected);
-            btn_month.setSelected(selected);
+//            btn_week.setSelected(!selected);
+//            btn_month.setSelected(selected);
         });
         mYear = calendar_view.getCurYear();
         tv_current_month.setText(calendar_view.getCurYear() + "年" + calendar_view.getCurMonth() + "月");
@@ -187,7 +187,7 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
         pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 2 / 3, calendar_layout, Gravity.CENTER, width1 / 2, 0);
         TextView tv_title = inflate.findViewById(R.id.tv_title);
         boolean isAdd = item == null;
-        tv_title.setText(isAdd ? getString(R.string.add) : getString(R.string.preview_or_modify));
+        tv_title.setText(isAdd ? getString(R.string.meeting_reservation) : getString(R.string.preview_or_modify));
         EditText edt_name = inflate.findViewById(R.id.edt_meeting_name);
         tv_start_time = inflate.findViewById(R.id.tv_start_time);
         tv_end_time = inflate.findViewById(R.id.tv_end_time);
@@ -414,9 +414,9 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
     public void onViewChange(boolean isMonthView) {
         mIsMonthView = isMonthView;
         LogUtils.e("onViewChange", "  ---  " + (isMonthView ? "月视图" : "周视图") + ", ll_sun是否为null=" + (ll_sun == null));
-        if (isMonthView) {
-
-        } else {
+        btn_month.setSelected(isMonthView);
+        btn_week.setSelected(!isMonthView);
+        if (!isMonthView) {
             if (ll_sun == null) return;
             ll_sun.setVisibility(View.INVISIBLE);
             ll_mon.setVisibility(View.INVISIBLE);
@@ -431,7 +431,6 @@ public class ReserveFragment extends BaseFragment<ReservePresenter> implements R
                 int year = calendar.getYear();
                 int month = calendar.getMonth();
                 int day = calendar.getDay();
-                LogUtils.e("====" + calendar.toString());
                 List<Calendar.Scheme> schemes = calendar.getSchemes();
                 if (schemes != null) {
                     SpannableStringBuilder ssb = new SpannableStringBuilder();

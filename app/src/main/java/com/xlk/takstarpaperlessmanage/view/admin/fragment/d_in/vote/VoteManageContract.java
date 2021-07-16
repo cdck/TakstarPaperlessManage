@@ -14,6 +14,8 @@ interface VoteManageContract {
         void updateMemberDetailedList();
 
         void showSubmittedPop(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote);
+
+        void updateExportDirPath(String dirPath);
     }
     interface Presenter extends BaseContract.Presenter{
         void setVoteType(int vote_type);

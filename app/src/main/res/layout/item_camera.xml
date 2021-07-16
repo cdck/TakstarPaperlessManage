@@ -17,7 +17,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/number" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:singleLine="true"
         android:text="@string/device_name"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/item_view_3"
@@ -46,7 +46,7 @@
         android:singleLine="true"
         android:text="@string/seat_name"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/item_view_4"
@@ -60,7 +60,7 @@
         android:singleLine="true"
         android:text="@string/subchannel_id"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/item_view_5"
@@ -73,7 +73,7 @@
         android:lines="1"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         android:visibility="visible"
         tools:text="@string/dysprosium" />
 

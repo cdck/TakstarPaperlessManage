@@ -16,7 +16,7 @@
             android:layout_centerInParent="true"
             android:text="@string/choose_same_screen_target"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -104,7 +104,7 @@
                             android:singleLine="true"
                             android:text="@string/number"
                             android:textColor="@color/text_color_black"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_normal" />
 
                         <TextView
                             android:id="@+id/item_view_2"
@@ -118,7 +118,7 @@
                             android:singleLine="true"
                             android:text="@string/member"
                             android:textColor="@color/text_color_black"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_normal" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView

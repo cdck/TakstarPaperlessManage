@@ -10,8 +10,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.xlk.takstarpaperlessmanage.App;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.helper.task.BasicInformationTask;
@@ -21,6 +23,7 @@ import com.xlk.takstarpaperlessmanage.helper.task.DownloadFileTask;
 import com.xlk.takstarpaperlessmanage.helper.task.MemberTask;
 import com.xlk.takstarpaperlessmanage.helper.task.SignInTask;
 import com.xlk.takstarpaperlessmanage.helper.task.VoteTask;
+import com.xlk.takstarpaperlessmanage.helper.task.ZipFileTask;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
@@ -28,6 +31,8 @@ import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,7 +43,6 @@ import androidx.recyclerview.widget.RecyclerView;
  * @desc
  */
 public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements ArchiveContract.View {
-    private LinearLayout rootView;
     private CheckBox cbArchiveAll;
     private CheckBox cbMeetingBasicInformation;
     private CheckBox cbMemberInformation;
@@ -52,9 +56,17 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
     private CheckBox cbEncryption;
     private Button btnCancel;
     private Button btnArchive;
-    private Thread archiveThread;
     private RecyclerView rv_operate;
     private ArchiveInformAdapter informAdapter;
+    LineUpTaskHelp lineUpTaskHelp;
+    /**
+     * 当前是否正在压缩中
+     */
+    private boolean isCompressing;
+    /**
+     * 当前是否正在归档中
+     */
+    private boolean isDownloading;
 
     @Override
     protected int getLayoutId() {
@@ -63,7 +75,6 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
 
     @Override
     protected void initView(View inflate) {
-        rootView = (LinearLayout) inflate.findViewById(R.id.root_view);
         cbArchiveAll = (CheckBox) inflate.findViewById(R.id.cb_archive_all);
         cbMeetingBasicInformation = (CheckBox) inflate.findViewById(R.id.cb_meeting_basic_information);
         cbMemberInformation = (CheckBox) inflate.findViewById(R.id.cb_member_information);
@@ -121,13 +132,17 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
 //        tvStatus6 = (TextView) inflate.findViewById(R.id.tv_status_6);
         cbEncryption = (CheckBox) inflate.findViewById(R.id.cb_encryption);
         cbEncryption.setOnClickListener(v -> {
-            if (presenter.hasStarted()) {
-                ToastUtils.showShort(R.string.already_archive);
+            boolean checked = cbEncryption.isChecked();
+            if (isCompressing) {
+                ToastUtils.showShort(R.string.already_compressing);
+                cbEncryption.setChecked(!checked);
                 return;
             }
-            boolean checked = cbEncryption.isChecked();
             cbEncryption.setChecked(checked);
+            presenter.setEncryption(checked);
+            /*
             if (!checked) {
+                presenter.setEncryption(false);
                 presenter.setPassword("");
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -144,6 +159,7 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
                             cbEncryption.setChecked(false);
                             return;
                         }
+                        presenter.setEncryption(true);
                         presenter.setPassword(pwd);
                         dialog.dismiss();
                     }
@@ -158,6 +174,7 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
                 });
                 builder.create().show();
             }
+             */
         });
         btnCancel = (Button) inflate.findViewById(R.id.btn_cancel);
         btnArchive = (Button) inflate.findViewById(R.id.btn_archive);
@@ -170,102 +187,89 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
         });
         btnCancel.setOnClickListener(v -> {
             if (lineUpTaskHelp != null) {
-                lineUpTaskHelp.deleteAndCancelAllTask();
-            }
-            /*
-            App.threadPool.execute(() -> {
-                jni.clearDownload();
-                presenter.cancelArchive(true);
-                if (archiveThread != null && archiveThread.getState() == Thread.State.RUNNABLE) {
-                    try {
-                        archiveThread.interrupt();
-                        LogUtils.e("archiveThread interrupt");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        archiveThread = null;
-                        LogUtils.e("archiveThread设置为null");
+                App.threadPool.execute(() -> {
+                    //先清除将要下载的文件
+                    presenter.clearShouldDownloadFiles();
+                    boolean delete = FileUtils.delete(Constant.DIR_ARCHIVE_TEMP);
+                    LogUtils.i("通过删除源文件的方法中断压缩 delete=" + delete);
+//                    //获取到当前正在执行的任务
+//                    ConsumptionTask currentTask = lineUpTaskHelp.getFirst();
+//                    //停止/中断当前执行的任务
+//                    if (currentTask != null) {
+//                        currentTask.cancel();
+//                    }
+                    isDownloading = false;
+                    /*
+                    for (int i = 0; i < archiveInforms.size(); i++) {
+                        ArchiveInform archiveInform = archiveInforms.get(i);
+                        if (archiveInform.getContent().equals("压缩文件")) {
+                            archiveInform.setResult("已中断任务");
+                            break;
+                        }
                     }
-                }
-                presenter.cancelArchive();
-                presenter.cancelArchive(false);
-            });
-            */
+                    updateArchiveInform(archiveInforms);
+                    */
+                });
+            }
         });
         btnArchive.setOnClickListener(v -> {
-            start();
-            /*
-            if (presenter.hasStarted()) {
-                ToastUtils.showShort(R.string.please_wait_archive_complete_first);
-                return;
+            if (isDownloading || isCompressing) {
+                ToastUtils.showShort(R.string.currently_in_the_archives);
+            } else {
+                start();
             }
-            if (archiveThread != null) {
-                try {
-                    archiveThread.interrupt();
-                    LogUtils.e("archiveThread interrupt");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    archiveThread = null;
-                    LogUtils.e("archiveThread设置为null");
-                }
-            }
-            archiveThread = new ArchiveThread();
-            archiveThread.start();
-            */
-//            App.threadPool.execute(() -> {
-//                boolean isEncryption = cbEncryption.isChecked();
-//                presenter.setEncryption(isEncryption);
-//                if (cbArchiveAll.isChecked()) {
-//                    presenter.archiveAll();
-//                } else {
-//                    presenter.archiveSelected(cbMeetingBasicInformation.isChecked(),
-//                            cbMemberInformation.isChecked(), cbSignInformation.isChecked(),
-//                            cbVoteResult.isChecked(), cbSharedFile.isChecked(),
-//                            cbAnnotateFile.isChecked(), cbMeetingMaterial.isChecked());
-//                }
-//            });
         });
     }
 
-    LineUpTaskHelp lineUpTaskHelp;
-
     private void start() {
+        archiveInforms.clear();
+        updateArchiveInform(archiveInforms);
+        boolean hasTask = false;
         initLineUpTaskHelp();
+        long l = System.currentTimeMillis();
         if (cbMeetingBasicInformation.isChecked()) {
+            hasTask = true;
             BasicInformationTask task = new BasicInformationTask(presenter.getBasicInformationTaskInfo());
             task.taskNo = "会议基本信息";
-//            task.timeOut = 30 * 1000;
             lineUpTaskHelp.addTask(task);
         }
         if (cbMemberInformation.isChecked()) {
+            hasTask = true;
             MemberTask task = new MemberTask(presenter.getMemberTaskInfo());
             task.taskNo = "参会人员信息";
-//            task.timeOut = 30 * 1000;
             lineUpTaskHelp.addTask(task);
         }
         if (cbSignInformation.isChecked()) {
+            hasTask = true;
             SignInTask task = new SignInTask(presenter.getSignInTaskInfo());
             task.taskNo = "会议签到信息";
-//            task.timeOut = 30 * 1000;
             lineUpTaskHelp.addTask(task);
         }
         if (cbVoteResult.isChecked()) {
+            hasTask = true;
             VoteTask task = new VoteTask(presenter.getVoteTaskInfo());
             task.taskNo = "会议投票结果";
-//            task.timeOut = 30 * 1000;
             lineUpTaskHelp.addTask(task);
         }
+        LogUtils.e("导出资料用时：" + (System.currentTimeMillis() - l));
         if (cbSharedFile.isChecked()) {
-            presenter.addDownloadShareFileTask(lineUpTaskHelp);
+            hasTask = true;
+            presenter.addShouldDownloadShareFiles(lineUpTaskHelp);
         }
         if (cbAnnotateFile.isChecked()) {
-            presenter.addDownloadAnnotationFileTask(lineUpTaskHelp);
+            hasTask = true;
+            presenter.addShouldDownloadAnnotationFiles(lineUpTaskHelp);
         }
         if (cbMeetingMaterial.isChecked()) {
-            presenter.addDownloadMeetDataFileTask(lineUpTaskHelp);
+            hasTask = true;
+            presenter.addShouldDownloadMeetDataFiles(lineUpTaskHelp);
         }
-        presenter.addNextDownloadShareFileTask();
+        if (!hasTask) {
+            ToastUtils.showShort(R.string.please_choose_task_first);
+            return;
+        }
+        isDownloading = true;
+        presenter.addNextDownloadShareFileTask(0);
     }
 
     private void initLineUpTaskHelp() {
@@ -275,20 +279,91 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
             public void exNextTask(ConsumptionTask task) {
                 LogUtils.d("exNextTask " + task.taskNo + ",剩余任务数量=" + lineUpTaskHelp.getTaskCount());
                 if (task instanceof BasicInformationTask) {
+                    archiveInforms.add(new ArchiveInform("会议基本信息", "进行中..."));
+                    updateArchiveInform(archiveInforms);
                     BasicInformationTask basicInformationTask = (BasicInformationTask) task;
-                    basicInformationTask.run();
+                    basicInformationTask.thread.start();
                 } else if (task instanceof MemberTask) {
+                    archiveInforms.add(new ArchiveInform("参会人员信息", "进行中..."));
+                    updateArchiveInform(archiveInforms);
                     MemberTask memberTask = (MemberTask) task;
-                    memberTask.run();
+                    memberTask.thread.start();
                 } else if (task instanceof SignInTask) {
+                    archiveInforms.add(new ArchiveInform("会议签到信息", "进行中..."));
+                    updateArchiveInform(archiveInforms);
                     SignInTask signInTask = (SignInTask) task;
-                    signInTask.run();
+                    signInTask.thread.start();
                 } else if (task instanceof VoteTask) {
+                    archiveInforms.add(new ArchiveInform("会议投票结果", "进行中..."));
+                    updateArchiveInform(archiveInforms);
                     VoteTask voteTask = (VoteTask) task;
-                    voteTask.run();
+                    voteTask.thread.start();
                 } else if (task instanceof DownloadFileTask) {
                     DownloadFileTask downloadFileTask = (DownloadFileTask) task;
+                    //没有使用线程，直接在主线程中调用
                     downloadFileTask.run();
+                } else if (task instanceof ZipFileTask) {
+                    //压缩开始、下载停止
+                    isDownloading = false;
+                    isCompressing = true;
+                    archiveInforms.add(new ArchiveInform("压缩文件", "进行中..."));
+                    updateArchiveInform(archiveInforms);
+                    ZipFileTask zipFileTask = (ZipFileTask) task;
+                    zipFileTask.thread.start();
+                }
+            }
+
+            @Override
+            public void exComplete(ConsumptionTask task) {
+                LogUtils.e("exComplete 执行完毕：" + task.taskNo);
+                if (task instanceof BasicInformationTask) {
+                    for (int i = 0; i < archiveInforms.size(); i++) {
+                        if (archiveInforms.get(i).getContent().equals("会议基本信息")) {
+                            archiveInforms.get(i).setResult("完成");
+                            break;
+                        }
+                    }
+                    updateArchiveInform(archiveInforms);
+                } else if (task instanceof MemberTask) {
+                    for (int i = 0; i < archiveInforms.size(); i++) {
+                        if (archiveInforms.get(i).getContent().equals("参会人员信息")) {
+                            archiveInforms.get(i).setResult("完成");
+                            break;
+                        }
+                    }
+                    updateArchiveInform(archiveInforms);
+                } else if (task instanceof SignInTask) {
+                    for (int i = 0; i < archiveInforms.size(); i++) {
+                        if (archiveInforms.get(i).getContent().equals("会议签到信息")) {
+                            archiveInforms.get(i).setResult("完成");
+                            break;
+                        }
+                    }
+                    updateArchiveInform(archiveInforms);
+                } else if (task instanceof VoteTask) {
+                    for (int i = 0; i < archiveInforms.size(); i++) {
+                        if (archiveInforms.get(i).getContent().equals("会议投票结果")) {
+                            archiveInforms.get(i).setResult("完成");
+                            break;
+                        }
+                    }
+                    updateArchiveInform(archiveInforms);
+                } else if (task instanceof ZipFileTask) {
+                    ZipFileTask zipFileTask = (ZipFileTask) task;
+                    //在压缩的时候如果点击了取消，但是无法中断，只能在压缩完成后处理
+                    for (int i = 0; i < archiveInforms.size(); i++) {
+                        if (archiveInforms.get(i).getContent().equals("压缩文件")) {
+                            archiveInforms.get(i).setResult(zipFileTask.isInterrupted() ? "已中断任务" : "完成");
+                            break;
+                        }
+                    }
+                    if (!zipFileTask.isInterrupted()) {
+                        archiveInforms.add(new ArchiveInform("位置：" + zipFileTask.getFilePath(), zipFileTask.getPassword()));
+                    } else {
+                        FileUtils.delete(zipFileTask.getFilePath());
+                    }
+                    updateArchiveInform(archiveInforms);
+                    isCompressing = false;
                 }
             }
 
@@ -311,32 +386,6 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
         edtOutput.setSelection(dirPath.length());
     }
 
-    class ArchiveThread extends Thread {
-
-        public ArchiveThread() {
-            super("ArchiveThread");
-        }
-
-        @Override
-        public void run() {
-            try {
-                boolean isEncryption = cbEncryption.isChecked();
-                presenter.setEncryption(isEncryption);
-                LogUtils.e("开始归档 当前线程id=" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
-                if (cbArchiveAll.isChecked()) {
-                    presenter.archiveAll();
-                } else {
-                    presenter.archiveSelected(cbMeetingBasicInformation.isChecked(),
-                            cbMemberInformation.isChecked(), cbSignInformation.isChecked(),
-                            cbVoteResult.isChecked(), cbSharedFile.isChecked(),
-                            cbAnnotateFile.isChecked(), cbMeetingMaterial.isChecked());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Override
     protected ArchivePresenter initPresenter() {
         return new ArchivePresenter(this);
@@ -352,8 +401,57 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
         initial();
     }
 
+    List<ArchiveInform> archiveInforms = new ArrayList<>();
+
     @Override
-    public void updateArchiveInform(List<ArchiveInform> archiveInforms) {
+    public void updateArchiveInform(int type, String fileName, int mediaId, String dirName, int progress) {
+        boolean isHas = false;
+        for (int i = 0; i < archiveInforms.size(); i++) {
+            if (type == 2) {
+                if (archiveInforms.get(i).isThis(type, fileName, mediaId, dirName)) {
+                    if (progress == -1) {
+                        archiveInforms.get(i).setResult("已中断");
+                    } else {
+                        archiveInforms.get(i).setResult("当前进度" + progress + "%");
+                    }
+                    isHas = true;
+                    break;
+                }
+            } else {
+                if (archiveInforms.get(i).isThis(type, fileName, mediaId)) {
+                    if (progress == -1) {
+                        archiveInforms.get(i).setResult("已中断");
+                    } else {
+                        archiveInforms.get(i).setResult("当前进度" + progress + "%");
+                    }
+                    isHas = true;
+                    break;
+                }
+            }
+        }
+        if (!isHas) {
+            if (type == 2) {
+                if (progress == -1) {
+                    archiveInforms.add(new ArchiveInform(type, mediaId, dirName, fileName, "已中断"));
+                } else {
+                    archiveInforms.add(new ArchiveInform(type, mediaId, dirName, fileName, "当前进度" + progress + "%"));
+                }
+            } else {
+                if (progress == -1) {
+                    archiveInforms.add(new ArchiveInform(type, mediaId, fileName, "已中断"));
+                } else {
+                    archiveInforms.add(new ArchiveInform(type, mediaId, fileName, "当前进度" + progress + "%"));
+                }
+            }
+        }
+        updateArchiveInform(archiveInforms);
+        if (progress == -1) {
+            FileUtils.delete(Constant.DIR_ARCHIVE_TEMP);
+            isDownloading = false;
+        }
+    }
+
+    private void updateArchiveInform(List<ArchiveInform> archiveInforms) {
         getActivity().runOnUiThread(() -> {
             if (informAdapter == null) {
                 informAdapter = new ArchiveInformAdapter(R.layout.item_admin_archive_operate, archiveInforms);
@@ -364,10 +462,10 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
             }
             if (!archiveInforms.isEmpty()) {
                 int lastIndex = archiveInforms.size() - 1;
-                ArchiveInform archiveInform = archiveInforms.get(lastIndex);
-                if (archiveInform.getContent().equals("压缩完毕")) {
-                    rv_operate.scrollToPosition(lastIndex);
-                }
+//                ArchiveInform archiveInform = archiveInforms.get(lastIndex);
+//                if (archiveInform.getContent().equals("压缩完毕")) {
+                rv_operate.scrollToPosition(lastIndex);
+//                }
             }
         });
     }

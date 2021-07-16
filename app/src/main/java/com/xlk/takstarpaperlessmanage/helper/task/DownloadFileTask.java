@@ -14,15 +14,9 @@ import java.io.File;
  */
 public class DownloadFileTask extends ConsumptionTask implements Runnable {
     private final Info info;
-    private final String tag;
     private int count = 0;
 
     public DownloadFileTask(Info info) {
-        this("", info);
-    }
-
-    public DownloadFileTask(String tag, Info info) {
-        this.tag = tag;
         this.info = info;
     }
 

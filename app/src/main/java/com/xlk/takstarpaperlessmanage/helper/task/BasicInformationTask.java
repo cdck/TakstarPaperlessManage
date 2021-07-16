@@ -3,6 +3,7 @@ package com.xlk.takstarpaperlessmanage.helper.task;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.xlk.takstarpaperlessmanage.helper.archive.ConsumptionTask;
+import com.xlk.takstarpaperlessmanage.helper.archive.LineUpTaskHelp;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 
 /**
@@ -13,43 +14,31 @@ public class BasicInformationTask extends ConsumptionTask implements Runnable {
 
     private final Info info;
 
-
     public BasicInformationTask(Info info) {
         this.info = info;
+        thread = new Thread(this);
     }
 
     @Override
     public void run() {
-        LogUtils.i("归档会议基本信息");
-        long l = System.currentTimeMillis();
-        if (!info.conferenceBasicInformation.isEmpty()) {
-            FileIOUtils.writeFileFromString(Constant.DIR_ARCHIVE_TEMP + "会议基本信息.txt", info.conferenceBasicInformation);
+        try {
+            LogUtils.i("归档会议基本信息 当前线程id=" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
+            long l = System.currentTimeMillis();
+            if (!info.conferenceBasicInformation.isEmpty()) {
+                FileIOUtils.writeFileFromString(Constant.DIR_ARCHIVE_TEMP + "会议基本信息.txt", info.conferenceBasicInformation);
+            }
+            if (!info.agendaText.isEmpty()) {
+                FileIOUtils.writeFileFromString(Constant.DIR_ARCHIVE_TEMP + "会议议程信息.txt", info.agendaText);
+            }
+            if (!info.bulletinText.isEmpty()) {
+                FileIOUtils.writeFileFromString(Constant.DIR_ARCHIVE_TEMP + "会议公告信息.txt", info.bulletinText);
+            }
+            isResult = true;
+            LogUtils.i("归档会议基本信息，用时=" + (System.currentTimeMillis() - l));
+            LineUpTaskHelp.getInstance().exOk(this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (!info.agendaText.isEmpty()) {
-            FileIOUtils.writeFileFromString(Constant.DIR_ARCHIVE_TEMP + "会议议程信息.txt", info.agendaText);
-        }
-        if (!info.bulletinText.isEmpty()) {
-            FileIOUtils.writeFileFromString(Constant.DIR_ARCHIVE_TEMP + "会议公告信息.txt", info.bulletinText);
-        }
-        isResult = true;
-        LogUtils.i("归档会议基本信息，用时=" + (System.currentTimeMillis() - l));
-//        if (info.agendaMediaId != 0) {
-//            JniHelper jni = JniHelper.getInstance();
-//            byte[] bytes = jni.queryFileProperty(InterfaceMacro.Pb_MeetFilePropertyID.Pb_MEETFILE_PROPERTY_NAME.getNumber(), info.agendaMediaId);
-//            try {
-//                InterfaceBase.pbui_CommonTextProperty textProperty = InterfaceBase.pbui_CommonTextProperty.parseFrom(bytes);
-//                String fileName = textProperty.getPropertyval().toStringUtf8();
-//                LogUtils.i("downloadAgendaFile 获取到文件议程 -->媒体id=" + info.agendaMediaId + ", 文件名=" + fileName);
-//                FileUtils.createOrExistsDir(Constant.DIR_ARCHIVE_TEMP);
-//                boolean fileExists = FileUtils.isFileExists(Constant.DIR_ARCHIVE_TEMP + fileName);
-//                if (!fileExists) {
-//                    jni.downloadFile(Constant.DIR_ARCHIVE_TEMP + fileName, info.agendaMediaId, 1, 0,
-//                            Constant.ARCHIVE_AGENDA_FILE);
-//                }
-//            } catch (InvalidProtocolBufferException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     public static class Info {

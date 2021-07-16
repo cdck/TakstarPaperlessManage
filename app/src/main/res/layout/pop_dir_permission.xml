@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/directory_permissions"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -39,7 +39,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/item_view_height"
             android:background="@color/rv_top_view_bg"
             android:orientation="horizontal">
 
@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:text="@string/permission"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -61,7 +61,7 @@
                 android:gravity="center"
                 android:text="@string/name"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -71,7 +71,7 @@
                 android:gravity="center"
                 android:text="@string/unit"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -81,7 +81,7 @@
                 android:gravity="center"
                 android:text="@string/job"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
 
         </LinearLayout>

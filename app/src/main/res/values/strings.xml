@@ -248,7 +248,7 @@
     <string name="secretary_login">秘书登录</string>
     <string name="projective_name">投影名称</string>
     <string name="check_in_all">全部签到</string>
-    <string name="already_checked_in">已经签到</string>
+    <string name="already_checked_in">已签到</string>
     <string name="notice_title">公告标题</string>
     <string name="notice_content">公告内容</string>
     <string name="not_checked_in">未签到</string>
@@ -668,4 +668,13 @@
     <string name="please_enter_password">请输入密码</string>
     <string name="error_password">请输入6位数的密码</string>
     <string name="already_archive">归档已经开始，不能临时修改</string>
+    <string name="please_choose_task_first">请选勾选归档选项</string>
+    <string name="currently_in_the_archives">当前正在归档中</string>
+    <string name="already_compressing">已经开始压缩，无法更改</string>
+    <string name="tip_define_to_modify_pwd">确定要修改密码吗？</string>
+    <string name="tip_define_to_modify_company_name">确定要修改公司名吗？</string>
+    <string name="tip_define_to_modify_">确定要修改%1$s吗？</string>
+    <string name="delete_meetiing_hint">确定要删除该会议吗？</string>
+    <string name="member_">参会者：%1$s</string>
+    <string name="people_name">姓名</string>
 </resources>

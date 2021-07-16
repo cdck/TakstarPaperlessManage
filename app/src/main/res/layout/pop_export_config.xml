@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/pop_top_view_height"
         android:background="@drawable/dialog_top_blue_bg">
 
         <TextView
@@ -18,7 +18,7 @@
             android:layout_centerInParent="true"
             android:text="@string/export_config"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/dialog_bottom_gray_bg"
+        android:background="@drawable/dialog_content_bg"
         android:orientation="vertical">
 
         <ScrollView
@@ -57,6 +57,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_normal"
                         android:text="@string/file_name_" />
 
                     <EditText
@@ -65,13 +66,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="@dimen/text_size_medium"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="输入文件名" />
 
                     <TextView
                         android:id="@+id/tv_suffix"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_normal"
                         android:text=".xls" />
                 </LinearLayout>
                 <LinearLayout
@@ -85,6 +87,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_normal"
                         android:text="@string/description_" />
 
                     <EditText
@@ -93,7 +96,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="@dimen/text_size_medium"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="描述内容" />
 
                 </LinearLayout>
@@ -108,6 +111,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_normal"
                         android:text="@string/save_address_" />
 
                     <EditText
@@ -116,7 +120,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="@dimen/text_size_medium"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="输入文件名" />
 
                     <Button

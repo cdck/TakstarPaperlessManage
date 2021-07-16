@@ -121,7 +121,7 @@
             android:gravity="center"
             android:text="@string/number"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -131,7 +131,7 @@
             android:gravity="center"
             android:text="@string/device_id"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -141,7 +141,7 @@
             android:gravity="center"
             android:text="@string/device_name"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -151,7 +151,7 @@
             android:gravity="center"
             android:text="@string/device_type"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -161,7 +161,7 @@
             android:gravity="center"
             android:text="@string/whether_to_open_the_document_externally"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -171,7 +171,7 @@
             android:gravity="center"
             android:text="@string/device_ip"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -181,7 +181,7 @@
             android:gravity="center"
             android:text="@string/device_status"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -191,7 +191,7 @@
             android:gravity="center"
             android:text="@string/member"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -201,7 +201,7 @@
             android:gravity="center"
             android:text="@string/interface_status"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
     </LinearLayout>
 

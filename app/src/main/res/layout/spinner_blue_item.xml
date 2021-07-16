@@ -10,6 +10,6 @@
     tools:text="是经典款"
     android:textAlignment="center"
     android:textColor="@color/white"
-    android:textSize="@dimen/text_size_small">
+    android:textSize="@dimen/text_size_normal">
 
 </CheckedTextView>

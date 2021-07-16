@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fragment_root_padding"
     android:background="@color/content_bg"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:paddingStart="@dimen/fragment_root_padding"
+    android:paddingEnd="@dimen/fragment_root_padding"
+    android:paddingBottom="@dimen/fragment_root_padding">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_room"
@@ -24,7 +25,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/tv_seat_count"
@@ -33,7 +34,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold"
                 tools:text="席位数量：4" />
 
@@ -43,6 +44,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="20dp"
+                android:textSize="@dimen/text_size_normal"
                 android:text="@string/seat_bg_specification"
                 android:textColor="@color/black" />
         </RelativeLayout>
@@ -51,132 +53,178 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/white"
             android:orientation="vertical">
 
-            <com.xlk.takstarpaperlessmanage.ui.CustomSeatView
-                android:id="@+id/seat_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/content_bg"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/cb_display_icon"
-                style="@style/checkbox_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/display_icon"
-                android:textSize="@dimen/text_size_small" />
-
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <com.xlk.takstarpaperlessmanage.ui.CustomSeatView
+                    android:id="@+id/seat_view"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btn_up"
-                        android:layout_width="wrap_content"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/top" />
-
-                    <Button
-                        android:id="@+id/btn_bottom"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_width="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/bottom" />
-
-                    <Button
-                        android:id="@+id/btn_left"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_width="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/left" />
-
-                    <Button
-                        android:id="@+id/btn_right"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_width="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/right" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btn_left_side"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_width="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/left_side_alignment" />
-
-                    <Button
-                        android:id="@+id/btn_bottom_side"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_width="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/bottom_side_alignment" />
-
-                    <Button
-                        android:id="@+id/btn_preview"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_width="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/preview_base_image" />
-
-                    <Button
-                        android:id="@+id/btn_save"
-                        style="@style/button_hollow_style_rect_white_blue_radius5"
-                        android:layout_width="wrap_content"
-                        android:text="@string/save_base_image" />
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_restore"
-                style="@style/button_solid_style_rect_blue_white_radius5"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="2dp"
-                android:text="@string/restore" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@color/content_bg"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_define"
-                style="@style/button_solid_style_rect_blue_white_radius5"
-                android:layout_width="wrap_content"
-                android:layout_marginEnd="2dp"
-                android:text="@string/define" />
+                <CheckBox
+                    android:id="@+id/cb_display_icon"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/display_icon"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_up"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="38dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/top" />
+
+                        <Button
+                            android:id="@+id/btn_bottom"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="38dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/bottom" />
+
+                        <Button
+                            android:id="@+id/btn_left"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="38dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/left" />
+
+                        <Button
+                            android:id="@+id/btn_right"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="38dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/right" />
+
+                        <Button
+                            android:id="@+id/btn_left_side"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="65dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/left_side_alignment" />
+
+                        <Button
+                            android:id="@+id/btn_bottom_side"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="65dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/bottom_side_alignment" />
+
+                        <Button
+                            android:id="@+id/btn_preview"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="65dp"
+                            android:layout_height="18dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="@string/preview_base_image" />
+
+                        <Button
+                            android:id="@+id/btn_save"
+                            style="@style/button_hollow_style_rect_white_blue_radius5"
+                            android:layout_width="65dp"
+                            android:layout_height="18dp"
+                            android:text="@string/save_base_image" />
+                    </LinearLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginTop="2dp"-->
+<!--                        android:layout_marginBottom="5dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/btn_left_side"-->
+<!--                            style="@style/button_hollow_style_rect_white_blue_radius5"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_marginEnd="2dp"-->
+<!--                            android:text="@string/left_side_alignment" />-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/btn_bottom_side"-->
+<!--                            style="@style/button_hollow_style_rect_white_blue_radius5"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_marginEnd="2dp"-->
+<!--                            android:text="@string/bottom_side_alignment" />-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/btn_preview"-->
+<!--                            style="@style/button_hollow_style_rect_white_blue_radius5"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_marginEnd="2dp"-->
+<!--                            android:text="@string/preview_base_image" />-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/btn_save"-->
+<!--                            style="@style/button_hollow_style_rect_white_blue_radius5"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:text="@string/save_base_image" />-->
+<!--                    </LinearLayout>-->
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_restore"
+                    style="@style/button_solid_style_rect_blue_white_radius5"
+                    android:layout_width="75dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/restore" />
+
+                <Button
+                    android:id="@+id/btn_define"
+                    style="@style/button_solid_style_rect_blue_white_radius5"
+                    android:layout_width="75dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/define" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

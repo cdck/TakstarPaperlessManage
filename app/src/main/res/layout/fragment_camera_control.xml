@@ -46,7 +46,7 @@
                 style="@style/checkbox_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_normal"
                 android:layout_margin="5dp"
                 android:text="@string/enable_recording" />
 

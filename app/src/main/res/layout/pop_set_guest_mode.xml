@@ -15,7 +15,7 @@
             android:layout_centerInParent="true"
             android:text="@string/set_guest_mode"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"

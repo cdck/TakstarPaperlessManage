@@ -2,7 +2,7 @@
 <resources>
     <!-- 蓝底->绿底->绿底->灰底 radius=5  -->
     <style name="button_solid_style_rect_blue_white_radius5">
-        <item name="android:textSize">@dimen/text_size_smallest</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:background">@drawable/btn_status_bg</item>
@@ -11,7 +11,7 @@
 
     <!-- 蓝框白底->蓝底 radius=5  -->
     <style name="button_hollow_style_rect_white_blue_radius5">
-        <item name="android:textSize">@dimen/text_size_smallest</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:background">@drawable/shape_button_white_blue_pressed</item>

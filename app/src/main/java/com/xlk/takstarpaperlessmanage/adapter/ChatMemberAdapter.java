@@ -41,7 +41,7 @@ public class ChatMemberAdapter extends BaseQuickAdapter<ChatDeviceMember, BaseVi
 
     @Override
     protected void convert(@NotNull BaseViewHolder helper, ChatDeviceMember item) {
-        helper.setText(R.id.item_tv_name, item.getMemberDetailInfo().getName().toStringUtf8())
+        helper.setText(R.id.item_tv_name, getContext().getString(R.string.member_, item.getMemberDetailInfo().getName().toStringUtf8()))
                 .setText(R.id.item_tv_job, item.getMemberDetailInfo().getJob().toStringUtf8());
         int count = item.getCount();
         TextView item_tv_count = helper.getView(R.id.item_tv_count);

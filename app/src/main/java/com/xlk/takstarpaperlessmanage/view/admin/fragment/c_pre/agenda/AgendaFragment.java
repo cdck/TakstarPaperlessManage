@@ -368,6 +368,8 @@ public class AgendaFragment extends BaseFragment<AgendaPresenter> implements Age
             }
             int selectedItemPosition = sp_dir.getSelectedItemPosition();
             int dirId = presenter.dirInfos.get(selectedItemPosition).getId();
+            LogUtils.i("添加议程：dirId=" + dirId + ",currentStartTime=" + currentStartTime
+                    + ",currentEndTime=" + currentEndTime + ",description=" + description);
             InterfaceAgenda.pbui_ItemAgendaTimeInfo build = InterfaceAgenda.pbui_ItemAgendaTimeInfo.newBuilder()
                     .setDirid(dirId)
                     .setStatus(InterfaceMacro.Pb_AgendaStatus.Pb_MEETAGENDA_STATUS_IDLE_VALUE)

@@ -261,4 +261,28 @@ public class FileUtil {
             {".wmv", "audio/x-ms-wmv"}, {".wps", "application/vnd.ms-works"}, {".xml", "text/plain"},
             {".z", "application/x-compress"}, {".zip", "application/zip"}, {"", "*/*"}
     };
+
+    /**
+     * 找到该目录下第一个文件
+     * @param filePath
+     * @return
+     */
+    public static File findFirstFile(String filePath) {
+        File file = new File(filePath);
+        if (file.isDirectory()) {
+            //如果路径是错误的files则为null
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File f : files) {
+                    if (f.isFile()) {
+                        return f;
+                    }
+                }
+                for (File f : files) {
+                    return findFirstFile(f.getAbsolutePath());
+                }
+            }
+        }
+        return file;
+    }
 }

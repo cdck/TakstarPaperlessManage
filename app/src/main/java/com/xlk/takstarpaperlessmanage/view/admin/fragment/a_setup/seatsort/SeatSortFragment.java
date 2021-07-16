@@ -70,7 +70,7 @@ public class SeatSortFragment extends BaseFragment<SeatSortPresenter> implements
     private int currentMediaId;
     private int currentRoomId;
     private PopupWindow bgPicturePop;
-    private PictureFileAdapter fileAdapter;
+    private PreViewImageAdapter fileAdapter;
     private final int PICTURE_REQUEST_CODE = 1;
 
     @Override
@@ -185,7 +185,7 @@ public class SeatSortFragment extends BaseFragment<SeatSortPresenter> implements
         int width1 = rv_navigation.getWidth();
         bgPicturePop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 2 / 3, rvRoom, Gravity.CENTER, width1 / 2, 0);
         RecyclerView rv_file = inflate.findViewById(R.id.rv_file);
-        fileAdapter = new PictureFileAdapter(presenter.pictureData);
+        fileAdapter = new PreViewImageAdapter(presenter.pictureData);
         rv_file.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_file.addItemDecoration(new RvItemDecoration(getContext()));
         rv_file.setAdapter(fileAdapter);

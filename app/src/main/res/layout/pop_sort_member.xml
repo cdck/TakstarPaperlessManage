@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/sort"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -33,151 +33,164 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/bg_dialog_gray"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/item_view_height"
-            android:background="@color/rv_top_view_bg"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:text="@string/number"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/name"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/unit"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/job"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/phone"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:text="@string/email"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/sign_in_password"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/remarks"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_content"
-            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pop_bottom_view_height"
-        android:layout_margin="2dp"
-        android:background="@color/white"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_view_height"
+                android:background="@color/rv_top_view_bg"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_save"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_height"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/btn_cancel"
-            android:gravity="center"
-            android:text="@string/save" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="@string/number"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
 
-        <Button
-            android:id="@+id/btn_cancel"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_height"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:text="@string/cancel" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/name"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/unit"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/job"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/phone"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="@string/email"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/sign_in_password"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/remarks"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividing_line_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pop_bottom_view_height"
+            android:layout_margin="2dp"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_move_up"
-                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:id="@+id/btn_save"
+                style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:text="@string/move_up" />
+                android:layout_height="@dimen/button_height"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/btn_cancel"
+                android:gravity="center"
+                android:text="@string/save" />
 
             <Button
-                android:id="@+id/btn_move_down"
-                style="@style/button_hollow_style_rect_white_blue_radius5"
+                android:id="@+id/btn_cancel"
+                style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/move_down" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_height="@dimen/button_height"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:text="@string/cancel" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_move_up"
+                    style="@style/button_hollow_style_rect_white_blue_radius5"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/move_up" />
+
+                <Button
+                    android:id="@+id/btn_move_down"
+                    style="@style/button_hollow_style_rect_white_blue_radius5"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/move_down" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
 </LinearLayout>

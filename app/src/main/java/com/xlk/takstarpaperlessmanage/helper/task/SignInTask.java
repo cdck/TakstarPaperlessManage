@@ -2,6 +2,7 @@ package com.xlk.takstarpaperlessmanage.helper.task;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.xlk.takstarpaperlessmanage.helper.archive.ConsumptionTask;
+import com.xlk.takstarpaperlessmanage.helper.archive.LineUpTaskHelp;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.bean.SignInBean;
 import com.xlk.takstarpaperlessmanage.util.JxlUtil;
@@ -17,17 +18,23 @@ public class SignInTask extends ConsumptionTask implements Runnable {
 
     public SignInTask(Info info) {
         this.info = info;
+        thread = new Thread(this);
     }
 
     @Override
     public void run() {
-        LogUtils.i("归档会议签到信息");
-        long l = System.currentTimeMillis();
-        if (!info.data.isEmpty()) {
-            JxlUtil.exportArchiveSignIn(Constant.DIR_ARCHIVE_TEMP, info.data);
+        try {
+            LogUtils.i("归档会议签到信息 当前线程id=" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
+            long l = System.currentTimeMillis();
+            if (!info.data.isEmpty()) {
+                JxlUtil.exportArchiveSignIn(Constant.DIR_ARCHIVE_TEMP, info.data);
+            }
+            isResult = true;
+            LogUtils.i("归档会议签到信息，用时=" + (System.currentTimeMillis() - l));
+            LineUpTaskHelp.getInstance().exOk(this);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        isResult = true;
-        LogUtils.i("归档会议签到信息，用时=" + (System.currentTimeMillis() - l));
     }
 
     public static class Info {

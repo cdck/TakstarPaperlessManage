@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/modify_meeting"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -44,8 +44,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
+                android:layout_margin="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -61,7 +61,8 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="top|end"
-                        android:text="@string/vote_content_" />
+                        android:text="@string/vote_content_"
+                        android:textSize="@dimen/text_size_normal" />
 
                     <EditText
                         android:id="@+id/edt_content"
@@ -71,7 +72,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="4"
                         android:gravity="top"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 
@@ -87,18 +88,19 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="@string/notation_" />
+                        android:text="@string/notation_"
+                        android:textSize="@dimen/text_size_normal" />
 
                     <Spinner
                         android:id="@+id/sp_notation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:spinnerMode="dialog"
                         android:layout_weight="4"
                         android:entries="@array/yes_or_no"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
+                        android:spinnerMode="dialog"
+                        android:textSize="@dimen/text_size_normal"
                         tools:text="多少考虑就风口浪尖" />
                 </LinearLayout>
 

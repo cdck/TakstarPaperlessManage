@@ -49,7 +49,7 @@
             android:gravity="center"
             android:text="@string/number"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -59,7 +59,7 @@
             android:gravity="center"
             android:text="@string/rate_description"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -69,7 +69,7 @@
             android:gravity="center"
             android:text="@string/rate_file"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -79,7 +79,7 @@
             android:gravity="center"
             android:text="@string/score_a"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -88,7 +88,7 @@
             android:gravity="center"
             android:text="@string/score_b"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -97,7 +97,7 @@
             android:gravity="center"
             android:text="@string/score_c"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -106,7 +106,7 @@
             android:gravity="center"
             android:text="@string/score_d"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -116,7 +116,7 @@
             android:gravity="center"
             android:text="@string/is_notation"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -126,7 +126,7 @@
             android:gravity="center"
             android:text="@string/operation"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -136,7 +136,7 @@
             android:gravity="center"
             android:text="@string/rate_status"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_smallest" />
+            android:textSize="@dimen/text_size_normal" />
 
     </LinearLayout>
 

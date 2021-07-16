@@ -114,7 +114,7 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
                 break;
             }
             case R.id.btn_export: {
-                if(presenter.memberRoleBeans.isEmpty()){
+                if (presenter.memberRoleBeans.isEmpty()) {
                     ToastUtils.showShort(R.string.no_data_to_export);
                     return;
                 }
@@ -167,8 +167,9 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
                 ToastUtil.showShort(R.string.please_enter_file_name_and_addr);
                 return;
             }
-            App.threadPool.execute(()->{
-                JxlUtil.exportMemberInfo(fileName,addr,presenter.memberRoleBeans);
+            App.threadPool.execute(() -> {
+                String filePath = JxlUtil.exportMemberInfo(fileName, addr, presenter.memberRoleBeans);
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(filePath).build());
             });
             pop.dismiss();
         });
@@ -176,7 +177,7 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
 
     @Override
     public void updateExportDirPath(String dirPath) {
-        if(edt_save_address!=null){
+        if (edt_save_address != null) {
             edt_save_address.setText(dirPath);
         }
     }
@@ -386,10 +387,10 @@ public class MemberFragment extends BaseFragment<MemberPresenter> implements Mem
                 ToastUtil.showShort(R.string.please_enter_name_first);
                 return;
             }
-            String regex="^((13[0-9])|(14[579])|(15[0-35-9])|(16[2567])|(17[0-35-8])|(18[0-9])|(19[0-35-9]))\\d{8}$";
+            String regex = "^((13[0-9])|(14[579])|(15[0-35-9])|(16[2567])|(17[0-35-8])|(18[0-9])|(19[0-35-9]))\\d{8}$";
 //            String regex="/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$/";
 
-            if (!phone.isEmpty() && !Pattern.matches(regex,phone)) {
+            if (!phone.isEmpty() && !Pattern.matches(regex, phone)) {
                 ToastUtil.showShort(R.string.incorrect_phone_format);
                 return;
             }

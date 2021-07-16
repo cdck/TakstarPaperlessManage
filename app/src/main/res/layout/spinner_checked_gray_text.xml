@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:gravity="center"
+    android:singleLine="true"
+    android:textColor="@color/text_color_gray"
+    android:textAlignment="center"
+    android:textSize="@dimen/text_size_normal"
+    tools:text="是经典款">
+
+</CheckedTextView>

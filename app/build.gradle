@@ -11,7 +11,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0714"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
@@ -113,4 +113,5 @@ dependencies {
 
     //解压缩第三方库：https://github.com/srikanth-lingala/zip4j
     implementation 'net.lingala.zip4j:zip4j:2.9.0'
+//    implementation 'net.lingala.zip4j:zip4j:1.3.1'
 }

@@ -140,7 +140,7 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
         int width = ll_content.getWidth();
         int height = ll_content.getHeight();
         int width1 = rv_navigation.getWidth();
-        PopupWindow pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 2 / 3, root_view, Gravity.CENTER, width1 / 2, 0);
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 3 / 4, root_view, Gravity.CENTER, width1 / 2, 0);
 
         TextView tv_content = inflate.findViewById(R.id.tv_content);
         tv_content.setText(item.getContent().toStringUtf8());

@@ -13,6 +13,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
 
+    <color name="chat_member_list_name">#a6a6a6</color>
+    <color name="chat_member_text_color1">#4c4c4c</color>
+    <color name="chat_member_text_color">#1D1D1D</color>
+    <color name="chat_member_selected_color">#DFDBDB</color>
+    <color name="chat_member_default_color">#F3F3F3</color>
+
     <color name="table_color">#E7E8EA</color>
     <color name="gray_color">#E1E2E6</color>
     <color name="admin_top_view_bg">#1A1A26</color>

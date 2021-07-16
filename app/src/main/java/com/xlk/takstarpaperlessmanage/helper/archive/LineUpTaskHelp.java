@@ -60,7 +60,10 @@ public class LineUpTaskHelp<T extends ConsumptionTask> {
             Log.e("Post", "任务加入排队中：" + task.taskNo);
             if (!checkTask()) {
                 if (task.timeOut > 0) setTimeOut(task);
-                if (onTaskListener != null) onTaskListener.exNextTask(task);
+                if (onTaskListener != null) {
+                    LogUtils.e("执行任务：" + task.taskNo);
+                    onTaskListener.exNextTask(task);
+                }
             }
             lineUpBeans.addLast(task);
         }
@@ -79,7 +82,9 @@ public class LineUpTaskHelp<T extends ConsumptionTask> {
                 if (!checkTask()) {
                     // 当前没有任务执行, 立即执行
                     if (task.timeOut > 0) setTimeOut(task); // 开启超时
-                    if (onTaskListener != null) onTaskListener.exNextTask(task);
+                    if (onTaskListener != null) {
+                        onTaskListener.exNextTask(task);
+                    }
                 }
                 Log.e("Post", " 插入任务列队成功，插入的位置：" + index + " 插入的任务ID为：" + task.taskNo);
                 if (index == 0) {
@@ -196,20 +201,9 @@ public class LineUpTaskHelp<T extends ConsumptionTask> {
                 ConsumptionTask task = (ConsumptionTask) iterator.next();
                 if (task.taskNo.equals(taskNo)) {
                     iterator.remove();
-                    Log.e("Post", "移除" + taskNo + "成功");
+                    Log.e("Post", "移除-" + taskNo + "-成功");
                     break;
                 }
-            }
-        }
-    }
-
-    public void deleteAndCancelAllTask() {
-        if (lineUpBeans != null) {
-            Iterator iterator = lineUpBeans.iterator();
-            while (iterator.hasNext()) {
-                ConsumptionTask task = (ConsumptionTask) iterator.next();
-                iterator.remove();
-                Log.e("Post", "移除任务--" + task.taskNo + "--成功");
             }
         }
     }
@@ -218,6 +212,7 @@ public class LineUpTaskHelp<T extends ConsumptionTask> {
      * 外部调用， 当执行完成一个任务调用
      */
     public void exOk(T task) {
+        exComplete(task);
         deleteTask(task); // 删除已经执行完成的任务。
         if (lineUpBeans != null) {
             T consumptionTask = getFirst();
@@ -228,6 +223,7 @@ public class LineUpTaskHelp<T extends ConsumptionTask> {
                     if (consumptionTask.timeOut > 0) {
                         setTimeOut(consumptionTask); // 开启超时
                     }
+                    LogUtils.e("执行任务：" + consumptionTask.taskNo);
                     onTaskListener.exNextTask(consumptionTask);
                 }
             } else {
@@ -235,6 +231,16 @@ public class LineUpTaskHelp<T extends ConsumptionTask> {
                     onTaskListener.noTask();
                 }
             }
+        }
+    }
+
+    /**
+     * 执行完某个任务时进行通知
+     * @param task 执行结束的任务
+     */
+    public void exComplete(T task) {
+        if (onTaskListener != null) {
+            onTaskListener.exComplete(task);
         }
     }
 
@@ -248,6 +254,8 @@ public class LineUpTaskHelp<T extends ConsumptionTask> {
          * @param task
          */
         void exNextTask(T task);
+
+        void exComplete(T task);
 
         /**
          * 所有任务执行完成

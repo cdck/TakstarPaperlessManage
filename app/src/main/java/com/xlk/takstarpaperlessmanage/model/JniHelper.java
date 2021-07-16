@@ -2878,6 +2878,7 @@ public class JniHelper {
                 .build();
         jni.call_method(InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_MEETAGENDA_VALUE,
                 InterfaceMacro.Pb_Method.Pb_METHOD_MEET_INTERFACE_ADD_VALUE, build.toByteArray());
+        LogUtils.i("添加时间轴议程：" + item.getDesctext().toStringUtf8());
     }
 
     /**

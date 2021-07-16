@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/system_settings"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:text="@string/ip_address_"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
 
                     <EditText
                         android:id="@+id/edt_ip"
@@ -71,7 +71,7 @@
                         android:background="@drawable/editbox_background_normal"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:text="@string/port_"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
 
                     <EditText
                         android:id="@+id/edt_port"
@@ -98,7 +98,7 @@
                         android:inputType="number"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:text="@string/code_rate_"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
 
                     <EditText
                         android:id="@+id/edt_code_rate"
@@ -124,7 +124,7 @@
                         android:background="@drawable/editbox_background_normal"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -140,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:text="@string/cache_size_"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
 
                     <EditText
                         android:id="@+id/edt_cache_size"
@@ -151,7 +151,7 @@
                         android:inputType="number"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
                 </LinearLayout>
 
                 <LinearLayout

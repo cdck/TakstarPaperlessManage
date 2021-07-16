@@ -15,7 +15,7 @@
         android:clickable="false"
         style="@style/checkbox_style"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/number" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_name" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_status" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/meeting_room_name" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/confidentiality" />
 
     <TextView
@@ -75,7 +75,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/start_time" />
 
     <TextView
@@ -87,7 +87,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/end_time" />
 
 
@@ -100,7 +100,7 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/sign_in_type" />
 
     <TextView
@@ -112,6 +112,6 @@
         android:gravity="center"
         android:lines="2"
         android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         tools:text="@string/sign_in_type" />
 </LinearLayout>

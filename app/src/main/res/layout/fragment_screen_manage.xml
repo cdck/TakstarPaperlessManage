@@ -24,7 +24,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:background="@color/blue"
                 android:gravity="center"
@@ -71,7 +71,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/item_view_height"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
                         android:background="@color/white">
@@ -82,7 +82,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_centerInParent="true"
-                            android:text="@string/projection_device" />
+                            android:text="@string/projection_device"
+                            android:textSize="@dimen/text_size_normal"
+                            android:textStyle="bold" />
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -102,7 +104,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/item_view_height"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
                         android:background="@color/white">
@@ -113,7 +115,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_centerInParent="true"
-                            android:text="@string/projection_device" />
+                            android:text="@string/target_screen"
+                            android:textSize="@dimen/text_size_normal"
+                            android:textStyle="bold" />
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -180,7 +184,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="5dp"
-                    android:text="@string/mandatory_same_screen" />
+                    android:text="@string/mandatory_same_screen"
+                    android:textSize="@dimen/text_size_normal" />
             </RelativeLayout>
 
             <Button

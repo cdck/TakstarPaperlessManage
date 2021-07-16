@@ -89,7 +89,7 @@
                     android:gravity="center"
                     android:text="@string/number"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -99,7 +99,7 @@
                     android:gravity="center"
                     android:text="@string/name"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

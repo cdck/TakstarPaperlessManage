@@ -1,20 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:id="@+id/text1"-->
-<!--    style="?attr/spinnerDropDownItemStyle"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:background="@color/blue"-->
-<!--    android:textColor="@color/white"-->
-<!--    android:gravity="center"-->
-<!--    android:layout_height="30px"-->
-<!--    android:textSize="16px"-->
-<!--    tools:text="点击spinner后展示"-->
-<!--    android:ellipsize="marquee"-->
-<!--    android:singleLine="true" />-->
-<!--    android:id="@android:id/text1"-->
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

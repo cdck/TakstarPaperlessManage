@@ -189,7 +189,7 @@ public class ChatFragment extends BaseFragment<ChatPresenter> implements ChatCon
                     chatDeviceMember.setLastCheckTime(System.currentTimeMillis() / 1000);
                     int memberId = chatDeviceMember.getMemberDetailInfo().getPersonid();
                     chatMemberAdapter.setSelectedMember(memberId);
-                    tvMemberName.setText(chatDeviceMember.getMemberDetailInfo().getName().toStringUtf8());
+                    tvMemberName.setText(getString(R.string.member_, chatDeviceMember.getMemberDetailInfo().getName().toStringUtf8()));
                     presenter.setCurrentMemberId(memberId);
                     presenter.updateChatMessageData();
                 }

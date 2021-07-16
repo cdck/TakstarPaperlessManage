@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -58,7 +59,6 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
     List<ScoreFileBean> uploadFiles = new ArrayList<>();
     private UploadFileAdapter uploadFileAdapter;
     private EditText edt_save_address;
-
 
     @Override
     protected int getLayoutId() {
@@ -161,7 +161,7 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
         int width = ll_content.getWidth();
         int height = ll_content.getHeight();
         int width1 = rv_navigation.getWidth();
-        PopupWindow pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 2 / 3, rv_content, Gravity.CENTER, width1 / 2, 0);
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 3 / 4, rv_content, Gravity.CENTER, width1 / 2, 0);
         boolean isAdd = item == null;
         TextView tv_title = inflate.findViewById(R.id.tv_title);
         tv_title.setText(isAdd ? getString(R.string.create_score) : getString(R.string.modify_score));
@@ -169,6 +169,10 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
         CheckBox cb_use_file_name = inflate.findViewById(R.id.cb_use_file_name);
         TextView tv_add_score_hint = inflate.findViewById(R.id.tv_add_score_hint);
         Spinner sp_notation = inflate.findViewById(R.id.sp_notation);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.yes_or_no));
+        sp_notation.setAdapter(arrayAdapter);
+
         EditText edt_score_a = inflate.findViewById(R.id.edt_score_a);
         EditText edt_score_b = inflate.findViewById(R.id.edt_score_b);
         EditText edt_score_c = inflate.findViewById(R.id.edt_score_c);

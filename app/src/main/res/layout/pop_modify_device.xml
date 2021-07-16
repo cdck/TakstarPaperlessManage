@@ -15,7 +15,7 @@
             android:layout_centerInParent="true"
             android:text="@string/modify"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -60,7 +60,7 @@
                     android:layout_weight="2.5"
                     android:lines="1"
                     android:background="@drawable/editbox_background_normal"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:digits="0123456789."
                     android:lines="1"
                     android:background="@drawable/editbox_background_normal"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,7 +109,7 @@
                     android:inputType="number"
                     android:layout_weight="2.5"
                     android:background="@drawable/editbox_background_normal"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -133,7 +133,7 @@
                     android:inputType="number"
                     android:lines="1"
                     android:background="@drawable/editbox_background_normal"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
         </LinearLayout>
 

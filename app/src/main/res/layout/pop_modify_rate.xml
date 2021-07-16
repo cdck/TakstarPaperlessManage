@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/modify_meeting"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -33,318 +33,336 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/bg_dialog_gray"
+        android:background="@drawable/dialog_content_bg"
         android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end|top"
-                        android:text="@string/rate_description_" />
-
-                    <EditText
-                        android:id="@+id/edt_rate_description"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="2"
-                        android:background="@drawable/editbox_background_normal"
-                        android:gravity="top"
-                        android:padding="5dp"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-
-                    <CheckBox
-                        android:id="@+id/cb_use_file_name"
-                        style="@style/checkbox_style"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:layout_weight="1"
-                        android:gravity="top"
-                        android:text="@string/use_file_name"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/notation_" />
-
-                    <Spinner
-                        android:id="@+id/sp_notation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="2"
-                        android:entries="@array/yes_or_no"
-                        android:gravity="center_vertical"
-                        android:spinnerMode="dialog"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_score_a"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/score_a_" />
-
-                    <EditText
-                        android:id="@+id/edt_score_a"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_score_b"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/score_b_" />
-
-                    <EditText
-                        android:id="@+id/edt_score_b"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/ll_score_c"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/score_c_" />
-
-                    <EditText
-                        android:id="@+id/edt_score_c"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/ll_score_d"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/score_d_" />
-
-                    <EditText
-                        android:id="@+id/edt_score_d"
-                        style="@style/EditText_style"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="多少考虑就风口浪尖" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_add_score_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:text="@string/add_score_hint"
-                    android:textColor="@color/red" />
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end|top"
+                    android:text="@string/rate_description_"
+                    android:textSize="@dimen/text_size_normal" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edt_rate_description"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/shape_hollow_gray"
+                    android:gravity="top"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="end|top"
-                        android:text="@string/score_file_" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:background="@drawable/shape_hollow_gray"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:background="@color/rv_top_view_bg"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/item_view_1"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:layout_weight="0.5"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:textColor="@color/text_color_black"
-                                android:textSize="@dimen/text_size_small"
-                                android:text="@string/number" />
-
-                            <TextView
-                                android:id="@+id/item_view_2"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:layout_weight="3"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:textColor="@color/text_color_black"
-                                android:textSize="@dimen/text_size_small"
-                                android:text="@string/file_name" />
-                        </LinearLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_file"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_upload"
-                            style="@style/button_hollow_style_rect_white_blue_radius5"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="5dp"
-                            android:text="@string/upload" />
-
-                        <Button
-                            android:id="@+id/btn_delete"
-                            style="@style/button_hollow_style_rect_white_blue_radius5"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="2dp"
-                            android:text="@string/delete" />
-                    </LinearLayout>
-                </LinearLayout>
-
+                <CheckBox
+                    android:id="@+id/cb_use_file_name"
+                    style="@style/checkbox_style"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:text="@string/use_file_name"
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
-        </ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/notation_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <Spinner
+                    android:id="@+id/sp_notation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:entries="@array/yes_or_no"
+                    android:gravity="center_vertical"
+                    android:spinnerMode="dialog"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_score_a"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/score_a_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_score_a"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/edt_ic_bg"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_score_b"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/score_b_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_score_b"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/edt_ic_bg"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_score_c"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/score_c_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_score_c"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/edt_ic_bg"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_score_d"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/score_d_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <EditText
+                    android:id="@+id/edt_score_d"
+                    style="@style/EditText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/edt_ic_bg"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="多少考虑就风口浪尖" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_add_score_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="@string/add_score_hint"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_size_normal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end|top"
+                    android:text="@string/score_file_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/shape_hollow_gray"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:background="@color/rv_top_view_bg"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_view_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.5"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:text="@string/number"
+                            android:textColor="@color/text_color_black"
+                            android:textSize="@dimen/text_size_normal" />
+
+                        <TextView
+                            android:id="@+id/item_view_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="3"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:text="@string/file_name"
+                            android:textColor="@color/text_color_black"
+                            android:textSize="@dimen/text_size_normal" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_file"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_upload"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/upload" />
+
+                    <Button
+                        android:id="@+id/btn_delete"
+                        style="@style/button_hollow_style_rect_white_blue_radius5"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_weight="1"
+                        android:text="@string/delete" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividing_line_color" />
 
         <LinearLayout
             android:layout_width="match_parent"

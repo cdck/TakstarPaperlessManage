@@ -16,7 +16,7 @@
             android:layout_centerInParent="true"
             android:text="@string/modify"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -62,7 +62,7 @@
                     android:background="@drawable/editbox_background_normal"
                     android:lines="1"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -86,7 +86,7 @@
                     android:background="@drawable/editbox_background_normal"
                     android:singleLine="true"
                     android:lines="1"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -110,7 +110,7 @@
                     android:background="@drawable/editbox_background_normal"
                     android:lines="1"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
         </LinearLayout>

@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="@string/rate_detail"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -36,462 +36,462 @@
         android:background="@drawable/dialog_content_bg"
         android:orientation="vertical">
 
-        <ScrollView
+        <!--        <ScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_weight="1">-->
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:gravity="end"
+                    android:text="@string/rate_description_"
+                    android:textSize="@dimen/text_size_normal" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/rate_description_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_content"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="临时库雕刻机费了快捷水电费金石可镂" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|end"
-                        android:gravity="end"
-                        android:text="@string/rate_file_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3">
-
-                        <TextView
-                            android:id="@+id/tv_file_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center_vertical"
-                            android:lines="1"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_size_small"
-                            tools:text="圣诞节弗兰克.jpg" />
-
-                        <TextView
-                            android:id="@+id/tv_view_file"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:gravity="center_vertical"
-                            android:lines="1"
-                            android:singleLine="true"
-                            android:text="@string/view"
-                            android:textColor="@color/blue"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_rate_file"
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_weight="3"
-                            android:visibility="gone" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/notation_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_notation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="是" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/yprs_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_yprs"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="20dp"
-                            android:gravity="center_vertical"
-                            android:lines="1"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_size_small"
-                            tools:text="12" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/yiprs_"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <TextView
-                            android:id="@+id/tv_yiprs"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="3"
-                            android:gravity="center_vertical"
-                            android:lines="1"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_size_small"
-                            tools:text="12" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/score_a_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_a_score"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="是" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/score_b_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_b_score"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="是" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/score_c_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_c_score"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="是" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/score_d_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_d_score"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="是" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/total_score_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_total_score"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="是" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="@string/average_score_"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tv_average_score"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size_small"
-                        tools:text="是" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/item_view_height"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/rv_top_view_bg"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:text="@string/member"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:text="@string/score_a"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:text="@string/score_b"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_small" />
-
-
-                    <TextView
-                        android:id="@+id/item_view_4"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:text="@string/score_c"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/item_view_5"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:text="@string/score_d"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/item_view_6"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:text="@string/total_score"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/item_view_7"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:singleLine="true"
-                        android:text="@string/average_score"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_member"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp" />
+                    android:layout_weight="3"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="临时库雕刻机费了快捷水电费金石可镂" />
             </LinearLayout>
 
-        </ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:gravity="end"
+                    android:text="@string/rate_file_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3">
+
+                    <TextView
+                        android:id="@+id/tv_file_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_normal"
+                        tools:text="圣诞节弗兰克.jpg" />
+
+                    <TextView
+                        android:id="@+id/tv_view_file"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:text="@string/view"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_rate_file"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="3"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/notation_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_notation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="是" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/yprs_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_yprs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_normal"
+                        tools:text="12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yiprs_"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <TextView
+                        android:id="@+id/tv_yiprs"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_normal"
+                        tools:text="12" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/score_a_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_a_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="是" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/score_b_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_b_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="是" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/score_c_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_c_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="是" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/score_d_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_d_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="是" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/total_score_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_total_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="是" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/average_score_"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_average_score"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_normal"
+                    tools:text="是" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_view_height"
+                android:layout_marginTop="5dp"
+                android:background="@color/rv_top_view_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@string/member"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@string/score_a"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@string/score_b"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+
+                <TextView
+                    android:id="@+id/item_view_4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@string/score_c"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/item_view_5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@string/score_d"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/item_view_6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@string/total_score"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/item_view_7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="@string/average_score"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_member"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <!--        </ScrollView>-->
 
         <ImageView
             android:layout_width="match_parent"

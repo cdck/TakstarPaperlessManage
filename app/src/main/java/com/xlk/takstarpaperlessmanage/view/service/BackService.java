@@ -72,12 +72,7 @@ public class BackService extends Service {
         switch (msg.getType()) {
             case EventType.BUS_EXPORT_SUCCESSFUL: {
                 String filePath = (String) msg.getObjects()[0];
-                File file = new File(filePath);
-                if ("归档参会人信息.xls".equals(file.getName())) {
-                    EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEMBER).build());
-                } else {
-                    ToastUtil.showLong(getString(R.string.export_successful_, filePath));
-                }
+                ToastUtil.showLong(getString(R.string.export_successful_, filePath));
                 break;
             }
             //数据后台回复的错误信息
@@ -273,7 +268,7 @@ public class BackService extends Service {
         byte[] bytes = jni.queryFileProperty(InterfaceMacro.Pb_MeetFilePropertyID.Pb_MEETFILE_PROPERTY_NAME.getNumber(), mediaId);
         InterfaceBase.pbui_CommonTextProperty pbui_commonTextProperty = InterfaceBase.pbui_CommonTextProperty.parseFrom(bytes);
         String fileName = pbui_commonTextProperty.getPropertyval().toStringUtf8();
-        LogUtils.i("uploadInform -->" + "上传进度：" + per + "\nfilePath= " + filePath);
+        LogUtils.i("uploadInform -->" + "上传进度：" + per + "\nfilePath= " + filePath + ",status=" + status);
         if (status == InterfaceMacro.Pb_Upload_State.Pb_UPLOADMEDIA_FLAG_UPLOADING_VALUE) {
             ToastUtils.showShort(getString(R.string.upload_progress, fileName, per));
         } else if (status == InterfaceMacro.Pb_Upload_State.Pb_UPLOADMEDIA_FLAG_HADEND_VALUE) {
@@ -327,33 +322,23 @@ public class BackService extends Service {
                             && !userStr.equals(Constant.PROJECTIVE_BG_PNG_TAG)
                             //投影logo
                             && !userStr.equals(Constant.PROJECTIVE_LOGO_PNG_TAG)
-//                            //下载议程文件
-//                            && !userStr.equals(Constant.DOWNLOAD_AGENDA_FILE)
 //                            //归档文件
                             && !userStr.equals(Constant.ARCHIVE_SHARE_FILE)
                             && !userStr.equals(Constant.ARCHIVE_ANNOTATION_FILE)
                             && !userStr.equals(Constant.ARCHIVE_MEET_DATA_FILE)
                             //归档议程文件
                             && !userStr.equals(Constant.ARCHIVE_AGENDA_FILE)
-//                            && !userStr.equals(Constant.ARCHIVE_DOWNLOAD_FILE)
             ) {
                 ToastUtils.showShort(getString(R.string.file_downloaded_percent, fileName, progress + "%"));
             }
-//            if (userStr.equals(Constant.ARCHIVE_SHARE_FILE)
-//                    || userStr.equals(Constant.ARCHIVE_ANNOTATION_FILE)
-//                    || userStr.equals(Constant.ARCHIVE_MEET_DATA_FILE)
-//                    || userStr.equals(Constant.ARCHIVE_AGENDA_FILE)
-//            ) {
-//                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.ARCHIVE_BUS_DOWNLOAD_FILE).objects(mediaid, fileName, progress).build());
-//            }
             if (userStr.equals(Constant.ARCHIVE_SHARE_FILE)) {
-                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_SHARE_FILE).objects(mediaid, fileName, progress).build());
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_SHARE_FILE).objects(mediaid, filepath, progress, false).build());
             } else if (userStr.equals(Constant.ARCHIVE_ANNOTATION_FILE)) {
-                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_ANNOTATION_FILE).objects(mediaid, fileName, progress).build());
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_ANNOTATION_FILE).objects(mediaid, filepath, progress, false).build());
             } else if (userStr.equals(Constant.ARCHIVE_MEET_DATA_FILE)) {
-                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEET_DATA_FILE).objects(mediaid, fileName, progress).build());
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEET_DATA_FILE).objects(mediaid, filepath, progress, false).build());
             } else if (userStr.equals(Constant.ARCHIVE_AGENDA_FILE)) {
-                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_AGENDA_FILE).objects(mediaid, fileName, progress).build());
+                EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_AGENDA_FILE).objects(mediaid, filepath, progress, false).build());
             }
         } else if (nstate == InterfaceMacro.Pb_Download_State.Pb_STATE_MEDIA_DOWNLOAD_EXIT_VALUE) {
             //下载退出---不管成功与否,下载结束最后一次的状态都是这个
@@ -385,45 +370,39 @@ public class BackService extends Service {
                     case Constant.ROOM_BG_PNG_TAG:
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ROOM_BG).objects(filepath, mediaid).build());
                         break;
-//                    //下载的议程文件
-//                    case Constant.DOWNLOAD_AGENDA_FILE:
-//                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_AGENDA_FILE).objects(filepath, mediaid).build());
-//                        break;
                     //下载完成后需要打开的文件
                     case Constant.DOWNLOAD_OPEN_FILE:
-//                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_OPEN_FILE).objects(filepath, mediaid).build());
                         FileUtil.openFile(this, filepath);
                         break;
-//                    //会议资料文件下载完成
-//                    case Constant.DOWNLOAD_MATERIAL_FILE:
-//                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_MATERIAL_FILE).objects(filepath, mediaid).build());
-//                        break;
-                    /*
-                    //归档共享文件下载完成
-                    case Constant.ARCHIVE_SHARE_FILE: {
-                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_SHARE_FILE).objects(filepath, mediaid).build());
-                        break;
-                    }
-                    //归档批注文件下载完成
-                    case Constant.ARCHIVE_ANNOTATION_FILE: {
-                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_ANNOTATION_FILE).objects(filepath, mediaid).build());
-                        break;
-                    }
-                    //归档会议资料文件下载完成
-                    case Constant.ARCHIVE_MEET_DATA_FILE: {
-                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEET_DATA_FILE).objects(filepath, mediaid).build());
-                        break;
-                    }
-//                    //归档议程文件，下载成功
-                    case Constant.ARCHIVE_AGENDA_FILE: {
-                        EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_AGENDA_FILE).objects(filepath, mediaid).build());
-                        break;
-                    }
-                    */
                     //桌牌背景图片，下载完成
                     case Constant.DOWNLOAD_TABLE_CARD_BG:
                         EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_TABLE_CARD_BG).objects(filepath, mediaid).build());
                         break;
+                    /* **** **  归档文件：未下载完成  ** **** */
+                    case Constant.ARCHIVE_SHARE_FILE: {
+                        if (progress != 100) {
+                            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_SHARE_FILE).objects(mediaid, filepath, progress, true).build());
+                        }
+                        break;
+                    }
+                    case Constant.ARCHIVE_ANNOTATION_FILE: {
+                        if (progress != 100) {
+                            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_ANNOTATION_FILE).objects(mediaid, filepath, progress, true).build());
+                        }
+                        break;
+                    }
+                    case Constant.ARCHIVE_MEET_DATA_FILE: {
+                        if (progress != 100) {
+                            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_MEET_DATA_FILE).objects(mediaid, filepath, progress, true).build());
+                        }
+                        break;
+                    }
+                    case Constant.ARCHIVE_AGENDA_FILE: {
+                        if (progress != 100) {
+                            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_ARCHIVE_AGENDA_FILE).objects(mediaid, filepath, progress, true).build());
+                        }
+                        break;
+                    }
                     default:
                         break;
                 }

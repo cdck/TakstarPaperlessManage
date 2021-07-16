@@ -21,7 +21,7 @@
             android:gravity="center"
             android:text="@string/number"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/tv_vote_or_election"
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:text="@string/vote_content"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
             android:gravity="center"
             android:text="@string/vote_time"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:text="@string/is_notation"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="0dp"
@@ -62,7 +62,7 @@
             android:gravity="center"
             android:text="@string/operation"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/tv_vote_type"
@@ -73,7 +73,7 @@
             android:gravity="center"
             android:text="@string/vote_count"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -82,7 +82,7 @@
             android:gravity="center"
             android:text="@string/vote_status"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
     </LinearLayout>
 

@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fragment_root_padding"
     android:background="@color/content_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="@dimen/fragment_root_padding"
+    android:paddingEnd="@dimen/fragment_root_padding"
+    android:paddingBottom="@dimen/fragment_root_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +21,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_dir"
             android:layout_width="0dp"
-            android:layout_height="@dimen/item_view_height"
+            android:layout_height="25dp"
             android:layout_weight="1" />
 
         <LinearLayout
@@ -78,16 +80,16 @@
                 style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
                 android:layout_marginEnd="@dimen/top_view_button_marginEnd"
-                android:visibility="gone"
-                android:text="@string/modify" />
+                android:text="@string/modify"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_delete_file"
                 style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
                 android:layout_marginEnd="@dimen/top_view_button_marginEnd"
-                android:visibility="gone"
-                android:text="@string/delete" />
+                android:text="@string/delete"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_sort_material"
@@ -107,7 +109,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/item_view_height"
             android:background="@color/rv_top_view_bg"
             android:orientation="horizontal">
 
@@ -119,7 +121,7 @@
                 android:gravity="center"
                 android:text="@string/number"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -129,7 +131,7 @@
                 android:gravity="center"
                 android:text="ID"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -139,7 +141,7 @@
                 android:gravity="center"
                 android:text="@string/file_name"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -149,7 +151,7 @@
                 android:gravity="center"
                 android:text="@string/file_size"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -159,7 +161,7 @@
                 android:gravity="center"
                 android:text="@string/file_type"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -169,7 +171,7 @@
                 android:gravity="center"
                 android:text="@string/uploader"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -179,7 +181,7 @@
                 android:gravity="center"
                 android:text="@string/operation"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
         </LinearLayout>
 

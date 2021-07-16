@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -197,6 +198,9 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
         tv_title.setText(isAdd ? getString(R.string.create_vote) : getString(R.string.modify_vote));
         EditText edt_content = inflate.findViewById(R.id.edt_content);
         Spinner sp_notation = inflate.findViewById(R.id.sp_notation);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.yes_or_no));
+        sp_notation.setAdapter(arrayAdapter);
         if (!isAdd) {
             int mode = item.getMode();
             edt_content.setText(item.getContent().toStringUtf8());
@@ -247,7 +251,13 @@ public class VoteFragment extends BaseFragment<VotePresenter> implements VoteCon
         tv_title.setText(isAdd ? getString(R.string.create_election) : getString(R.string.modify_election));
         EditText edt_content = inflate.findViewById(R.id.edt_content);
         Spinner sp_type = inflate.findViewById(R.id.sp_type);
+        ArrayAdapter<String> typeArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.vote_type_spinner));
+        sp_type.setAdapter(typeArrayAdapter);
         Spinner sp_notation = inflate.findViewById(R.id.sp_notation);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_checked_gray_text,
+                getResources().getStringArray(R.array.yes_or_no));
+        sp_notation.setAdapter(arrayAdapter);
         LinearLayout ll_option_a = inflate.findViewById(R.id.ll_option_a);
         LinearLayout ll_option_b = inflate.findViewById(R.id.ll_option_b);
         LinearLayout ll_option_c = inflate.findViewById(R.id.ll_option_c);

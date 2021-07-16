@@ -1,10 +1,8 @@
 package com.xlk.takstarpaperlessmanage.view.admin.fragment.d_in.device;
 
-import android.text.PrecomputedText;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -21,7 +19,6 @@ import com.xlk.takstarpaperlessmanage.adapter.DeviceControlAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.bean.DevControlBean;
-import com.xlk.takstarpaperlessmanage.model.bean.MemberRoleBean;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 
 import java.util.ArrayList;

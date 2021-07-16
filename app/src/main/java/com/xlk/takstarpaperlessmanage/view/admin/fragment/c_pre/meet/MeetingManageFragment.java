@@ -102,7 +102,7 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
                 ToastUtil.showShort(R.string.please_select_meeting_first);
                 return;
             }
-            jni.delMeeting(info);
+            showDeletePop(info);
         });
         //切换到该会议编辑
         inflate.findViewById(R.id.btn_switch_meeting).setOnClickListener(v -> {
@@ -376,7 +376,7 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
                                 break;
                             }
                             case InterfaceMacro.Pb_MeetStatus.Pb_MEETING_STATUS_End_VALUE: {
-                                jni.delMeeting(info);
+                                showDeletePop(info);
                                 break;
                             }
                         }
@@ -388,5 +388,23 @@ public class MeetingManageFragment extends BaseFragment<MeetingManagePresenter> 
         } else {
             meetingManageAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void showDeletePop(InterfaceMeet.pbui_Item_MeetMeetInfo info) {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_delete, null, false);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, rv_meeting, Gravity.CENTER, width1 / 2, 0);
+        TextView tv_hint = inflate.findViewById(R.id.tv_hint);
+        tv_hint.setText(getString(R.string.delete_meetiing_hint));
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            jni.delMeeting(info);
+            pop.dismiss();
+        });
     }
 }

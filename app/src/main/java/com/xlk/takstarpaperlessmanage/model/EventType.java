@@ -59,10 +59,6 @@ public class EventType {
     public static final int BUS_ARCHIVE_ANNOTATION_FILE = BUS_BASE + 22;
     public static final int BUS_ARCHIVE_MEET_DATA_FILE = BUS_BASE + 23;
     public static final int BUS_ARCHIVE_AGENDA_FILE = BUS_BASE + 24;
-    /**
-     * 归档参会人信息成功通知
-     */
-    public static final int BUS_ARCHIVE_MEMBER = BUS_BASE + 25;
 
     /**
      * 通知打开选择目录PopupWindow

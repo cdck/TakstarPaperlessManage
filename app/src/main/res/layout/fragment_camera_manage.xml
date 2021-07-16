@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_bg"
-    android:padding="@dimen/fragment_root_padding"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_root_padding">
 
 
     <LinearLayout
@@ -50,7 +50,8 @@
                     android:gravity="center"
                     android:text="@string/meeting_available_camera"
                     android:textColor="@color/blue"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_normal"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -65,17 +66,15 @@
                     android:gravity="center"
                     android:text="@string/optional_equipment"
                     android:textColor="@color/blue"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_normal"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
+                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 

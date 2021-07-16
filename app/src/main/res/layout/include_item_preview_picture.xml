@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_view_height"
+    android:layout_gravity="center"
+    android:background="@color/rv_top_view_bg"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/cb_all"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/number"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="4"
+        android:gravity="center_vertical"
+        android:text="@string/name"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:gravity="center_vertical"
+        android:text="ID"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:gravity="center_vertical"
+        android:text="@string/operation"
+        android:textColor="@color/black" />
+</LinearLayout>

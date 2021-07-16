@@ -16,7 +16,7 @@
             android:layout_centerInParent="true"
             android:text="@string/preview_base_image"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_big" />
+            android:textSize="@dimen/text_size_pop_title" />
 
         <ImageView
             android:id="@+id/iv_close"
@@ -64,7 +64,7 @@
                     android:text="@string/delete" />
             </LinearLayout>
 
-            <include layout="@layout/include_item_picture" />
+            <include layout="@layout/include_item_preview_picture" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_file"

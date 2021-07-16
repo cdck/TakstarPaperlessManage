@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/archive_choose"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_normal" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/meeting_basic_information"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/text_size_smallest" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <CheckBox
                     android:id="@+id/cb_member_information"
@@ -52,7 +52,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/member_information"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/text_size_smallest" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <CheckBox
                     android:id="@+id/cb_sign_information"
@@ -63,7 +63,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/sign_information"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/text_size_smallest" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <CheckBox
                     android:id="@+id/cb_vote_result"
@@ -74,7 +74,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/meeting_vote_result"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/text_size_smallest" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <CheckBox
                     android:id="@+id/cb_shared_file"
@@ -85,7 +85,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/meeting_shared_file"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/text_size_smallest" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <CheckBox
                     android:id="@+id/cb_annotate_file"
@@ -96,7 +96,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/meeting_annotate_file"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/text_size_smallest" />
+                    android:textSize="@dimen/text_size_normal" />
 
                 <CheckBox
                     android:id="@+id/cb_meeting_material"
@@ -107,7 +107,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/meeting_material"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/text_size_smallest" />
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
         </ScrollView>
 
@@ -124,14 +124,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/output_location_"
                 android:textColor="@color/text_color_gray"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <EditText
                 android:id="@+id/edt_output"
                 style="@style/EditText_style"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <Button
                 android:id="@+id/btn_modify"
@@ -153,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/export_status_"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_normal" />
 
             <LinearLayout
                 android:layout_width="500dp"
@@ -176,7 +176,7 @@
                         android:padding="1dp"
                         android:text="@string/operation_informationn"
                         android:textColor="@color/text_color_light_black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -187,7 +187,7 @@
                         android:padding="1dp"
                         android:text="@string/operation_status"
                         android:textColor="@color/text_color_light_black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_normal" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -225,7 +225,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_informationn"-->
             <!--                            android:textColor="@color/text_color_light_black"-->
-            <!--                            android:textSize="@dimen/text_size_small" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:layout_width="0dp"-->
@@ -236,7 +236,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_light_black"-->
-            <!--                            android:textSize="@dimen/text_size_small" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
 
             <!--                    <LinearLayout-->
@@ -257,7 +257,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/meeting_basic_information"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/tv_status_0"-->
@@ -271,7 +271,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
 
             <!--                    <LinearLayout-->
@@ -292,7 +292,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/member_information"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/tv_status_1"-->
@@ -306,7 +306,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
 
             <!--                    <LinearLayout-->
@@ -327,7 +327,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/sign_information"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/tv_status_2"-->
@@ -341,7 +341,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
 
             <!--                    <LinearLayout-->
@@ -362,7 +362,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/meeting_vote_result"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/tv_status_3"-->
@@ -376,7 +376,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
 
             <!--                    <LinearLayout-->
@@ -397,7 +397,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/meeting_shared_file"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/tv_status_4"-->
@@ -411,7 +411,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
 
             <!--                    <LinearLayout-->
@@ -432,7 +432,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/meeting_annotate_file"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/tv_status_5"-->
@@ -446,7 +446,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
 
             <!--                    <LinearLayout-->
@@ -467,7 +467,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/meeting_material"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/tv_status_6"-->
@@ -481,7 +481,7 @@
             <!--                            android:padding="1dp"-->
             <!--                            android:text="@string/operation_status"-->
             <!--                            android:textColor="@color/text_color_gray"-->
-            <!--                            android:textSize="@dimen/text_size_smallest" />-->
+            <!--                            android:textSize="@dimen/text_size_normal" />-->
             <!--                    </LinearLayout>-->
             <!--                </LinearLayout>-->
             <!--            </ScrollView>-->
@@ -503,6 +503,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
+            android:textSize="@dimen/text_size_normal"
             android:gravity="center"
             android:text="@string/encryption" />
 
