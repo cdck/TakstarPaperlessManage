@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_bg"
+    android:background="@drawable/bg_ic_fragment_root"
     android:orientation="vertical"
     android:padding="@dimen/fragment_root_padding">
 
@@ -33,13 +33,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_dialog_gray"
+            android:background="@drawable/bg_ic_f2f2f2"
             android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/pop_top_view_height"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -74,17 +75,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_weight="1.5"
                     android:background="@color/white"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
 
                     <include layout="@layout/include_item_camera" />
 
@@ -99,8 +101,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_weight="0.5"
                     android:background="@color/white"
                     android:gravity="center"
@@ -124,10 +127,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_weight="1.5"
                     android:background="@color/white"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
 
                     <include layout="@layout/include_item_camera" />
 

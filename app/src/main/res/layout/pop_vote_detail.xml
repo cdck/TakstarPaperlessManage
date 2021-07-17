@@ -49,7 +49,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_view_height"
-            android:background="@color/rv_top_view_bg"
+            android:background="@color/bg_color_content"
             android:orientation="horizontal">
 
             <TextView
@@ -102,10 +102,10 @@
 
             <Button
                 android:id="@+id/btn_cancel"
-                style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/transparent"
                 android:text="@string/cancel" />
 
             <Button
@@ -113,7 +113,7 @@
                 style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:gravity="center"
                 android:text="@string/export_result" />
 

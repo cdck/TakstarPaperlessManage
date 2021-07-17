@@ -56,7 +56,7 @@
                     android:gravity="center"
                     android:text="@string/member"
                     android:textColor="@color/blue"
-                    android:textSize="@dimen/text_size_big" />
+                    android:textSize="@dimen/text_size_medium" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -66,7 +66,7 @@
                     android:gravity="center"
                     android:text="@string/projection"
                     android:textColor="@color/blue"
-                    android:textSize="@dimen/text_size_big" />
+                    android:textSize="@dimen/text_size_medium" />
 
             </LinearLayout>
 

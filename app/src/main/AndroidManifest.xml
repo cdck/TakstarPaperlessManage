@@ -17,7 +17,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TakstarPaperlessManage">
+        android:theme="@style/AppTheme">
         <activity android:name=".view.LocalPlayActivity" />
         <activity
             android:name=".view.main.MainActivity"

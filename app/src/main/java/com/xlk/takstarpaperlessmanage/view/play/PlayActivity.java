@@ -103,7 +103,7 @@ public class PlayActivity extends BaseActivity<PlayPresenter> implements PlayCon
         // true:设置触摸外面时消失
         popView.setOutsideTouchable(true);
         popView.setFocusable(true);
-//        popView.setAnimationStyle(R.style.pop_Animation);
+//        popView.setAnimationStyle(R.style.pop_animation_style);
         popView.showAtLocation(video_root_layout, Gravity.BOTTOM, 0, 0);
         pop_video_current_time = inflate.findViewById(R.id.pop_video_current_time);
         pop_video_time = inflate.findViewById(R.id.pop_video_time);

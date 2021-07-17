@@ -3,7 +3,7 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_bg"
+    android:background="@drawable/bg_ic_fragment_root"
     android:orientation="vertical"
     android:padding="@dimen/fragment_root_padding">
 
@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/bg_color_content"
+        android:background="@drawable/bg_ic_f2f2f2"
         android:orientation="horizontal"
-        android:padding="2dp">
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="0dp"

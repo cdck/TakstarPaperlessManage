@@ -63,6 +63,9 @@
     <drawable name="btn_white_text_color">#FFFFFF</drawable>
     <drawable name="blue">#3475D3</drawable>
 
+    <drawable name="play_text_color_pressed">#24BF2B</drawable>
+    <drawable name="play_text_color_default">#FFFFFF</drawable>
+
     <color name="option_a">#3475D3</color>
     <color name="option_b">#FF0000</color>
     <color name="option_c">#333333</color>

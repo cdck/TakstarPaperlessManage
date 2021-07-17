@@ -55,7 +55,7 @@ public class ZipFileTask extends ConsumptionTask implements Runnable {
             }
             LogUtils.i("zipThread 开始压缩 当前线程id=" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
             FileUtils.createOrExistsDir(info.dirPath);
-            zipFilePath = getFilePath(info.dirPath + "/会议归档.zip");
+            zipFilePath = getFilePath(info.dirPath + "会议归档");
             Properties properties = new Properties(System.getProperties());
             Charset charset = Charset.defaultCharset();
             LogUtils.d("charset.name=" + charset.name()
@@ -95,16 +95,15 @@ public class ZipFileTask extends ConsumptionTask implements Runnable {
     }
 
 
-    private String getFilePath(String filePath) {
-        boolean fileExists = FileUtils.isFileExists(filePath);
+    /**
+     * @param filePathNoExtension 没有后缀的文件路径 eg: 内部存储/文件/文本文件
+     */
+    private String getFilePath(String filePathNoExtension) {
+        boolean fileExists = FileUtils.isFileExists(filePathNoExtension + ".zip");
         if (fileExists) {
-            File file = new File(filePath);
-            String parent = file.getParent();
-            String fileNameNoExtension = FileUtils.getFileNameNoExtension(filePath);
-            String fileExtension = FileUtils.getFileExtension(filePath);
-            return getFilePath(parent + "/" + fileNameNoExtension + "（" + (++count) + "）." + fileExtension);
+            return getFilePath(info.dirPath + "会议归档(" + (++count) + ")");
         }
-        return filePath;
+        return filePathNoExtension + ".zip";
     }
 
     public static class Info {

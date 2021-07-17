@@ -22,13 +22,5 @@ public class ArchiveInformAdapter extends BaseQuickAdapter<ArchiveInform, BaseVi
     protected void convert(BaseViewHolder helper, ArchiveInform item) {
         helper.setText(R.id.item_view_1, item.getContent())
                 .setText(R.id.item_view_2, item.getResult());
-
-        int textColor = getContext().getColor(R.color.text_color_black);
-        helper.setTextColor(R.id.item_view_1, textColor)
-                .setTextColor(R.id.item_view_2, textColor);
-
-        int backgroundColor = getContext().getColor(R.color.white);
-        helper.setBackgroundColor(R.id.item_view_1, backgroundColor)
-                .setBackgroundColor(R.id.item_view_2, backgroundColor);
     }
 }

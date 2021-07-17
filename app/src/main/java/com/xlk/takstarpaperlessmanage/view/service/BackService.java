@@ -54,10 +54,12 @@ public class BackService extends Service {
     public void onCreate() {
         super.onCreate();
         EventBus.getDefault().register(this);
+        LogUtils.e("onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtils.e("onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -65,6 +67,7 @@ public class BackService extends Service {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        LogUtils.e("onDestroy");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

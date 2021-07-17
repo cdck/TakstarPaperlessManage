@@ -7,7 +7,6 @@ import android.widget.PopupWindow;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.xlk.takstarpaperlessmanage.R;
-import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 
 
 /**
@@ -72,7 +71,7 @@ public class PopUtil {
         // true:设置触摸外面时消失
         popupWindow.setOutsideTouchable(outside);
         popupWindow.setFocusable(true);
-        popupWindow.setAnimationStyle(R.style.pop_animation_t_b);
+        popupWindow.setAnimationStyle(R.style.pop_animation_style);
         popupWindow.showAtLocation(parent, gravity, x, y);
         return popupWindow;
     }
@@ -93,7 +92,7 @@ public class PopUtil {
         // true:设置触摸外面时消失
         popupWindow.setOutsideTouchable(outside);
         popupWindow.setFocusable(outside);
-        popupWindow.setAnimationStyle(R.style.pop_animation_t_b);
+        popupWindow.setAnimationStyle(R.style.pop_animation_style);
         popupWindow.showAsDropDown(parent, x, y, gravity);
         return popupWindow;
     }

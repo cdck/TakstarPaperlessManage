@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ServiceUtils;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.util.CrashHandler;
 import com.xlk.takstarpaperlessmanage.util.MyRejectedExecutionHandler;
@@ -101,7 +103,6 @@ public class App extends Application {
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
                 activities.add(activity);
                 if (activity.getClass().getName().equals(MainActivity.class.getName())) {
-//                    ServiceUtils.startService(BackService.class);
                     Intent backService = new Intent(activity, BackService.class);
                     startService(backService);
                 }
@@ -116,7 +117,10 @@ public class App extends Application {
             @Override
             public void onActivityResumed(@NonNull Activity activity) {
                 LogUtils.i("activityLife", "onActivityResumed " + activity);
-
+                if (!ServiceUtils.isServiceRunning(BackService.class)) {
+                    Intent backService = new Intent(activity, BackService.class);
+                    startService(backService);
+                }
             }
 
             @Override
@@ -140,10 +144,10 @@ public class App extends Application {
             @Override
             public void onActivityDestroyed(@NonNull Activity activity) {
                 activities.remove(activity);
-                if(activities.isEmpty()){
+                LogUtils.e("activityLife", "onActivityDestroyed " + activity + ",Activity数量=" + activities.size() + logAxt());
+                if (activities.isEmpty()) {
                     System.exit(0);
                 }
-                LogUtils.e("activityLife", "onActivityDestroyed " + activity + ",Activity数量=" + activities.size() + logAxt());
             }
         });
     }

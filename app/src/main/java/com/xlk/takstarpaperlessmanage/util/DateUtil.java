@@ -21,7 +21,7 @@ public class DateUtil {
         return format.format(tTime);
     }
 
-    public static String pdfExportTime(){
+    public static String pdfExportTime() {
         Date tTime = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(tTime);
@@ -111,11 +111,13 @@ public class DateUtil {
      * @return 10:30:33
      */
     public static String convertPlayTime(long milliseconds) {
-        return millisecondsFormat(milliseconds, "HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("GTM"));
+        return format.format(new Date(milliseconds));
     }
 
     /**
-     * @param seconds 秒数
+     * @param seconds 秒
      * @param pattern 时间格式
      * @return
      */

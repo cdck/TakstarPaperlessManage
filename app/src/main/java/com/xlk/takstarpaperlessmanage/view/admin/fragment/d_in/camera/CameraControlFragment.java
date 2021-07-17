@@ -180,7 +180,9 @@ public class CameraControlFragment extends BaseFragment<CameraControlPresenter> 
         cb_res2.setOnCheckedChangeListener(listener);
         cb_res3.setOnCheckedChangeListener(listener);
         cb_res4.setOnCheckedChangeListener(listener);
-        rv_projection.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
+//        rv_projection.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
+        rv_projection.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_projection.addItemDecoration(new RvItemDecoration(getContext()));
         rv_projection.setAdapter(projectorAdapter);
         projectorAdapter.setOnItemClickListener((adapter, view, position) -> {
             projectorAdapter.choose(presenter.onLineProjectors.get(position).getDevcieid());
@@ -251,7 +253,8 @@ public class CameraControlFragment extends BaseFragment<CameraControlPresenter> 
             memberAdapter.setChooseAll(checked);
         });
         RecyclerView rv_pro = inflate.findViewById(R.id.rv_pro);
-        rv_pro.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
+//        rv_pro.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        rv_pro.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_pro.setAdapter(projectorAdapter);
         projectorAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override

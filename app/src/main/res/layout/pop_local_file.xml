@@ -3,19 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_bg"
-    android:orientation="vertical">
+    android:background="@drawable/bg_ic_fragment_root"
+    android:orientation="vertical"
+    android:padding="2dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="@string/choose_dir"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/text_size_pop_title"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_top_view_height"
+        android:background="@drawable/dialog_title_bg">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/choose_dir"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_pop_title"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

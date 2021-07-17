@@ -161,7 +161,7 @@ public class RateFragment extends BaseFragment<RatePresenter> implements RateCon
         int width = ll_content.getWidth();
         int height = ll_content.getHeight();
         int width1 = rv_navigation.getWidth();
-        PopupWindow pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 3 / 4, rv_content, Gravity.CENTER, width1 / 2, 0);
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width / 2, height * 2 / 3, rv_content, Gravity.CENTER, width1 / 2, 0);
         boolean isAdd = item == null;
         TextView tv_title = inflate.findViewById(R.id.tv_title);
         tv_title.setText(isAdd ? getString(R.string.create_score) : getString(R.string.modify_score));

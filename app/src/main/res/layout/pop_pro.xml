@@ -38,6 +38,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_view_height"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
             android:background="@color/rv_top_view_bg">
 
             <CheckBox
@@ -53,7 +56,7 @@
                 android:lines="1"
                 android:singleLine="true"
                 android:text="@string/number"
-                android:textColor="@color/text_color_black"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal" />
 
             <TextView
@@ -66,7 +69,7 @@
                 android:lines="1"
                 android:singleLine="true"
                 android:text="@string/projection"
-                android:textColor="@color/text_color_black"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal" />
         </LinearLayout>
 
@@ -74,82 +77,116 @@
             android:id="@+id/rv_projection"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/white"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_view_height"
-            android:gravity="center"
-            android:background="@color/rv_top_view_bg">
+            android:background="@color/bg_color_content"
+            android:gravity="center">
 
-            <CheckBox
-                android:id="@+id/cb_mandatory"
-                style="@style/checkbox_style"
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/mandatory" />
-            <CheckBox
-                android:id="@+id/cb_full"
-                style="@style/checkbox_style"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/cb_mandatory"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/mandatory" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/output_full" />
-            <CheckBox
-                android:id="@+id/cb_res1"
-                style="@style/checkbox_style"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/cb_full"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/output_full" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/output1" />
-            <CheckBox
-                android:id="@+id/cb_res2"
-                style="@style/checkbox_style"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/cb_res1"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/output1" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/output2" />
-            <CheckBox
-                android:id="@+id/cb_res3"
-                style="@style/checkbox_style"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/cb_res2"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/output2" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/output3" />
-            <CheckBox
-                android:id="@+id/cb_res4"
-                style="@style/checkbox_style"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/cb_res3"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/output3" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/output4" />
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/cb_res4"
+                    style="@style/checkbox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/output4" />
+            </RelativeLayout>
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/pop_bottom_view_height"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
+            android:layout_gravity="center"
             android:background="@color/white"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_cancel"
                 style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/btn_launch_pro"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
                 android:gravity="center"
                 android:text="@string/cancel" />
 
@@ -157,13 +194,11 @@
                 android:id="@+id/btn_launch_pro"
                 style="@style/button_solid_style_rect_blue_white_radius5"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
                 android:gravity="center"
                 android:text="@string/start_projection" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

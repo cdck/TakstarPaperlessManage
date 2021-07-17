@@ -27,6 +27,7 @@ import com.xlk.takstarpaperlessmanage.helper.task.ZipFileTask;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
+import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -462,10 +463,7 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
             }
             if (!archiveInforms.isEmpty()) {
                 int lastIndex = archiveInforms.size() - 1;
-//                ArchiveInform archiveInform = archiveInforms.get(lastIndex);
-//                if (archiveInform.getContent().equals("压缩完毕")) {
                 rv_operate.scrollToPosition(lastIndex);
-//                }
             }
         });
     }

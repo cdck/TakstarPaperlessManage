@@ -13,7 +13,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:padding="1dp"
-        android:background="@drawable/bg_chat_content"
+        android:background="@drawable/bg_ic_fragment_root"
         android:orientation="horizontal">
 
         <LinearLayout

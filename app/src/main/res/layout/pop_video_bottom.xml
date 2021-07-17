@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/video_pop_bg"
+    android:background="@drawable/bg_play_ctor"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,9 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -44,50 +43,64 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/pop_video_play"
-            style="@style/button_hollow_style_rect_white_blue_radius5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="@string/play_pause" />
+            android:background="@drawable/ic_play_btn"
+            android:text="@string/play_pause"
+            android:textColor="@drawable/play_text_color_status"
+            android:textSize="@dimen/text_size_normal" />
 
         <Button
             android:id="@+id/pop_video_stop"
-            style="@style/button_hollow_style_rect_white_blue_radius5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="@string/stop" />
+            android:background="@drawable/ic_play_btn"
+            android:text="@string/stop"
+            android:textColor="@drawable/play_text_color_status"
+            android:textSize="@dimen/text_size_normal" />
 
         <Button
             android:id="@+id/pop_video_screen_shot"
-            style="@style/button_hollow_style_rect_white_blue_radius5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="@string/screen_shot" />
+            android:background="@drawable/ic_play_btn"
+            android:text="@string/screen_shot"
+            android:textColor="@drawable/play_text_color_status"
+            android:textSize="@dimen/text_size_normal" />
 
         <Button
             android:id="@+id/pop_video_launch_screen"
-            style="@style/button_hollow_style_rect_white_blue_radius5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="@string/launch_screen" />
+            android:visibility="gone"
+            android:background="@drawable/ic_play_btn"
+            android:text="@string/launch_screen"
+            android:textColor="@drawable/play_text_color_status"
+            android:textSize="@dimen/text_size_normal" />
 
         <Button
             android:id="@+id/pop_video_stop_screen"
-            style="@style/button_hollow_style_rect_white_blue_radius5"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/stop_screen" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_play_btn"
+            android:text="@string/stop_screen"
+            android:visibility="gone"
+            android:textColor="@drawable/play_text_color_status"
+            android:textSize="@dimen/text_size_normal" />
 
     </LinearLayout>
 </LinearLayout>
