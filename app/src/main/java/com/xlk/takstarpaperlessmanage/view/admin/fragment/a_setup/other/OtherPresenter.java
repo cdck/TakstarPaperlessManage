@@ -56,6 +56,12 @@ public class OtherPresenter extends BasePresenter<OtherContract.View> implements
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            case EventType.RESULT_DIR_PATH: {
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                mView.updateExportDirPath(dirType, dirPath);
+                break;
+            }
             case EventType.BUS_MAIN_BG: {
                 String filePath = (String) msg.getObjects()[0];
                 mView.updateMainBgImg(filePath);

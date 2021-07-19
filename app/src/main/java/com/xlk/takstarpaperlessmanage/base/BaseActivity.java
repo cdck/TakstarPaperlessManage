@@ -3,6 +3,7 @@ package com.xlk.takstarpaperlessmanage.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -51,7 +52,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         initView();
         presenter = initPresenter();
         init(savedInstanceState);
-        if(!EventBus.getDefault().isRegistered(this)){
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
     }
@@ -92,11 +93,23 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
     };
 
+    /**
+     * 后台界面（AdminActivity）使用
+     *
+     * @param dirType
+     * @param rootDir
+     */
     private void showChooseDirPop(int dirType, String rootDir) {
         currentFiles.clear();
         currentFiles.addAll(FileUtils.listFilesInDirWithFilter(rootDir, dirFilter));
         View inflate = LayoutInflater.from(this).inflate(R.layout.pop_local_file, null);
-        PopupWindow dirPop = PopUtil.createPopupWindow(inflate, ScreenUtils.getScreenWidth() / 2, ScreenUtils.getScreenHeight() /2, getWindow().getDecorView());
+        View ll_content = findViewById(R.id.ll_content);
+        View rv_navigation = findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow dirPop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, getWindow().getDecorView(), Gravity.CENTER, width1 / 2, 0);
+//        PopupWindow dirPop = PopUtil.createPopupWindow(inflate, ScreenUtils.getScreenWidth() / 2, ScreenUtils.getScreenHeight() /2, getWindow().getDecorView());
         EditText edt_current_dir = inflate.findViewById(R.id.edt_current_dir);
         edt_current_dir.setKeyListener(null);
         edt_current_dir.setText(rootDir);
@@ -129,7 +142,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             currentFiles.addAll(files);
             localFileAdapter.notifyDataSetChanged();
         });
-        inflate.findViewById(R.id.btn_ensure).setOnClickListener(v -> {
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
             String dirPath = edt_current_dir.getText().toString();
             EventBus.getDefault().post(new EventMessage.Builder().type(EventType.RESULT_DIR_PATH).objects(dirType, dirPath).build());
             dirPop.dismiss();
@@ -161,7 +174,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-        if(EventBus.getDefault().isRegistered(this)){
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
     }

@@ -3,14 +3,13 @@ package com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.other;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +18,6 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -33,6 +31,8 @@ import com.xlk.takstarpaperlessmanage.adapter.PictureFileAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.UrlAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.bean.MainInterfaceBean;
 import com.xlk.takstarpaperlessmanage.ui.ColorPickerDialog;
 import com.xlk.takstarpaperlessmanage.ui.InterfaceDragView;
@@ -42,6 +42,8 @@ import com.xlk.takstarpaperlessmanage.util.FileUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.List;
 
@@ -49,7 +51,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2md5;
 
@@ -85,6 +86,7 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
     private RecyclerView rv_pop_url;
     private UrlAdapter urlAdapter;
     private PopupWindow urlPop;
+    private EditText edt_file_address, edt_export_address, edt_video_address, edt_archive_address;
 
     @Override
     protected int getLayoutId() {
@@ -313,6 +315,113 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
                 break;
             }
             case R.id.btn_system_file_management: {
+                showFileManagePop();
+                break;
+            }
+        }
+    }
+
+    private void showFileManagePop() {
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_file_manage, null);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, edtCompanyName, Gravity.CENTER, width1 / 2, 0);
+        edt_file_address = inflate.findViewById(R.id.edt_file_address);
+        edt_export_address = inflate.findViewById(R.id.edt_export_address);
+        edt_video_address = inflate.findViewById(R.id.edt_video_address);
+        edt_archive_address = inflate.findViewById(R.id.edt_archive_address);
+        edt_file_address.setKeyListener(null);
+        edt_export_address.setKeyListener(null);
+        edt_video_address.setKeyListener(null);
+        edt_archive_address.setKeyListener(null);
+
+        edt_file_address.setText(Constant.download_dir);
+        edt_file_address.setSelection(Constant.download_dir.length());
+
+        edt_export_address.setText(Constant.export_dir);
+        edt_export_address.setSelection(Constant.export_dir.length());
+
+        edt_video_address.setText(Constant.video_dir);
+        edt_video_address.setSelection(Constant.video_dir.length());
+
+        edt_archive_address.setText(Constant.archive_zip_dir);
+        edt_archive_address.setSelection(Constant.archive_zip_dir.length());
+        inflate.findViewById(R.id.btn_file_dir).setOnClickListener(v -> {
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_DEFAULT_DOWNLOAD, edt_file_address.getText().toString().trim()).build());
+        });
+        inflate.findViewById(R.id.btn_export_dir).setOnClickListener(v -> {
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_DEFAULT_EXPORT, edt_export_address.getText().toString().trim()).build());
+        });
+        inflate.findViewById(R.id.btn_video_dir).setOnClickListener(v -> {
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_DEFAULT_VIDEO, edt_video_address.getText().toString().trim()).build());
+        });
+        inflate.findViewById(R.id.btn_archive_dir).setOnClickListener(v -> {
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_DEFAULT_ARCHIVE, edt_archive_address.getText().toString().trim()).build());
+        });
+        inflate.findViewById(R.id.iv_close).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_cancel).setOnClickListener(v -> pop.dismiss());
+        inflate.findViewById(R.id.btn_define).setOnClickListener(v -> {
+            String downloadPath = edt_file_address.getText().toString().trim();
+            String exportPath = edt_export_address.getText().toString().trim();
+            String videoPath = edt_video_address.getText().toString().trim();
+            String archivePath = edt_archive_address.getText().toString().trim();
+            if (TextUtils.isEmpty(downloadPath)) {
+                ToastUtil.showShort(R.string.please_enter_download_dir);
+                return;
+            }
+            if (TextUtils.isEmpty(exportPath)) {
+                ToastUtil.showShort(R.string.please_enter_export_dir);
+                return;
+            }
+            if (TextUtils.isEmpty(videoPath)) {
+                ToastUtil.showShort(R.string.please_enter_video_dir);
+                return;
+            }
+            if (TextUtils.isEmpty(archivePath)) {
+                ToastUtil.showShort(R.string.please_enter_archivePath_dir);
+                return;
+            }
+            Constant.download_dir = downloadPath;
+            Constant.export_dir = exportPath;
+            Constant.video_dir = videoPath;
+            Constant.archive_zip_dir = archivePath;
+            pop.dismiss();
+        });
+    }
+
+    @Override
+    public void updateExportDirPath(int dirType, String dirPath) {
+        dirPath += "/";
+        switch (dirType) {
+            case Constant.CHOOSE_DIR_TYPE_DEFAULT_DOWNLOAD: {
+                if (edt_file_address != null) {
+                    edt_file_address.setText(dirPath);
+                    edt_file_address.setSelection(dirPath.length());
+                }
+                break;
+            }
+            case Constant.CHOOSE_DIR_TYPE_DEFAULT_EXPORT: {
+                if (edt_export_address != null) {
+                    edt_export_address.setText(dirPath);
+                    edt_export_address.setSelection(dirPath.length());
+                }
+                break;
+            }
+            case Constant.CHOOSE_DIR_TYPE_DEFAULT_VIDEO: {
+                if (edt_video_address != null) {
+                    edt_video_address.setText(dirPath);
+                    edt_video_address.setSelection(dirPath.length());
+                }
+                break;
+            }
+            case Constant.CHOOSE_DIR_TYPE_DEFAULT_ARCHIVE: {
+                if (edt_archive_address != null) {
+                    edt_archive_address.setText(dirPath);
+                    edt_archive_address.setSelection(dirPath.length());
+                }
                 break;
             }
         }
@@ -320,6 +429,7 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
 
     /**
      * 确定是否要修改公司名弹窗
+     *
      * @param companyName 新输入的公司名称
      */
     private void showDefineModifyCompanyNamePop(String companyName) {
@@ -479,8 +589,10 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
             ToastUtil.showShort(R.string.the_password_entered_twice_does_not_match);
         }
     }
+
     /**
      * 确定是否要修改登录密码弹窗
+     *
      * @param oldPwd 旧密码
      * @param newPwd 新密码
      */

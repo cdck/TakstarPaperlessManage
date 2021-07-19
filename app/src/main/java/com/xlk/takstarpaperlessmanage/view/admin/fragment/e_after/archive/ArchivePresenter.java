@@ -103,7 +103,7 @@ class ArchivePresenter extends BasePresenter<ArchiveContract.View> implements Ar
      * =true表示压缩时进行加密处理
      */
     private boolean isEncryption = false;
-    private String dirPath = Constant.DIR_ARCHIVE_ZIP;
+    private String dirPath = Constant.archive_zip_dir;
     private List<InterfaceFile.pbui_Item_MeetDirDetailInfo> dirInfos = new ArrayList<>();
 
     public ArchivePresenter(ArchiveContract.View view) {

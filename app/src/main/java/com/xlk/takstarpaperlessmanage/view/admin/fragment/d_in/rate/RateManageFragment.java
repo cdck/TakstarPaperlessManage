@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mogujie.tt.protobuf.InterfaceFilescorevote;
 import com.mogujie.tt.protobuf.InterfaceMacro;
@@ -26,7 +25,6 @@ import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.FileUtil;
-import com.xlk.takstarpaperlessmanage.util.JxlUtil;
 import com.xlk.takstarpaperlessmanage.util.PdfUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
@@ -150,7 +148,7 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
         tv_file_name.setText(fileName);
         tv_view_file.setVisibility(fileName.isEmpty() ? View.GONE : View.VISIBLE);
         tv_view_file.setOnClickListener(v -> {
-            String filePath = Constant.file_dir + fileName;
+            String filePath = Constant.download_dir + fileName;
             boolean fileExists = FileUtils.isFileExists(filePath);
             if (fileExists) {
                 FileUtil.openFile(getContext(), filePath);
@@ -208,12 +206,20 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
 
     private void showExportFilePop(PdfRateInfo pdfRateInfo) {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
-        PopupWindow pop = PopUtil.createHalfPop(inflate, root_view);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop  = PopUtil.createPopupWindow(inflate, width / 2, height / 2, root_view, Gravity.CENTER, width1 / 2, 0);
+//        PopupWindow pop = PopUtil.createHalfPop(inflate, root_view);
         EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
         TextView tv_suffix = inflate.findViewById(R.id.tv_suffix);
         tv_suffix.setText(".pdf");
         edt_save_address = inflate.findViewById(R.id.edt_save_address);
         edt_save_address.setKeyListener(null);
+        edt_save_address.setText(Constant.export_dir);
+        edt_save_address.setSelection(Constant.export_dir.length());
         inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
             String currentDirPath = edt_save_address.getText().toString().trim();
             if (currentDirPath.isEmpty()) {
@@ -239,6 +245,7 @@ public class RateManageFragment extends BaseFragment<RateManagePresenter> implem
     public void updateExportDirPath(String dirPath) {
         if (edt_save_address != null) {
             edt_save_address.setText(dirPath);
+            edt_save_address.setSelection(dirPath.length());
         }
     }
 

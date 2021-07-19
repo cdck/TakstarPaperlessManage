@@ -3,7 +3,6 @@ package com.xlk.takstarpaperlessmanage.view.admin.fragment.c_pre.material;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -23,12 +21,10 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mogujie.tt.protobuf.InterfaceFile;
 import com.mogujie.tt.protobuf.InterfaceMacro;
-import com.mogujie.tt.protobuf.InterfaceMember;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.adapter.DirAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.DirFileAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.DirPermissionAdapter;
-import com.xlk.takstarpaperlessmanage.adapter.MemberAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.GlobalValue;
@@ -48,7 +44,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -234,7 +229,7 @@ public class MaterialFragment extends BaseFragment<MaterialPresenter> implements
 //                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 //                                        .putExtras(bundle));
                             }
-                            String filePath = Constant.file_dir + fileName;
+                            String filePath = Constant.download_dir + fileName;
                             boolean fileExists = FileUtils.isFileExists(filePath);
                             if (fileExists) {
                                 FileUtil.openFile(getContext(), filePath);

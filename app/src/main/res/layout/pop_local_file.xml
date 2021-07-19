@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_ic_fragment_root"
-    android:orientation="vertical"
-    android:padding="2dp">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,59 +24,80 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edt_current_dir"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/editbox_background_normal"
-            android:lines="1"
-            android:singleLine="true"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/sp_14"
-            tools:text="/storage/emulated/0/PaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEdition" />
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="@dimen/dp_10"
-            android:src="@drawable/icon_32_back" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_current_file"
-        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white" />
+        android:background="@drawable/dialog_content_bg"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_ensure"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="0dp"
-            android:layout_marginEnd="@dimen/dp_10"
+            <EditText
+                android:id="@+id/edt_current_dir"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/editbox_background_normal"
+                android:lines="1"
+                android:singleLine="true"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_normal"
+                tools:text="/storage/emulated/0/PaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEditionPaperlessStandardEdition" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:src="@drawable/icon_32_back" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_current_file"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
-            android:text="@string/define" />
+            android:background="@color/white" />
 
-        <Button
-            android:id="@+id/btn_cancel"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="0dp"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_weight="1"
-            android:text="@string/cancel" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividing_line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pop_bottom_view_height"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
+                android:height="@dimen/button_height"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/btn_define"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="@string/define" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

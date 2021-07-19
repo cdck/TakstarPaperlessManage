@@ -2,7 +2,6 @@ package com.xlk.takstarpaperlessmanage.view.admin.fragment.a_setup.devicemanage;
 
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +16,9 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.RegexUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -33,11 +30,14 @@ import com.xlk.takstarpaperlessmanage.adapter.DeviceManageAdapter;
 import com.xlk.takstarpaperlessmanage.adapter.LocalFileAdapter;
 import com.xlk.takstarpaperlessmanage.base.BaseFragment;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.IniUtil;
-import com.xlk.takstarpaperlessmanage.util.LogUtil;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -50,7 +50,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.xlk.takstarpaperlessmanage.model.Constant.election_entry;
 import static com.xlk.takstarpaperlessmanage.model.Constant.s2b;
 
 /**
@@ -73,6 +72,7 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
     private RecyclerView rv_current_file;
     private LocalFileAdapter localFileAdapter;
     private Timer timer;
+    private ViewHolder parameterConfigurationHolder;
 
     @Override
     protected int getLayoutId() {
@@ -224,9 +224,17 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_parameter_configuration, null, false);
         initialPopupWindowXY();
         parameterConfigurationPop = PopUtil.createCoverPopupWindow(inflate, root_view, popWidth, popHeight, popX, popY);
-        ViewHolder holder = new ViewHolder(inflate);
-        initSpinnerAdapter(holder);
-        holderEvent(holder);
+        parameterConfigurationHolder = new ViewHolder(inflate);
+        initSpinnerAdapter(parameterConfigurationHolder);
+        holderEvent(parameterConfigurationHolder);
+    }
+
+    @Override
+    public void updateExportDirPath(String dirPath) {
+        if (parameterConfigurationPop != null && parameterConfigurationPop.isShowing()) {
+            parameterConfigurationHolder.edtCacheLocation.setText(dirPath);
+            parameterConfigurationHolder.edtCacheLocation.setSelection(dirPath.length());
+        }
     }
 
     private void initSpinnerAdapter(ViewHolder holder) {
@@ -250,6 +258,7 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
     private void holderEvent(ViewHolder holder) {
         defaultLocalIni(holder);
         holder.edtCacheLocation.setKeyListener(null);
+        holder.edtCacheLocation.setSelection(holder.edtCacheLocation.getText().length());
         holder.rv_client.setLayoutManager(new LinearLayoutManager(getContext()));
         holder.rv_client.addItemDecoration(new RvItemDecoration(getContext()));
         holder.rv_client.setAdapter(clientAdapter);
@@ -286,7 +295,8 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         holder.ivClose.setOnClickListener(v -> parameterConfigurationPop.dismiss());
         holder.btnCancel.setOnClickListener(v -> parameterConfigurationPop.dismiss());
         holder.btnModifyCacheLocation.setOnClickListener(v -> {
-            showCacheDirPop(holder.edtCacheLocation, holder.edtCacheLocation.getText().toString());
+            EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH).objects(Constant.CHOOSE_DIR_TYPE_CACHE, holder.edtCacheLocation.getText().toString().trim()).build());
+//            showCacheDirPop(holder.edtCacheLocation, holder.edtCacheLocation.getText().toString());
         });
         holder.btnModify.setOnClickListener(v -> {
             List<Integer> deviceIds = clientAdapter.getSelectedIds();
@@ -559,7 +569,13 @@ public class DeviceManageFragment extends BaseFragment<DeviceManagePresenter> im
         currentFiles.clear();
         currentFiles.addAll(FileUtils.listFilesInDirWithFilter(currentDir, dirFilter));
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_catalog, null);
-        PopupWindow dirPop = PopUtil.createHalfPop(inflate, root_view);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow dirPop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, root_view, Gravity.CENTER, width1 / 2, 0);
+//        PopupWindow dirPop = PopUtil.createHalfPop(inflate, root_view);
         EditText edt_current_dir = inflate.findViewById(R.id.edt_current_dir);
         edt_current_dir.setKeyListener(null);
         edt_current_dir.setText(currentDir);

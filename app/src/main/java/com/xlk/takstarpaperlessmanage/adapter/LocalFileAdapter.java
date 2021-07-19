@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
  * @desc
  */
 public class LocalFileAdapter extends BaseQuickAdapter<File, BaseViewHolder> {
-    public LocalFileAdapter( @Nullable List<File> data) {
+    public LocalFileAdapter(@Nullable List<File> data) {
         super(R.layout.item_local_dir, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, File item) {
-        helper.setText(R.id.tv_file_name,item.getName());
+        helper.setText(R.id.tv_file_name, item.getName());
     }
 }

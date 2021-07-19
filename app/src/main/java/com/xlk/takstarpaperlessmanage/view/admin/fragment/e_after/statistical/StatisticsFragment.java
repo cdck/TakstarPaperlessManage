@@ -2,6 +2,7 @@ package com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.statistical;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,17 +88,26 @@ public class StatisticsFragment extends BaseFragment<StatisticsPresenter> implem
     public void updateExportDirPath(String dirPath) {
         if (edt_save_address != null) {
             edt_save_address.setText(dirPath);
+            edt_save_address.setSelection(dirPath.length());
         }
     }
 
     private void showExportFilePop() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
-        PopupWindow pop = PopUtil.createHalfPop(inflate, rootView);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width / 2, height / 2, rootView, Gravity.CENTER, width1 / 2, 0);
+//        PopupWindow pop = PopUtil.createHalfPop(inflate, rootView);
         EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
         TextView tv_suffix = inflate.findViewById(R.id.tv_suffix);
         tv_suffix.setText(".png");
         edt_save_address = inflate.findViewById(R.id.edt_save_address);
         edt_save_address.setKeyListener(null);
+        edt_save_address.setText(Constant.export_dir);
+        edt_save_address.setSelection(Constant.export_dir.length());
         inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
             String currentDirPath = edt_save_address.getText().toString().trim();
             if (currentDirPath.isEmpty()) {

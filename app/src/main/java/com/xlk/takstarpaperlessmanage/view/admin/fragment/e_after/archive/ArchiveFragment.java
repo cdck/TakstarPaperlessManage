@@ -1,14 +1,10 @@
 package com.xlk.takstarpaperlessmanage.view.admin.fragment.e_after.archive;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -27,13 +23,10 @@ import com.xlk.takstarpaperlessmanage.helper.task.ZipFileTask;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
 import com.xlk.takstarpaperlessmanage.model.EventType;
-import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
-import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -180,8 +173,8 @@ public class ArchiveFragment extends BaseFragment<ArchivePresenter> implements A
         btnCancel = (Button) inflate.findViewById(R.id.btn_cancel);
         btnArchive = (Button) inflate.findViewById(R.id.btn_archive);
         edtOutput.setKeyListener(null);
-        edtOutput.setText(Constant.DIR_ARCHIVE_ZIP);
-        edtOutput.setSelection(Constant.DIR_ARCHIVE_ZIP.length());
+        edtOutput.setText(Constant.archive_zip_dir);
+        edtOutput.setSelection(Constant.archive_zip_dir.length());
         btnModify.setOnClickListener(v -> {
             EventBus.getDefault().post(new EventMessage.Builder().type(EventType.CHOOSE_DIR_PATH)
                     .objects(Constant.CHOOSE_DIR_TYPE_ARCHIVE, Constant.root_dir).build());

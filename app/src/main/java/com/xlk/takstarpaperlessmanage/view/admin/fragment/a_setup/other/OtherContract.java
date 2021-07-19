@@ -36,6 +36,8 @@ public interface OtherContract {
         void updateNoticeBgImg(String filePath);
 
         void updateNoticeLogoImg(String filePath);
+
+        void updateExportDirPath(int dirType, String dirPath);
     }
 
     interface Presenter extends BaseContract.Presenter {

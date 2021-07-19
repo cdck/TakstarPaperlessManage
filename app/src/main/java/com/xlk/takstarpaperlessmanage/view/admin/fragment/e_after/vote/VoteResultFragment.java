@@ -169,17 +169,26 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
     public void updateExportDirPath(String dirPath) {
         if (edt_save_address != null) {
             edt_save_address.setText(dirPath);
+            edt_save_address.setSelection(dirPath.length());
         }
     }
 
     private void showExportFilePop(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote) {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.pop_export_config, null);
-        PopupWindow pop = PopUtil.createHalfPop(inflate, rv_content);
+        View ll_content = getActivity().findViewById(R.id.ll_content);
+        View rv_navigation = getActivity().findViewById(R.id.rv_navigation);
+        int width = ll_content.getWidth();
+        int height = ll_content.getHeight();
+        int width1 = rv_navigation.getWidth();
+        PopupWindow pop = PopUtil.createPopupWindow(inflate, width * 2 / 3, height * 2 / 3, rv_content, Gravity.CENTER, width1 / 2, 0);
+//        PopupWindow pop = PopUtil.createHalfPop(inflate, rv_content);
         EditText edt_file_name = inflate.findViewById(R.id.edt_file_name);
         TextView tv_suffix = inflate.findViewById(R.id.tv_suffix);
         tv_suffix.setText(".pdf");
         edt_save_address = inflate.findViewById(R.id.edt_save_address);
         edt_save_address.setKeyListener(null);
+        edt_save_address.setText(Constant.export_dir);
+        edt_save_address.setSelection(Constant.export_dir.length());
         inflate.findViewById(R.id.btn_choose_dir).setOnClickListener(v -> {
             String currentDirPath = edt_save_address.getText().toString().trim();
             if (currentDirPath.isEmpty()) {
@@ -208,7 +217,6 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
             pop.dismiss();
         });
     }
-
 
     /**
      * 获取当前投票的总票数
@@ -279,7 +287,6 @@ public class VoteResultFragment extends BaseFragment<VoteResultPresenter> implem
         }
         return index;
     }
-
 
     private void singleAnswerConfig(InterfaceVote.pbui_Item_MeetVoteDetailInfo vote, PieChart chart, int index) {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();

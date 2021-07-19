@@ -3,8 +3,6 @@ package com.xlk.takstarpaperlessmanage.view.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +17,6 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ResourceUtils;
-import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.hjq.permissions.OnPermission;
@@ -39,16 +36,10 @@ import com.xlk.takstarpaperlessmanage.util.SpHelper;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 import com.xlk.takstarpaperlessmanage.view.admin.AdminActivity;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import me.jessyan.autosize.utils.AutoSizeUtils;
-import me.jessyan.autosize.utils.ScreenUtils;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
@@ -189,9 +180,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     @Override
                     public void hasPermission(List<String> granted, boolean all) {
                         if (all) {
-                            FileUtils.createOrExistsDir(Constant.file_dir);
                             FileUtils.createOrExistsDir(Constant.config_dir);
-                            FileUtils.createOrExistsDir(Constant.record_video_dir);
+                            FileUtils.createOrExistsDir(Constant.download_dir);
+                            FileUtils.createOrExistsDir(Constant.export_dir);
+                            FileUtils.createOrExistsDir(Constant.video_dir);
                             start();
                         }
                     }

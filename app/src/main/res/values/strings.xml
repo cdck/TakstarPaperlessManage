@@ -646,7 +646,7 @@
     <string name="username_does_not_exist">用户名不存在</string>
     <string name="choose_dir">选择目录</string>
     <string name="export_config">导出</string>
-    <string name="file_name_">文件名：</string>
+    <string name="file_name_">&#12288;文件名：</string>
     <string name="save_address_">存储位置：</string>
     <string name="please_enter_file_name_and_addr">请先输入文件名和保存的目录</string>
     <string name="please_enter_urladdr_first">请先输入网址</string>
@@ -677,4 +677,9 @@
     <string name="delete_meetiing_hint">确定要删除该会议吗？</string>
     <string name="member_">参会者：%1$s</string>
     <string name="people_name">姓名</string>
+    <string name="modify_url">修改网址</string>
+    <string name="please_enter_download_dir">请先输入会议资料下载目录</string>
+    <string name="please_enter_export_dir">请先输入文件默认导出目录</string>
+    <string name="please_enter_video_dir">请先输入录像管理下载目录</string>
+    <string name="please_enter_archivePath_dir">请先输入会议归档默认目录</string>
 </resources>

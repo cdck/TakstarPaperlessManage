@@ -16,7 +16,6 @@ import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.FileUtil;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,7 +55,7 @@ public class AnnotateFragment extends BaseFragment<AnnotatePresenter> implements
             boolean hasDownload = false;
             for (int i = 0; i < checkedFiles.size(); i++) {
                 InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = checkedFiles.get(i);
-                String filePath = Constant.file_dir + item.getName().toStringUtf8();
+                String filePath = Constant.download_dir + item.getName().toStringUtf8();
                 boolean fileExists = FileUtils.isFileExists(filePath);
                 if (!fileExists) {
                     jni.downloadFile(filePath, item.getMediaid(), 1, 0, Constant.DOWNLOAD_NORMAL);
@@ -98,7 +97,7 @@ public class AnnotateFragment extends BaseFragment<AnnotatePresenter> implements
                 public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                     InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = presenter.files.get(position);
                     String fileName = item.getName().toStringUtf8();
-                    String filePath = Constant.file_dir + fileName;
+                    String filePath = Constant.download_dir + fileName;
                     boolean fileExists = FileUtils.isFileExists(filePath);
                     if (fileExists) {
                         FileUtil.openFile(getContext(), filePath);

@@ -2,92 +2,126 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_bg"
+    android:background="@drawable/bg_ic_fragment_root"
     android:orientation="vertical">
 
-    <include layout="@layout/item_other_url" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_top_view_height"
+        android:background="@drawable/dialog_title_bg">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_pop_url"
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/modify_url"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_pop_title" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_close" />
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="vertical"
         android:layout_weight="1"
-        android:background="@color/white" />
+        android:background="@drawable/dialog_content_bg">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        <include layout="@layout/item_other_url" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_" />
-
-        <EditText
-            android:id="@+id/edt_pop_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_pop_url"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/editbox_background_normal"
-            android:lines="1"
-            android:paddingStart="2dp"
-            android:singleLine="true"
-            android:textSize="@dimen/sp_14" />
+            android:background="@color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:text="@string/URL_" />
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edt_pop_url"
-            android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_normal"
+                android:text="@string/name_" />
+
+            <EditText
+                android:id="@+id/edt_pop_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/editbox_background_normal"
+                android:lines="1"
+                android:paddingStart="2dp"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_normal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textSize="@dimen/text_size_normal"
+                android:text="@string/URL_" />
+
+            <EditText
+                android:id="@+id/edt_pop_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/editbox_background_normal"
+                android:lines="1"
+                android:paddingStart="2dp"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_normal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/editbox_background_normal"
-            android:lines="1"
-            android:paddingStart="2dp"
-            android:singleLine="true"
-            android:textSize="@dimen/sp_14" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:gravity="center"
-        android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_pop_add"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/add" />
 
-        <Button
-            android:id="@+id/btn_pop_add"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="@string/add" />
+            <Button
+                android:id="@+id/btn_pop_modify"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/modify" />
 
-        <Button
-            android:id="@+id/btn_pop_modify"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="@string/modify" />
+            <Button
+                android:id="@+id/btn_pop_delete"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/delete" />
 
-        <Button
-            android:id="@+id/btn_pop_delete"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="@string/delete" />
-
-        <Button
-            android:id="@+id/btn_pop_close"
-            style="@style/button_solid_style_rect_blue_white_radius5"
-            android:layout_width="wrap_content"
-            android:text="@string/close" />
+            <Button
+                android:id="@+id/btn_pop_close"
+                style="@style/button_solid_style_rect_blue_white_radius5"
+                android:layout_width="wrap_content"
+                android:text="@string/close" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

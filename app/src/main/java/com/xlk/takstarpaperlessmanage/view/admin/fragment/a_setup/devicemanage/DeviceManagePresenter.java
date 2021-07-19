@@ -6,6 +6,7 @@ import com.mogujie.tt.protobuf.InterfaceMacro;
 import com.xlk.takstarpaperlessmanage.base.BasePresenter;
 import com.xlk.takstarpaperlessmanage.model.Constant;
 import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,14 @@ public class DeviceManagePresenter extends BasePresenter<DeviceManageContract.Vi
     @Override
     protected void busEvent(EventMessage msg) throws InvalidProtocolBufferException {
         switch (msg.getType()) {
+            case EventType.RESULT_DIR_PATH: {
+                int dirType = (int) msg.getObjects()[0];
+                String dirPath = (String) msg.getObjects()[1];
+                if (dirType == Constant.CHOOSE_DIR_TYPE_CACHE) {
+                    mView.updateExportDirPath(dirPath);
+                }
+                break;
+            }
             //会场设备信息变更通知
             case InterfaceMacro.Pb_Type.Pb_TYPE_MEET_INTERFACE_ROOMDEVICE_VALUE:
                 //设备寄存器变更通知

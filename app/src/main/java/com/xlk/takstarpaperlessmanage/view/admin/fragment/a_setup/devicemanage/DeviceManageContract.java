@@ -15,6 +15,8 @@ interface DeviceManageContract {
          * 更新参数配置中在线终端列表
          */
         void updateClientList();
+
+        void updateExportDirPath(String dirPath);
     }
 
     interface Presenter extends BaseContract.Presenter {

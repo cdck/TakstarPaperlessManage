@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,13 +53,14 @@ public class TableFragment extends BaseFragment<TablePresenter> implements Table
     protected void initView(View inflate) {
         rootView = (LinearLayout) inflate.findViewById(R.id.root_view);
         tableCardView = (TableCardView) inflate.findViewById(R.id.table_card_view);
-        spFont = (Spinner) inflate.findViewById(R.id.sp_font);
         edtSize = (EditText) inflate.findViewById(R.id.edt_size);
+        spFont = (Spinner) inflate.findViewById(R.id.sp_font);
         spBold = (Spinner) inflate.findViewById(R.id.sp_bold);
         spAlign = (Spinner) inflate.findViewById(R.id.sp_align);
         spHide = (Spinner) inflate.findViewById(R.id.sp_hide);
         ivColor = (ImageView) inflate.findViewById(R.id.iv_color);
         edtHeight = (EditText) inflate.findViewById(R.id.edt_height);
+        initialSpinnerAdapter();
         edtSize.addTextChangedListener(new AfterTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -114,6 +116,28 @@ public class TableFragment extends BaseFragment<TablePresenter> implements Table
         inflate.findViewById(R.id.btn_define).setOnClickListener(v ->
                 presenter.save(InterfaceTablecard.Pb_TableCard_ModifyFlag.Pb_TABLECARD_MODFLAG_ZERO_VALUE,
                         tableCardView.getTableCardData()));
+    }
+
+    private void initialSpinnerAdapter() {
+        ArrayAdapter<String> spFontAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_rect_checked_black_text, R.id.tv_spinner);
+        spFontAdapter.addAll(getResources().getStringArray(R.array.font));
+        spFontAdapter.setDropDownViewResource(R.layout.spinner_table_dropdown_item);
+        spFont.setAdapter(spFontAdapter);
+
+        ArrayAdapter<String> spBoldAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_rect_checked_black_text, R.id.tv_spinner);
+        spBoldAdapter.addAll(getResources().getStringArray(R.array.yes_or_no));
+        spBoldAdapter.setDropDownViewResource(R.layout.spinner_table_dropdown_item);
+        spBold.setAdapter(spBoldAdapter);
+
+        ArrayAdapter<String> spAlignAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_rect_checked_black_text, R.id.tv_spinner);
+        spAlignAdapter.addAll(getResources().getStringArray(R.array.align));
+        spAlignAdapter.setDropDownViewResource(R.layout.spinner_table_dropdown_item);
+        spAlign.setAdapter(spAlignAdapter);
+
+        ArrayAdapter<String> spHideAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_rect_checked_black_text, R.id.tv_spinner);
+        spHideAdapter.addAll(getResources().getStringArray(R.array.yes_or_no));
+        spHideAdapter.setDropDownViewResource(R.layout.spinner_table_dropdown_item);
+        spHide.setAdapter(spHideAdapter);
     }
 
     @Override

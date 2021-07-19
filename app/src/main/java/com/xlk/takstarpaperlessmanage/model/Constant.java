@@ -20,16 +20,15 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Constant {
     public static final String root_dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/TakstarPaperlessManage/";
-    public static final String file_dir = root_dir + "file/";
-    public static final String logcat_dir = file_dir + "logcat/";
-    public static final String crash_dir = file_dir + "crash/";
-    public static final String config_dir = file_dir + "config/";
-    public static final String export_dir = file_dir + "export/";
-    public static final String record_video_dir = file_dir + "RecordVideo/";
-
-    //    public static final String DIR_ARCHIVE_TEMP = file_dir + "Conference archive cache directory/";
-    public static final String DIR_ARCHIVE_TEMP = file_dir + "会议归档/";
-    public static final String DIR_ARCHIVE_ZIP = file_dir;
+    public static final String root_file = root_dir + "file/";
+    public static final String logcat_dir = root_file + "logcat/";
+    public static final String crash_dir = root_file + "crash/";
+    public static final String config_dir = root_file + "config/";
+    public static String download_dir = root_file + "download/";
+    public static String export_dir = root_file + "export/";
+    public static String video_dir = root_file + "RecordVideo/";
+    public static final String DIR_ARCHIVE_TEMP = root_file + "会议归档/";
+    public static String archive_zip_dir = root_file;
 
 
     /**
@@ -76,6 +75,27 @@ public class Constant {
      * 导出投票信息文件目录
      */
     public static final int CHOOSE_DIR_TYPE_EXPORT_VOTE_MANAGE = 11;
+
+    /**
+     * 默认会议资料下载目录
+     */
+    public static final int CHOOSE_DIR_TYPE_DEFAULT_DOWNLOAD = 12;
+    /**
+     * 默认文件导出目录
+     */
+    public static final int CHOOSE_DIR_TYPE_DEFAULT_EXPORT = 13;
+    /**
+     * 默认录像下载目录
+     */
+    public static final int CHOOSE_DIR_TYPE_DEFAULT_VIDEO = 14;
+    /**
+     * 默认会议归档目录
+     */
+    public static final int CHOOSE_DIR_TYPE_DEFAULT_ARCHIVE = 15;
+    /**
+     * 设备管理-参数配置中选择缓存目录
+     */
+    public static final int CHOOSE_DIR_TYPE_CACHE = 16;
 
 
     /**

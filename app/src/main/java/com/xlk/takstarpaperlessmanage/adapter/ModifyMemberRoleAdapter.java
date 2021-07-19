@@ -2,6 +2,7 @@ package com.xlk.takstarpaperlessmanage.adapter;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -55,6 +56,11 @@ public class ModifyMemberRoleAdapter extends BaseQuickAdapter<MemberRoleBean, Ba
                 .setText(R.id.item_view_2, item.getMember().getName().toStringUtf8())
                 .setText(R.id.item_view_3, isBind ? seat.getDevname().toStringUtf8() : "");
         Spinner item_spinner = holder.getView(R.id.item_spinner);
+
+        ArrayAdapter<String> spFontAdapter  = new ArrayAdapter<String>(getContext(), R.layout.spinner_checked_black_text,
+                getContext().getResources().getStringArray(R.array.member_role));
+        item_spinner.setAdapter(spFontAdapter);
+
         item_spinner.setVisibility(isBind ? View.VISIBLE : View.GONE);
         if (isBind) {
             int role = seat.getRole();
@@ -83,21 +89,6 @@ public class ModifyMemberRoleAdapter extends BaseQuickAdapter<MemberRoleBean, Ba
                     }
                     LogUtils.e(item.getMember().getName().toStringUtf8() + " 设置新的角色=" + role);
                     memberRole.put(item.getSeat().getMemberid(), role);
-//                    InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo info = item.getSeat();
-//                    InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo build = InterfaceRoom.pbui_Item_MeetRoomDevSeatDetailInfo.newBuilder()
-//                            .setDevid(info.getDevid())
-//                            .setDevname(info.getDevname())
-//                            .setDirection(info.getDirection())
-//                            .setFacestate(info.getFacestate())
-//                            .setIssignin(info.getIssignin())
-//                            .setMemberid(info.getMemberid())
-//                            .setMembername(info.getMembername())
-//                            .setRole(position)
-//                            .setX(info.getX())
-//                            .setY(info.getY())
-//                            .build();
-//                    item.setSeat(build);
-//                    notifyDataSetChanged();
                 }
 
                 @Override

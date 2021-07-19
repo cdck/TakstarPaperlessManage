@@ -22,8 +22,6 @@ import com.xlk.takstarpaperlessmanage.ui.RvItemDecoration;
 import com.xlk.takstarpaperlessmanage.util.PopUtil;
 import com.xlk.takstarpaperlessmanage.util.ToastUtil;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -130,7 +128,7 @@ public class VideoManageFragment extends BaseFragment<VideoManagePresenter> impl
                     InterfaceFile.pbui_Item_MeetDirFileDetailInfo item = presenter.videoFiles.get(position);
                     int mediaid = item.getMediaid();
                     String fileName = item.getName().toStringUtf8();
-                    String filePath = Constant.record_video_dir + fileName;
+                    String filePath = Constant.video_dir + fileName;
                     switch (view.getId()) {
                         //下载
                         case R.id.operation_view_1: {
