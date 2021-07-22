@@ -68,5 +68,8 @@ public class EventType {
      * 返回选择的目录
      */
     public static final int RESULT_DIR_PATH = BUS_BASE + 29;
-    public static final int ARCHIVE_BUS_DOWNLOAD_FILE = BUS_BASE + 30;
+    /**
+     * 通知进行会议切换
+     */
+    public static final int BUS_SWITCH_MEETING = BUS_BASE + 31;
 }

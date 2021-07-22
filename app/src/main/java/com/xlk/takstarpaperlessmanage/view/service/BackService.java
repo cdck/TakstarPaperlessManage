@@ -72,6 +72,9 @@ public class BackService extends Service {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBusEvent(EventMessage msg) throws InvalidProtocolBufferException {
+        if (msg.getType() == 45) {
+            LogUtils.e("后台服务接收到的信息：" + msg.getType() + "，" + msg.getMethod());
+        }
         switch (msg.getType()) {
             case EventType.BUS_EXPORT_SUCCESSFUL: {
                 String filePath = (String) msg.getObjects()[0];

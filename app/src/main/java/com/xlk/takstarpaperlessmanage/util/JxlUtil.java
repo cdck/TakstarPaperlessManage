@@ -88,7 +88,7 @@ public class JxlUtil {
      * 第二个参数：行
      * 第三个参数：内容
      */
-    public static void exportSubmitMember(String fileName,String dirPath,ExportSubmitMember info) {
+    public static void exportSubmitMember(String fileName, String dirPath, ExportSubmitMember info) {
         App.threadPool.execute(() -> {
             FileUtils.createOrExistsDir(dirPath);
             //1.创建Excel文件
@@ -146,7 +146,7 @@ public class JxlUtil {
                 //7.最后一步，关闭工作簿
                 workbook.close();
                 EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
-            } catch (IOException | WriteException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -244,7 +244,7 @@ public class JxlUtil {
             //7.最后一步，关闭工作簿
             workbook.close();
             ToastUtils.showShort(R.string.export_successful);
-        } catch (IOException | WriteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -347,11 +347,7 @@ public class JxlUtil {
                 temps.add(build);
             }
             is.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BiffException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return temps;
@@ -438,7 +434,7 @@ public class JxlUtil {
             //7.最后一步，关闭工作簿
             workbook.close();
             ToastUtils.showShort(R.string.export_successful);
-        } catch (IOException | WriteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -564,11 +560,7 @@ public class JxlUtil {
                 temps.add(build);
             }
             is.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BiffException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return temps;
@@ -670,7 +662,7 @@ public class JxlUtil {
             //7.最后一步，关闭工作簿
             workbook.close();
             return file.getAbsolutePath();
-        } catch (IOException | WriteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -752,7 +744,7 @@ public class JxlUtil {
             workbook.close();
             LogUtils.e("归档会议签到信息  完毕-------" + file.getAbsolutePath());
             return true;
-        } catch (IOException | WriteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -939,7 +931,7 @@ public class JxlUtil {
             workbook.close();
             LogUtils.e("归档投票/选举信息  完毕-------" + file.getAbsolutePath());
             return true;
-        } catch (IOException | WriteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -991,11 +983,7 @@ public class JxlUtil {
                 readJxlBeans.add(readJxlBean);
             }
             is.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BiffException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return readJxlBeans;
@@ -1055,7 +1043,7 @@ public class JxlUtil {
                 //7.最后一步，关闭工作簿
                 workbook.close();
                 EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
-            } catch (IOException | WriteException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -1120,13 +1108,7 @@ public class JxlUtil {
                 fileScores.add(build);
             }
             is.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BiffException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return fileScores;
@@ -1244,19 +1226,10 @@ public class JxlUtil {
                 //7.最后一步，关闭工作簿
                 workbook.close();
                 EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_EXPORT_SUCCESSFUL).objects(file.getAbsolutePath()).build());
-            } catch (IOException | WriteException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        });
-    }
-
-    /**
-     * 导出某个评分的结果
-     */
-    public static void exportSingleScoreResult(String fileName, String dirPath, InterfaceFilescorevote.pbui_Type_Item_UserDefineFileScore item) {
-        App.threadPool.execute(() -> {
-            // TODO: 2021/5/25  
         });
     }
 }

@@ -11,8 +11,11 @@ import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xlk.takstarpaperlessmanage.R;
 import com.xlk.takstarpaperlessmanage.model.Constant;
+import com.xlk.takstarpaperlessmanage.model.EventMessage;
+import com.xlk.takstarpaperlessmanage.model.EventType;
 import com.xlk.takstarpaperlessmanage.model.GlobalValue;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -220,26 +223,44 @@ public class AdminChildProvider extends BaseNodeProvider {
 
     @Override
     public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
-        AdminChildNode childNode = (AdminChildNode) data;
-        selectedId = childNode.getId();
-        LogUtils.d("onClick selectedId=" + selectedId);
         AdminNodeAdapter adapter = (AdminNodeAdapter) getAdapter();
+        AdminChildNode childNode = (AdminChildNode) data;
         if (adapter != null) {
-            if (selectedId > Constant.meeting_management) {
-                if (GlobalValue.currentMeetingId == 0) {
-                    int index = 0;
-                    if(selectedId<Constant.admin_current_meeting){
-                        //说明当前点击的是会前设置中的功能
-
-                    }else {
-                        //说明当前点击的是会后管理或者会后查看中的功能
-
-                    }
+            int id = childNode.getId();
+            if (GlobalValue.currentMeetingId == 0) {
+                //当前设备还没有切换到会议编辑
+                if (id > Constant.admin_current_meeting) {
+                    //没有切换会议编辑的情况下点击了必须要切换会议编辑的功能
+                    // TODO: 7/21/21 通知进行会议切换
+                    EventBus.getDefault().post(new EventMessage.Builder().type(EventType.BUS_SWITCH_MEETING).build());
+                } else {
+                    selectedId = id;
+                    adapter.click(selectedId);
                 }
             } else {
+                selectedId = id;
                 adapter.click(selectedId);
             }
-            adapter.click(selectedId);
         }
+
+//        LogUtils.d("onClick selectedId=" + selectedId);
+//
+//        if (adapter != null) {
+//            if (selectedId > Constant.meeting_management) {
+//                if (GlobalValue.currentMeetingId == 0) {
+//                    int index = 0;
+//                    if (selectedId < Constant.admin_current_meeting) {
+//                        //说明当前点击的是会前设置中的功能
+//
+//                    } else {
+//                        //说明当前点击的是会后管理或者会后查看中的功能
+//
+//                    }
+//                }
+//            } else {
+//                adapter.click(selectedId);
+//            }
+//            adapter.click(selectedId);
+//        }
     }
 }

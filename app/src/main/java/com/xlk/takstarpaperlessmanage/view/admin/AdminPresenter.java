@@ -172,7 +172,7 @@ public class AdminPresenter extends BasePresenter<AdminContract.View> implements
         if (info != null) {
             mView.updateMeetingName(info.getName().toStringUtf8());
         } else {
-            mView.updateMeetingName("未选择会议！");
+            mView.updateMeetingName("请先选择会议！");
         }
     }
 
